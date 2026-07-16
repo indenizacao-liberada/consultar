@@ -208,6 +208,52 @@ src="https://www.facebook.com/tr?id=574352008891416&ev=PageView&noscript=1"
                     </div>
                 </div>
             </div>
+
+
+
+
+            <div id="finalButton" class="button-container hidden" style="padding-top: 80px;">
+                
+                <button class="styled-button2" onclick="checkout(event)">
+                    
+                    
+                    <span class="button-text">
+                        <span class="button-title2">Pagar o Seguro Transferência</span>
+                    </span>
+                    <span class="material-symbols-outlined" style="font-size: 32px;">arrow_forward_ios</span>
+                </button>
+            </div>
+
+            <div style="padding-bottom: 2px;"></div>
+
+        </div>
+        <script>
+            function checkout(event) {
+              event.preventDefault(); 
+              var currentUrlParams = window.location.search;
+              window.location.href = "https://go.zeroonepay.com.br/5guypbwpqa" + currentUrlParams;
+            }
+          </script>
+
+        
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
         </div>
     </div>
     
@@ -240,32 +286,7 @@ src="https://www.facebook.com/tr?id=574352008891416&ev=PageView&noscript=1"
     
 </script>
 
-            <div id="finalButton" class="button-container hidden" style="padding-top: 15px;">
-                
-                <button class="styled-button2" onclick="checkout(event)">
-                    
-                    
-                    <span class="button-text">
-                        <span class="button-title2">Pagar o Seguro Transferência</span>
-                    </span>
-                    <span class="material-symbols-outlined" style="font-size: 32px;">arrow_forward_ios</span>
-                </button>
-            </div>
 
-            <div style="padding-bottom: 2px;"></div>
-
-        </div>
-        <script>
-            function checkout(event) {
-              event.preventDefault(); 
-              var currentUrlParams = window.location.search;
-              window.location.href = "https://go.zeroonepay.com.br/5guypbwpqa" + currentUrlParams;
-            }
-          </script>
-
-        
-
-    </div>
     
     
     <script src="js/scripts.js"></script>

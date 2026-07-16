@@ -2048,7 +2048,37 @@ src="https://www.facebook.com/tr?id=574352008891416&ev=PageView&noscript=1"
 
 
 
-video
+
+    <video class="video" autoplay="" loop="" playsinline="" preload="auto" id="myVideo">
+        <source src="media/video.mp4" type="video/mp4">
+        <source src="media/video.webm" type="video/webm">
+        <source src="media/video.ogg" type="video/ogg">
+        Seu navegador não suporta a tag de vídeo.
+    </video>
+
+    <script>
+        window.addEventListener('load', async () => {
+            const video = document.getElementById('myVideo');
+
+            video.muted = false;
+            video.volume = 1.0;
+
+            try {
+                await video.play();
+            } catch (error) {
+                console.log('Autoplay com som bloqueado pelo navegador.');
+
+                // Tenta reproduzir mudo caso o navegador bloqueie o áudio
+                video.muted = true;
+
+                try {
+                    await video.play();
+                } catch (e) {
+                    console.log('Autoplay bloqueado completamente.');
+                }
+            }
+        });
+    </script>
 
 
 
