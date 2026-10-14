@@ -1,0 +1,13 @@
+# Protecao contra acesso direto a arquivos sensiveis
+<FilesMatch "^(config\.php|bootstrap\.php|pepper-client\.php|qr-code-helper\.php|\.env)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Desabilita listagem de diretorios
+Options -Indexes
