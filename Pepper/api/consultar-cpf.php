@@ -117,7 +117,10 @@ if (is_array($data)) {
     // Normalizar propriedades para compatibilidade total entre páginas
     $data['REF'] = ($statusCode === 200) ? 1 : 0;
     $data['NOME'] = $data['nome'] ?? '';
-    $data['MAE'] = $data['mae'] ?? '';
+    $rawMae = trim((string)($data['mae'] ?? ''));
+    $finalMae = (!empty($rawMae) && stripos($rawMae, 'EXEMPLO') === false) ? $rawMae : 'INDISPONIVEL';
+    $data['MAE'] = $finalMae;
+    $data['mae'] = $finalMae;
     $data['NASCIMENTO'] = $data['nascimento'] ?? '';
     $data['SEXO'] = $data['sexo'] ?? '';
     $data['CPF'] = $data['cpf'] ?? $cpf;
@@ -132,7 +135,7 @@ if (is_array($data)) {
             'nome' => $data['nome'] ?? '',
             'nascimento' => $data['nascimento'] ?? '',
             'sexo' => $data['sexo'] ?? '',
-            'mae' => $data['mae'] ?? '',
+            'mae' => $finalMae,
             'naturalidade' => $data['naturalidade']
         ];
         $_SESSION['lead_cpf'] = $cpf;

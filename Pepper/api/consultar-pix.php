@@ -18,18 +18,27 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     ]);
 }
 
-// 1. Identificar a transação associada à sessão do visitante
-if (empty($_SESSION['pepper_active_tx']) || empty($_SESSION['pepper_active_tx']['hash'])) {
+// 1. Identificar a transação associada (via query param ?hash= ou sessão)
+$txHash = (!empty($_GET['hash'])) ? pepper_sanitize($_GET['hash']) : ($_SESSION['pepper_active_tx']['hash'] ?? null);
+
+if (empty($txHash)) {
     pepper_json_response(404, [
         'success' => false,
-        'error' => 'Nenhuma transação PIX ativa encontrada na sessão atual.',
+        'error' => 'Nenhuma transação PIX ativa encontrada.',
         'payment_status' => 'not_found',
         'is_paid' => false
     ]);
 }
 
 $activeTx = &$_SESSION['pepper_active_tx'];
-$txHash = $activeTx['hash'];
+if (!isset($activeTx['hash']) || $activeTx['hash'] !== $txHash) {
+    $activeTx = [
+        'hash' => $txHash,
+        'amount' => 0,
+        'payment_status' => 'waiting_payment',
+        'paid' => false
+    ];
+}
 
 // Se a transação já foi confirmada como paga nesta sessão, retorna imediatamente
 if (!empty($activeTx['paid']) && ($activeTx['payment_status'] ?? '') === 'paid') {
@@ -38,8 +47,8 @@ if (!empty($activeTx['paid']) && ($activeTx['payment_status'] ?? '') === 'paid')
         'hash' => $txHash,
         'payment_status' => 'paid',
         'is_paid' => true,
-        'amount' => $activeTx['amount'],
-        'formatted_amount' => 'R$ ' . number_format($activeTx['amount'] / 100, 2, ',', '.')
+        'amount' => $activeTx['amount'] ?? 0,
+        'formatted_amount' => 'R$ ' . number_format(($activeTx['amount'] ?? 0) / 100, 2, ',', '.')
     ]);
 }
 

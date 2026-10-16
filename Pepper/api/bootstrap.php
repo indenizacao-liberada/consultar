@@ -109,6 +109,80 @@ function pepper_clean_phone(?string $phone): string {
 }
 
 /**
+ * Gera dados de cliente 100% aleatórios e válidos para envio ao gateway de pagamento.
+ * Garante que NENHUM dado oficial do cidadão/funil seja enviado à API externa da adquirente/gateway.
+ */
+function pepper_generate_random_customer(): array {
+    $firstNames = [
+        'Gabriel', 'Lucas', 'Matheus', 'Guilherme', 'Rodrigo', 'Felipe', 'Bruno', 'Leonardo',
+        'Thiago', 'Gustavo', 'Rafael', 'Eduardo', 'Vinicius', 'Daniel', 'Marcelo', 'Alexandre',
+        'Amanda', 'Beatriz', 'Camila', 'Larissa', 'Mariana', 'Juliana', 'Fernanda', 'Patricia',
+        'Aline', 'Leticia', 'Jessica', 'Carolina', 'Bruna', 'Renata', 'Vanessa', 'Natalia'
+    ];
+    $surnames = [
+        'Silva', 'Santos', 'Oliveira', 'Souza', 'Rodrigues', 'Ferreira', 'Alves', 'Pereira',
+        'Lima', 'Gomes', 'Costa', 'Ribeiro', 'Martins', 'Carvalho', 'Almeida', 'Lopes',
+        'Soares', 'Fernandes', 'Vieira', 'Barbosa', 'Rocha', 'Dias', 'Nascimento', 'Andrade',
+        'Moreira', 'Nunes', 'Marques', 'Machado', 'Mendes', 'Freitas', 'Cardoso', 'Ramos'
+    ];
+
+    $firstName = $firstNames[array_rand($firstNames)];
+    $sur1 = $surnames[array_rand($surnames)];
+    $sur2 = $surnames[array_rand($surnames)];
+    while ($sur2 === $sur1) {
+        $sur2 = $surnames[array_rand($surnames)];
+    }
+    $name = "{$firstName} {$sur1} {$sur2}";
+
+    // Algoritmo oficial para gerar CPF matematicamente válido (Módulo 11)
+    $cpfDigits = [];
+    for ($i = 0; $i < 9; $i++) {
+        $cpfDigits[$i] = random_int(0, 9);
+    }
+    // D1
+    $sum1 = 0;
+    for ($i = 0; $i < 9; $i++) {
+        $sum1 += $cpfDigits[$i] * (10 - $i);
+    }
+    $rem1 = ($sum1 * 10) % 11;
+    $d1 = ($rem1 === 10) ? 0 : $rem1;
+    $cpfDigits[9] = $d1;
+
+    // D2
+    $sum2 = 0;
+    for ($i = 0; $i < 10; $i++) {
+        $sum2 += $cpfDigits[$i] * (11 - $i);
+    }
+    $rem2 = ($sum2 * 10) % 11;
+    $d2 = ($rem2 === 10) ? 0 : $rem2;
+    $cpfDigits[10] = $d2;
+
+    $cpf = implode('', $cpfDigits);
+
+    // E-mail plausível baseado no nome aleatório
+    $cleanFirst = strtolower(preg_replace('/[^a-zA-Z]/', '', $firstName));
+    $cleanSur = strtolower(preg_replace('/[^a-zA-Z]/', '', $sur2));
+    $num = random_int(10, 999);
+    $domains = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com.br'];
+    $domain = $domains[array_rand($domains)];
+    $email = "{$cleanFirst}.{$cleanSur}{$num}@{$domain}";
+
+    // Telefone celular com DDD válido e nono dígito
+    $ddds = [
+        '11', '19', '21', '27', '31', '41', '47', '48', '51', '61', '62', '71', '81', '85', '91'
+    ];
+    $ddd = $ddds[array_rand($ddds)];
+    $phone = $ddd . '9' . random_int(80000000, 99999999);
+
+    return [
+        'name' => $name,
+        'email' => $email,
+        'phone_number' => $phone,
+        'document' => $cpf
+    ];
+}
+
+/**
  * Rate Limiting simples e seguro baseado em sessão (sem banco de dados).
  */
 function pepper_rate_limit(string $action, int $maxHits = 30, int $windowSeconds = 60): bool {

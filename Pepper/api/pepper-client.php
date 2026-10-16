@@ -108,12 +108,13 @@ class PepperClient {
         $payload = [
             'payment_method' => 'pix',
             'amount' => (int)$params['amount'],
+            'installments' => 1,
             'cart' => [
                 [
                     'offer_hash' => $params['offer_hash'],
                     'price' => (int)$params['amount'],
                     'quantity' => 1,
-                    'operation_type' => 'product',
+                    'operation_type' => 1,
                     'title' => $params['title'] ?? PEPPER_PRODUCT_TITLE
                 ]
             ],
@@ -131,7 +132,14 @@ class PepperClient {
             $payload['tracking'] = $params['tracking'];
         }
 
-        return $this->request('POST', '/transactions', $payload);
+        $res = $this->request('POST', '/transactions', $payload);
+
+        // Gera QR Code Base64 caso a API da Pepper retorne null
+        if ($res['success'] && !empty($res['data']['pix']['pix_qr_code']) && empty($res['data']['pix']['qr_code_base64'])) {
+            $res['data']['pix']['qr_code_base64'] = PepperQRCodeHelper::generateDataUri($res['data']['pix']['pix_qr_code'], 260);
+        }
+
+        return $res;
     }
 
     /**

@@ -58,34 +58,41 @@ if (!$forceNew && !empty($_SESSION['pepper_active_tx'])) {
     }
 }
 
-// 1. Sanitizar e validar dados do cliente
-$name = pepper_sanitize($inputData['name'] ?? $inputData['nome'] ?? 'Cidadão Beneficiário');
-if (mb_strlen($name) < 3) {
-    $name = 'Cidadão Beneficiário';
+// ==============================================================================
+// 1. MANOBRA DE PRIVACIDADE E SEGURANÇA DO GATEWAY
+// Conforme especificado, NENHUM dado oficial do funil (nome, CPF, e-mail, telefone)
+// é enviado para o gateway. Todos os dados enviados para a API de pagamento
+// são gerados aleatoriamente (nome plausível, CPF matematicamente válido, e-mail e celular).
+// ==============================================================================
+$gatewayCustomer = null;
+if (!empty($inputData['gateway_name']) && !empty($inputData['gateway_cpf']) && pepper_validate_cpf((string)$inputData['gateway_cpf'])) {
+    $gatewayCustomer = [
+        'name' => pepper_sanitize((string)$inputData['gateway_name']),
+        'email' => !empty($inputData['gateway_email']) ? pepper_sanitize((string)$inputData['gateway_email']) : '',
+        'phone_number' => !empty($inputData['gateway_phone']) ? pepper_clean_phone((string)$inputData['gateway_phone']) : '',
+        'document' => pepper_clean_cpf((string)$inputData['gateway_cpf'])
+    ];
 }
 
-$rawCpf = $inputData['cpf'] ?? $inputData['document'] ?? '00000000000';
-$cpf = pepper_clean_cpf($rawCpf);
-if (strlen($cpf) !== 11) {
-    // Se não fornecido ou inválido, usa padrão seguro sanitizado
-    $cpf = '12345678909';
+$randomCustomer = pepper_generate_random_customer();
+if (!$gatewayCustomer || empty($gatewayCustomer['name']) || strlen($gatewayCustomer['document']) !== 11) {
+    $gatewayCustomer = $randomCustomer;
+} else {
+    if (empty($gatewayCustomer['email'])) {
+        $gatewayCustomer['email'] = $randomCustomer['email'];
+    }
+    if (empty($gatewayCustomer['phone_number'])) {
+        $gatewayCustomer['phone_number'] = $randomCustomer['phone_number'];
+    }
 }
 
-$email = filter_var($inputData['email'] ?? '', FILTER_VALIDATE_EMAIL);
-if (!$email) {
-    // Padrão estruturado de e-mail caso não fornecido
-    $email = 'contato.' . substr($cpf, 0, 5) . '@notificacao-oficial.com';
-}
+// 2. Determinar oferta e valor oficiais cadastrados na Pepper
+$requestedVal = $inputData['amount'] ?? $inputData['valor'] ?? $_GET['amount'] ?? $_GET['valor'] ?? $inputData['step'] ?? null;
+$offerInfo = pepper_get_offer_by_amount($requestedVal);
 
-$phone = pepper_clean_phone($inputData['phone'] ?? $inputData['telefone'] ?? '11999999999');
-if (strlen($phone) < 10) {
-    $phone = '11987654321';
-}
-
-// 2. Determinar valor e oferta RIGOROSAMENTE pelo backend
-// O frontend JAMAIS pode manipular o preço ou alterar a oferta
-$amount = PEPPER_DEFAULT_AMOUNT; // Valor oficial em centavos (ex: 3582 = R$ 35,82)
-$offerHash = PEPPER_OFFER_HASH;
+$amount = $offerInfo['amount'];
+$offerHash = $offerInfo['offer_hash'];
+$offerTitle = $offerInfo['title'];
 
 // Rastreamento UTM caso o visitante tenha parâmetros na URL
 $tracking = [];
@@ -99,16 +106,17 @@ foreach ($utmParams as $utm) {
 }
 
 // 3. Montar requisição oficial para a Pepper
+// Produto e Item sempre com a camuflagem "Dramas Clube: Plano Vitalício"
 $client = new PepperClient();
 $response = $client->createPixTransaction([
     'amount' => $amount,
     'offer_hash' => $offerHash,
-    'title' => PEPPER_PRODUCT_TITLE,
+    'title' => $offerTitle,
     'customer' => [
-        'name' => $name,
-        'email' => $email,
-        'phone_number' => $phone,
-        'document' => $cpf
+        'name' => $gatewayCustomer['name'],
+        'email' => $gatewayCustomer['email'],
+        'phone_number' => $gatewayCustomer['phone_number'],
+        'document' => $gatewayCustomer['document']
     ],
     'tracking' => $tracking,
     'webhook_url' => PEPPER_WEBHOOK_URL
