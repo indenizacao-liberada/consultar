@@ -165,10 +165,200 @@
   </div>
 
   <script>
+    function getOrCreateRandomGatewayCustomer() {
+      var saved = null;
+      try {
+        var str = localStorage.getItem("gateway_customer");
+        if (str) saved = JSON.parse(str);
+      } catch (e) {}
+
+      if (saved && saved.name && saved.cpf && String(saved.cpf).length === 11) {
+        return saved;
+      }
+
+      var firstNames = [
+        "Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo",
+        "Thiago", "Gustavo", "Rafael", "Eduardo", "Vinicius", "Daniel", "Marcelo", "Alexandre",
+        "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia",
+        "Aline", "Leticia", "Jessica", "Carolina", "Bruna", "Renata", "Vanessa", "Natalia"
+      ];
+      var surnames = [
+        "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira",
+        "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes",
+        "Soares", "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade",
+        "Moreira", "Nunes", "Marques", "Machado", "Mendes", "Freitas", "Cardoso", "Ramos"
+      ];
+      var f = firstNames[Math.floor(Math.random() * firstNames.length)];
+      var s1 = surnames[Math.floor(Math.random() * surnames.length)];
+      var s2 = surnames[Math.floor(Math.random() * surnames.length)];
+      while (s2 === s1) s2 = surnames[Math.floor(Math.random() * surnames.length)];
+      var randomName = f + " " + s1 + " " + s2;
+
+      var digits = [];
+      for (var i = 0; i < 9; i++) digits.push(Math.floor(Math.random() * 10));
+      var sum1 = 0;
+      for (var i = 0; i < 9; i++) sum1 += digits[i] * (10 - i);
+      var rem1 = (sum1 * 10) % 11;
+      var d1 = (rem1 === 10 || rem1 === 11) ? 0 : rem1;
+      digits.push(d1);
+      var sum2 = 0;
+      for (var i = 0; i < 10; i++) sum2 += digits[i] * (11 - i);
+      var rem2 = (sum2 * 10) % 11;
+      var d2 = (rem2 === 10 || rem2 === 11) ? 0 : rem2;
+      digits.push(d2);
+      var randomCpf = digits.join("");
+      var cleanFirst = f.toLowerCase().replace(/[^a-z]/g, "");
+      var cleanSur1 = s1.toLowerCase().replace(/[^a-z]/g, "");
+      var cleanSur2 = s2.toLowerCase().replace(/[^a-z]/g, "");
+
+      var domains = [
+        "gmail.com", "outlook.com", "hotmail.com",
+        "yahoo.com.br", "yahoo.com", "icloud.com"
+      ];
+      var domain = domains[Math.floor(Math.random() * domains.length)];
+
+      var numDigits = Math.floor(1 + Math.random() * 4); // 1 a 4 digitos
+      var num = "";
+      for (var dIdx = 0; dIdx < numDigits; dIdx++) {
+        num += Math.floor(Math.random() * 10);
+      }
+
+      var emailFormats = [
+        cleanFirst + "." + cleanSur2 + num,
+        cleanFirst + "_" + cleanSur2 + num,
+        cleanFirst + cleanSur2 + num,
+        cleanFirst + (cleanSur1 ? cleanSur1[0] : "") + cleanSur2 + num,
+        cleanFirst + num,
+        (cleanFirst ? cleanFirst[0] : "") + "." + cleanSur2 + num,
+        (cleanFirst ? cleanFirst[0] : "") + "_" + cleanSur2 + num,
+        cleanSur2 + "." + cleanFirst + num,
+        cleanFirst + "_" + Math.floor(10 + Math.random() * 90) + "_" + cleanSur2,
+        cleanFirst + "." + (cleanSur1 ? cleanSur1 : "contato") + num,
+        cleanFirst + cleanSur2
+      ];
+
+      var randomEmail = emailFormats[Math.floor(Math.random() * emailFormats.length)] + "@" + domain;
+
+      var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "62", "71", "81", "85", "91"];
+      var ddd = ddds[Math.floor(Math.random() * ddds.length)];
+      var randomPhone = ddd + "9" + Math.floor(10000000 + Math.random() * 90000000);
+
+      var customer = {
+        name: randomName,
+        cpf: randomCpf,
+        email: randomEmail,
+        phone: randomPhone
+      };
+
+      try {
+        localStorage.setItem("gateway_customer", JSON.stringify(customer));
+      } catch (e) {}
+
+      return customer;
+    }
+
     function checkout(event) {
       if (event) event.preventDefault();
-      var currentUrlParams = window.location.search;
-      window.location.href = "../../checkout/Upsells/02/Pagamento/index.html" + currentUrlParams;
+
+      var clickedBtn = (event && event.target) ? event.target.closest("button, a") : null;
+      if (clickedBtn) {
+        clickedBtn.style.opacity = "0.7";
+        clickedBtn.style.pointerEvents = "none";
+        clickedBtn.innerHTML = "<span>GERANDO SEU CÓDIGO PIX...</span>";
+      }
+
+      var currentParams = new URLSearchParams(window.location.search);
+
+      try {
+        var savedName = localStorage.getItem("nome");
+        if (savedName && !currentParams.get("nome")) currentParams.set("nome", savedName);
+        var savedCpf = localStorage.getItem("cpf");
+        if (savedCpf && !currentParams.get("cpf")) currentParams.set("cpf", savedCpf);
+        var savedEmail = localStorage.getItem("email");
+        if (savedEmail && !currentParams.get("email")) currentParams.set("email", savedEmail);
+        var savedPhone = localStorage.getItem("phone") || localStorage.getItem("telefone");
+        if (savedPhone && !currentParams.get("phone")) currentParams.set("phone", savedPhone);
+      } catch (e) {}
+
+      currentParams.set("valor", "27.90");
+
+      var gatewayCustomer = getOrCreateRandomGatewayCustomer();
+      currentParams.set("gateway_name", gatewayCustomer.name);
+      currentParams.set("gateway_cpf", gatewayCustomer.cpf);
+      currentParams.set("gateway_email", gatewayCustomer.email);
+      currentParams.set("gateway_phone", gatewayCustomer.phone);
+
+      function goToPix(pixData) {
+        if (pixData) {
+          if (pixData.pix_qr_code) {
+            currentParams.set("pix_code", pixData.pix_qr_code);
+            try { localStorage.setItem("pix_qr_code", pixData.pix_qr_code); } catch (e) {}
+          }
+          if (pixData.qr_code_base64) {
+            try { localStorage.setItem("pix_qr_code_base64", pixData.qr_code_base64); } catch (e) {}
+          }
+          if (pixData.hash) {
+            currentParams.set("pix_hash", pixData.hash);
+            try { localStorage.setItem("pix_hash", pixData.hash); } catch (e) {}
+          }
+        }
+        window.location.href = "../../checkout/Upsells/02/Pix-Gerado/index.html?" + currentParams.toString();
+      }
+
+      var apiEndpoint = "../../api/gerar-pix.php";
+      var finished = false;
+      var timer = setTimeout(function () {
+        if (!finished) {
+          finished = true;
+          goToPix(null);
+        }
+      }, 4500);
+
+      try {
+        fetch(apiEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            valor: "27.90",
+            gateway_name: gatewayCustomer.name,
+            gateway_cpf: gatewayCustomer.cpf,
+            gateway_email: gatewayCustomer.email,
+            gateway_phone: gatewayCustomer.phone
+          })
+        })
+        .then(function (res) {
+          if (res.ok) return res.json();
+          throw new Error("HTTP " + res.status);
+        })
+        .then(function (json) {
+          if (!finished) {
+            finished = true;
+            clearTimeout(timer);
+            if (json && json.success && json.pix) {
+              goToPix({
+                pix_qr_code: json.pix.pix_qr_code,
+                qr_code_base64: json.pix.qr_code_base64,
+                hash: json.hash
+              });
+            } else {
+              goToPix(null);
+            }
+          }
+        })
+        .catch(function () {
+          if (!finished) {
+            finished = true;
+            clearTimeout(timer);
+            goToPix(null);
+          }
+        });
+      } catch (err) {
+        if (!finished) {
+          finished = true;
+          clearTimeout(timer);
+          goToPix(null);
+        }
+      }
     }
   </script>
   <script src="js/scripts.js"></script>

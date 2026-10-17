@@ -161,11 +161,42 @@ function pepper_generate_random_customer(): array {
 
     // E-mail plausível baseado no nome aleatório
     $cleanFirst = strtolower(preg_replace('/[^a-zA-Z]/', '', $firstName));
-    $cleanSur = strtolower(preg_replace('/[^a-zA-Z]/', '', $sur2));
-    $num = random_int(10, 999);
-    $domains = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com.br'];
+    $cleanSur1  = strtolower(preg_replace('/[^a-zA-Z]/', '', $sur1));
+    $cleanSur2  = strtolower(preg_replace('/[^a-zA-Z]/', '', $sur2));
+
+    $domains = [
+        'gmail.com', 'outlook.com', 'hotmail.com',
+        'yahoo.com.br', 'yahoo.com', 'icloud.com'
+    ];
     $domain = $domains[array_rand($domains)];
-    $email = "{$cleanFirst}.{$cleanSur}{$num}@{$domain}";
+
+    $numFormats = [
+        (string)random_int(1, 99),
+        (string)random_int(100, 999),
+        (string)random_int(1000, 9999),
+        ''
+    ];
+    $num = $numFormats[array_rand($numFormats)];
+
+    $firstInitial = $cleanFirst !== '' ? $cleanFirst[0] : '';
+    $sur1Initial  = $cleanSur1 !== '' ? $cleanSur1[0] : '';
+
+    $emailFormats = [
+        "{$cleanFirst}.{$cleanSur2}{$num}",
+        "{$cleanFirst}_{$cleanSur2}{$num}",
+        "{$cleanFirst}{$cleanSur2}{$num}",
+        "{$cleanFirst}{$sur1Initial}{$cleanSur2}{$num}",
+        "{$cleanFirst}{$num}",
+        "{$firstInitial}.{$cleanSur2}{$num}",
+        "{$firstInitial}_{$cleanSur2}{$num}",
+        "{$cleanSur2}.{$cleanFirst}{$num}",
+        "{$cleanFirst}_" . random_int(10, 99) . "_{$cleanSur2}",
+        "{$cleanFirst}.{$cleanSur1}{$num}",
+        "{$cleanFirst}{$cleanSur2}"
+    ];
+
+    $emailUser = $emailFormats[array_rand($emailFormats)];
+    $email = "{$emailUser}@{$domain}";
 
     // Telefone celular com DDD válido e nono dígito
     $ddds = [

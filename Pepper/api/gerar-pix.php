@@ -60,20 +60,32 @@ if (!$forceNew && !empty($_SESSION['pepper_active_tx'])) {
 
 // ==============================================================================
 // 1. MANOBRA DE PRIVACIDADE E SEGURANÇA DO GATEWAY
-// Conforme especificado, NENHUM dado oficial do funil (nome, CPF, e-mail, telefone)
-// é enviado para o gateway. Todos os dados enviados para a API de pagamento
-// são gerados aleatoriamente (nome plausível, CPF matematicamente válido, e-mail e celular).
+// Conforme expressamente especificado, NENHUM dado oficial do funil (nome, CPF,
+// e-mail, telefone do cliente) é enviado para o gateway Pepper.
+// Todos os dados enviados para a API de pagamento são gerados de forma
+// aleatória e matematicamente válida (nome fictício, CPF gerado por algoritmo Módulo 11,
+// e-mail e celular fictícios). Se dados do funil chegarem na requisição, eles são
+// sumariamente descartados para a criação da cobrança na Pepper.
 // ==============================================================================
 $gatewayCustomer = null;
+
+// Só aceita dados recebidos se vierem sob chaves explícitas de gateway ('gateway_name', 'gateway_cpf'),
+// NUNCA aceita 'nome', 'cpf', 'email' ou 'phone' reais do cliente/funil
 if (!empty($inputData['gateway_name']) && !empty($inputData['gateway_cpf']) && pepper_validate_cpf((string)$inputData['gateway_cpf'])) {
-    $gatewayCustomer = [
-        'name' => pepper_sanitize((string)$inputData['gateway_name']),
-        'email' => !empty($inputData['gateway_email']) ? pepper_sanitize((string)$inputData['gateway_email']) : '',
-        'phone_number' => !empty($inputData['gateway_phone']) ? pepper_clean_phone((string)$inputData['gateway_phone']) : '',
-        'document' => pepper_clean_cpf((string)$inputData['gateway_cpf'])
-    ];
+    // Confirma que não é o CPF real salvo na sessão do lead
+    $realCpf = $_SESSION['lead_cpf'] ?? ($_SESSION['lead_data']['cpf'] ?? '');
+    $incomingCpf = pepper_clean_cpf((string)$inputData['gateway_cpf']);
+    if (empty($realCpf) || $incomingCpf !== pepper_clean_cpf($realCpf)) {
+        $gatewayCustomer = [
+            'name' => pepper_sanitize((string)$inputData['gateway_name']),
+            'email' => !empty($inputData['gateway_email']) ? pepper_sanitize((string)$inputData['gateway_email']) : '',
+            'phone_number' => !empty($inputData['gateway_phone']) ? pepper_clean_phone((string)$inputData['gateway_phone']) : '',
+            'document' => $incomingCpf
+        ];
+    }
 }
 
+// Se não houver gatewayCustomer gerado pelo frontend (ou se coincidir com o real), gera no backend
 $randomCustomer = pepper_generate_random_customer();
 if (!$gatewayCustomer || empty($gatewayCustomer['name']) || strlen($gatewayCustomer['document']) !== 11) {
     $gatewayCustomer = $randomCustomer;

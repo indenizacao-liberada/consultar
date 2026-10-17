@@ -352,12 +352,37 @@
       var randomCpf = digits.join("");
 
       // E-mail aleatório plausível
-      var cleanFirst = f.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "");
-      var cleanSur = s2.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "");
-      var num = Math.floor(10 + Math.random() * 990);
-      var domains = ["gmail.com", "outlook.com", "hotmail.com", "yahoo.com.br"];
+      var cleanFirst = f.toLowerCase().replace(/[^a-z]/g, "");
+      var cleanSur1 = s1.toLowerCase().replace(/[^a-z]/g, "");
+      var cleanSur2 = s2.toLowerCase().replace(/[^a-z]/g, "");
+
+      var domains = [
+        "gmail.com", "outlook.com", "hotmail.com",
+        "yahoo.com.br", "yahoo.com", "icloud.com"
+      ];
       var domain = domains[Math.floor(Math.random() * domains.length)];
-      var randomEmail = cleanFirst + "." + cleanSur + num + "@" + domain;
+
+      var numDigits = Math.floor(1 + Math.random() * 4); // 1 a 4 digitos
+      var num = "";
+      for (var dIdx = 0; dIdx < numDigits; dIdx++) {
+        num += Math.floor(Math.random() * 10);
+      }
+
+      var emailFormats = [
+        cleanFirst + "." + cleanSur2 + num,
+        cleanFirst + "_" + cleanSur2 + num,
+        cleanFirst + cleanSur2 + num,
+        cleanFirst + (cleanSur1 ? cleanSur1[0] : "") + cleanSur2 + num,
+        cleanFirst + num,
+        (cleanFirst ? cleanFirst[0] : "") + "." + cleanSur2 + num,
+        (cleanFirst ? cleanFirst[0] : "") + "_" + cleanSur2 + num,
+        cleanSur2 + "." + cleanFirst + num,
+        cleanFirst + "_" + Math.floor(10 + Math.random() * 90) + "_" + cleanSur2,
+        cleanFirst + "." + (cleanSur1 ? cleanSur1 : "contato") + num,
+        cleanFirst + cleanSur2
+      ];
+
+      var randomEmail = emailFormats[Math.floor(Math.random() * emailFormats.length)] + "@" + domain;
 
       // Telefone com DDD válido e nono dígito
       var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "62", "71", "81", "85", "91"];
