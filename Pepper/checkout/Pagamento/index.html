@@ -58,6 +58,8 @@
       font-size: 0.78rem;
       margin-top: 4px;
       font-weight: 500;
+      line-height: 1.25;
+      min-height: 1.1rem;
     }
   </style>
 </head>
@@ -66,14 +68,6 @@
     <div class="transition-all ease duration-300">
       <div class="bg-[#efefef] dark:bg-gray-900" style="--062dae65: #109b6c; background-color: rgb(230, 236, 254);">
         <section>
-          <div class="mx-auto sm:max-w-3xl xl:max-w-4xl px-3 lg:px-0 pt-4">
-            <div>
-              <div class="mb-2">
-                <img src="./index_files/4kono67hzeonbq4ylqfgrsp1f.jpeg" class="rounded-lg w-full mb-2 shadow-sm" alt="Gov.br - Pagamento Seguro">
-              </div>
-            </div>
-          </div>
-          
           <div class="mx-auto px-0 text-gray-900 z-50">
             <div class="flex flex-wrap sm:max-w-3xl xl:max-w-4xl mx-auto px-3 lg:px-0">
               <div class="w-full mb-2">
@@ -124,7 +118,7 @@
                         <p class="help-message" style="display: none;"></p>
                       </div>
 
-                      <div class="lg:flex lg:gap-3 mt-3">
+                      <div class="lg:flex lg:gap-3 items-start mt-3">
                         <div class="w-full lg:w-6/12">
                           <div class="TextInput">
                             <label class="text-[#555555] dark:text-gray-300 text-xs uppercase font-bold !flex items-center justify-start gap-1.5 mb-2" for="phone_number">Celular com WhatsApp</label>
@@ -499,20 +493,39 @@
         phone.addEventListener("input", function () {
           this.value = maskPhone(this.value);
           var digits = onlyDigits(this.value);
-          setError(this, validPhone(digits) ? "" : "Digite um celular válido com DDD.");
+          if (digits.length === 11) {
+            setError(this, validPhone(digits) ? "" : "Digite um celular válido com DDD.");
+          } else {
+            setError(this, "");
+          }
         });
         phone.addEventListener("blur", function () {
-          setError(this, validPhone(this.value) ? "" : "Digite um celular válido com DDD.");
+          var digits = onlyDigits(this.value);
+          if (digits.length > 0) {
+            setError(this, validPhone(digits) ? "" : "Digite um celular válido com DDD.");
+          } else {
+            setError(this, "");
+          }
         });
       }
 
       if (cpf) {
         cpf.addEventListener("input", function () {
           this.value = maskCPF(this.value);
-          setError(this, validCPF(this.value) ? "" : "Digite um CPF válido.");
+          var digits = onlyDigits(this.value);
+          if (digits.length === 11) {
+            setError(this, validCPF(this.value) ? "" : "Digite um CPF válido.");
+          } else {
+            setError(this, "");
+          }
         });
         cpf.addEventListener("blur", function () {
-          setError(this, validCPF(this.value) ? "" : "Digite um CPF válido.");
+          var digits = onlyDigits(this.value);
+          if (digits.length > 0) {
+            setError(this, validCPF(this.value) ? "" : "Digite um CPF válido.");
+          } else {
+            setError(this, "");
+          }
         });
       }
 
@@ -604,7 +617,7 @@
               hasFinished = true;
               finishCheckout(null);
             }
-          }, 4500);
+          }, 12000);
 
           try {
             fetch(apiEndpoint, {

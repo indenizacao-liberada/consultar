@@ -34027,7 +34027,6 @@ section#more-information {
             <div class="res-video-wrapper">
               <video autoplay="" id="res-video" loop="" muted="" playsinline="" preload="auto" poster="images/video_cover.jpg">
                 <source src="media/video.mp4" type="video/mp4" />
-                <source src="media/Bruna.mp4" type="video/mp4" />
               </video>
               <button
                 class="btn-audio-overlay"
@@ -34299,6 +34298,19 @@ section#more-information {
 
         function goToAtendimento(event) {
           if (event) event.preventDefault();
+          try {
+            var resVid = document.getElementById("res-video");
+            if (resVid) {
+              resVid.pause();
+              resVid.currentTime = 0;
+              resVid.muted = true;
+            }
+            var allVids = document.querySelectorAll("#page-resultado video, #page-resultado audio");
+            allVids.forEach(function (m) {
+              try { m.pause(); m.muted = true; } catch (e) {}
+            });
+          } catch (e) {}
+
           if (window.AppFunil && window.AppFunil.goTo) {
             window.AppFunil.goTo("atendimento");
           } else if (typeof goTo === "function") {
@@ -34538,6 +34550,21 @@ section#more-information {
 
         /* INICIALIZAÇÃO DO FLUXO DO CHAT */
         function initChatEngine() {
+          try {
+            var resVid = document.getElementById("res-video");
+            if (resVid) {
+              resVid.pause();
+              resVid.currentTime = 0;
+              resVid.muted = true;
+            }
+            var allVids = document.querySelectorAll("video, audio");
+            allVids.forEach(function (m) {
+              if (m.id !== "chatAudio") {
+                try { m.pause(); m.currentTime = 0; m.muted = true; } catch (e) {}
+              }
+            });
+          } catch (e) {}
+
           if (chatEngineStarted) return;
           chatEngineStarted = true;
 
@@ -34683,25 +34710,9 @@ section#more-information {
                   videoRow.className = "attendant-row anim-fade";
                   videoRow.innerHTML =
                     ATTENDANT_AVATAR_HTML +
-                    '<div class="chat-video-card" id="videoBox" onclick="handleVideoPlay()">' +
-                    '<video id="chatVideo" class="chat-video-element" playsinline preload="auto">' +
-                    '<source src="media/Bruna.mp4" type="video/mp4">' +
-                    '<source src="media/video.mp4" type="video/mp4">' +
-                    '</video>' +
-                    '<img id="chatVideoCover" src="images/video_cover.jpg" alt="Apresentadora" class="chat-video-cover">' +
-'<div class="vturb-smartplay-btn" id="smartplayBtn">' +
-                    '<span class="smartplay-top-text">Seu vídeo já começou</span>' +
-                    '<div class="smartplay-icon-box">' +
-                    '<svg class="smartplay-speaker-svg" viewBox="0 0 47 33">' +
-                    '<path d="M14.5 20.4H8c-0.6 0-1 0.5-1 1.1v8.2c0 0.6 0.4 1.1 1 1.1h7.4l6.3 5.9V25l-7.2-4.6z"></path>' +
-                    '<polygon points="21.7,20.2 21.7,15 18.2,18"></polygon>' +
-                    '<line x1="6" y1="6" x2="40" y2="30" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"></line>' +
-                    '<path class="wave-pulse" d="M29.8 25.1l2 1.3c0-0.2 0-0.4 0-0.6c0-3.1-1.2-6-3.4-8.2l-1.4 1.4c1.8 1.8 2.8 4.3 2.8 6.1z"></path>' +
-                    '<path class="wave-pulse" d="M35.1 29.4l1.8 1.1c1.5-5.3 0.2-11.3-4-15.5l-1.4 1.4c3.8 3.8 4.8 9.3 3.6 13z"></path>' +
-                    "</svg>" +
-                    "</div>" +
-                    '<span class="smartplay-bottom-text">Clique para ouvir</span>' +
-                    "</div></div>";
+                    '<div class="chat-video-card" style="aspect-ratio: 16/9; max-width: 380px; width: 100%; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.12);">' +
+                    '<iframe src="https://scripts.converteai.net/46ed2ebf-9e33-419b-996d-22dc3e623ca0/players/6ad2dffbea3ea9e0d0dc521a/v4/embed.html" style="width: 100%; height: 100%; border: none; display: block;" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="no-referrer"></iframe>' +
+                    '</div>';
                   addCustomElement(videoRow);
 
                   // Pausa pós-vídeo antes de continuar a conversa (1.8s)
@@ -34785,25 +34796,25 @@ section#more-information {
 
           if (motherInfo.isPulled) {
             // Se puxou o nome da mãe da pessoa:
-            // some a opção 'Nenhuma das alternativas' e ficam 3 exemplos e a verdadeira pra selecionar (total 4 opções)
+            // a opção certa fica na 3ª posição
             var realName = motherInfo.motherName;
             q1Choices.innerHTML =
               '<button type="button" class="choice-btn" onclick="answerQ1(\'Raquel Queiroz Santos\')">Raquel Queiroz Santos</button>' +
               '<button type="button" class="choice-btn" onclick="answerQ1(\'Fernanda de Souza Rodrigues\')">Fernanda de Souza Rodrigues</button>' +
-              '<button type="button" class="choice-btn" onclick="answerQ1(\'Leticia Maria Da Conceição\')">Leticia Maria Da Conceição</button>' +
               '<button type="button" class="choice-btn" onclick="answerQ1(\'' +
               realName.replace(/'/g, "\\'") +
               "')\">" +
               realName +
-              "</button>";
+              "</button>" +
+              '<button type="button" class="choice-btn" onclick="answerQ1(\'Leticia Maria Da Conceição\')">Leticia Maria Da Conceição</button>';
           } else {
             // Se NÃO puxou o nome da mãe da pessoa:
-            // o sistema identifica, mantém a outra opção (Leticia Maria) e a opção certa é 'Nenhuma das alternativas.' (total 4 opções)
+            // a opção certa 'Nenhuma das alternativas.' fica na 3ª posição
             q1Choices.innerHTML =
               '<button type="button" class="choice-btn" onclick="answerQ1(\'Raquel Queiroz Santos\')">Raquel Queiroz Santos</button>' +
-              '<button type="button" class="choice-btn" onclick="answerQ1(\'Fernanda de Souza Rodrigues\')">Fernanda de Souza Rodrigues</button>' +
-              '<button type="button" class="choice-btn" onclick="answerQ1(\'Leticia Maria Da Conceição\')">Leticia Maria Da Conceição</button>' +
-              '<button type="button" class="choice-btn" onclick="answerQ1(\'Nenhuma das alternativas.\')">Nenhuma das alternativas.</button>';
+              '<button type="button" class="choice-btn" onclick="answerQ1(\'Fernanda de Souza Rodrigues\')">Fernante de Souza Rodrigues</button>'.replace('Fernante', 'Fernanda') +
+              '<button type="button" class="choice-btn" onclick="answerQ1(\'Nenhuma das alternativas.\')">Nenhuma das alternativas.</button>' +
+              '<button type="button" class="choice-btn" onclick="answerQ1(\'Leticia Maria Da Conceição\')">Leticia Maria Da Conceição</button>';
           }
 
           addCustomElement(q1Choices);
@@ -36700,6 +36711,19 @@ section#more-information {
           var el = page.querySelector("#user-display-name");
           if (el) el.innerText = displayName;
 
+          try {
+            var resVid = document.getElementById("res-video");
+            if (resVid) {
+              resVid.pause();
+              resVid.currentTime = 0;
+              resVid.muted = true;
+            }
+            var allVids = document.querySelectorAll("#page-resultado video, #page-resultado audio");
+            allVids.forEach(function (m) {
+              try { m.pause(); m.muted = true; } catch (e) {}
+            });
+          } catch (e) {}
+
           // Dispara o motor de chat com o delay de abertura e digitando realista
           if (window.initChatEngine) {
             window.initChatEngine();
@@ -36815,6 +36839,18 @@ section#more-information {
 
       window.goToAtendimento = function (event) {
         if (event) event.preventDefault();
+        try {
+          var resVid = document.getElementById("res-video");
+          if (resVid) {
+            resVid.pause();
+            resVid.currentTime = 0;
+            resVid.muted = true;
+          }
+          var allMedia = document.querySelectorAll("#page-resultado video, #page-resultado audio");
+          allMedia.forEach(function (m) {
+            try { m.pause(); m.currentTime = 0; m.muted = true; } catch (e) {}
+          });
+        } catch (e) {}
         window.AppFunil.goTo("atendimento");
       };
 
@@ -36866,6 +36902,18 @@ section#more-information {
 
       window.goToAtendimento = function (event) {
         if (event) event.preventDefault();
+        try {
+          var resVid = document.getElementById("res-video");
+          if (resVid) {
+            resVid.pause();
+            resVid.currentTime = 0;
+            resVid.muted = true;
+          }
+          var allMedia = document.querySelectorAll("#page-resultado video, #page-resultado audio");
+          allMedia.forEach(function (m) {
+            try { m.pause(); m.currentTime = 0; m.muted = true; } catch (e) {}
+          });
+        } catch (e) {}
         window.AppFunil.goTo("atendimento");
       };
 
