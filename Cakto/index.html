@@ -34319,7 +34319,7 @@ section#more-information {
           } else {
             var search = window.location.search;
             window.location.href =
-              "../atendimento/index.php" + (search ? search : "");
+              window.AppFunil.goTo("atendimento");
           }
         }
       </script>
@@ -37216,6 +37216,7 @@ section#more-information {
         if (mae) params.set("mae", mae);
         if (nascimento) params.set("nascimento", nascimento);
 
+        params.set("gateway", "cakto");
         window.location.href = "checkout/Pagamento/index.html?" + params.toString();
       };
       window.goToAcesso01 = window.goToCheckoutPagamento;

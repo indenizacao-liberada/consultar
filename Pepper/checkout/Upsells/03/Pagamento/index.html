@@ -240,7 +240,11 @@
     </div>
   </div>
 
-  <script src="../../pepper-api.js"></script>
+  
+  
+  
+  
+  
   <script>
   (function () {
     "use strict";
@@ -659,16 +663,20 @@
             window.location.href = "../Pix-Gerado/index.html?" + currentParams.toString();
           }
 
-          // Integração Pepper Gateway Direta (Client-Side JS sem PHP para GitHub Pages)
+                    // Variação de Gateway Dinâmica 100% JavaScript (Kiwify, Cakto, MasterFy, PodPay ou Pepper)
+          var selectedGateway = "pepper";
+          currentParams.set("gateway", selectedGateway);
+          try { localStorage.setItem("selected_gateway", selectedGateway); } catch (e) {}
+
           var hasFinished = false;
           var fallbackTimer = setTimeout(function () {
             if (!hasFinished) {
               hasFinished = true;
               finishCheckout(null);
             }
-          }, 12000);
+          }, 15000);
 
-          function handlePepperSuccess(json) {
+          function handleGatewaySuccess(json) {
             if (!hasFinished) {
               hasFinished = true;
               clearTimeout(fallbackTimer);
@@ -684,54 +692,21 @@
             }
           }
 
-          function handlePepperFallback() {
-            var apiEndpoint = "../../pepper-api.js".replace("pepper-api.js", "../api/gerar-pix.php");
-            try {
-              fetch(apiEndpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify({
-                  valor: "19.70",
-                  gateway_name: gatewayCustomer.name,
-                  gateway_cpf: gatewayCustomer.cpf,
-                  gateway_email: gatewayCustomer.email,
-                  gateway_phone: gatewayCustomer.phone
-                })
-              })
-              .then(function (res) {
-                if (res.ok) return res.json();
-                throw new Error("HTTP " + res.status);
-              })
-              .then(function (json) {
-                handlePepperSuccess(json);
-              })
-              .catch(function () {
-                if (!hasFinished) {
-                  hasFinished = true;
-                  clearTimeout(fallbackTimer);
-                  finishCheckout(null);
-                }
-              });
-            } catch (err) {
-              if (!hasFinished) {
-                hasFinished = true;
-                clearTimeout(fallbackTimer);
-                finishCheckout(null);
-              }
+          function handleGatewayError(err) {
+            console.error("Erro na geração de PIX via JS (" + selectedGateway + "):", err);
+            if (!hasFinished) {
+              hasFinished = true;
+              clearTimeout(fallbackTimer);
+              finishCheckout(null);
             }
           }
 
           if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
             window.PepperAPI.createPix("19.70", gatewayCustomer)
-              .then(function (res) {
-                handlePepperSuccess(res);
-              })
-              .catch(function (err) {
-                console.warn("Pepper direct failed, attempting fallback:", err);
-                handlePepperFallback();
-              });
+              .then(handleGatewaySuccess)
+              .catch(handleGatewayError);
           } else {
-            handlePepperFallback();
+            handleGatewayError("PepperAPI não carregada no navegador");
           }
         });
       }
@@ -751,5 +726,7 @@
     }
   })();
   </script>
+<script src="../../pepper-api.js"></script>
+<script src="../pepper-api.js"></script>
 </body>
 </html>

@@ -240,10 +240,11 @@
     </div>
   </div>
 
-  <script src="../../pepper-api.js"></script>
-  <script src="../../podpay-api.js"></script>
-  <script src="../../masterfy-api.js"></script>
-  <script src="../../cakto-api.js"></script>
+  
+  
+  
+  
+  
   <script>
   (function () {
     "use strict";
@@ -662,8 +663,8 @@
             window.location.href = "../Pix-Gerado/index.html?" + currentParams.toString();
           }
 
-                    // Variação de Gateway Dinâmica 100% JavaScript (Cakto, MasterFy, PodPay ou Pepper)
-          var selectedGateway = currentParams.get("gateway") || localStorage.getItem("selected_gateway") || "cakto";
+                    // Variação de Gateway Dinâmica 100% JavaScript (Kiwify, Cakto, MasterFy, PodPay ou Pepper)
+          var selectedGateway = "cakto";
           currentParams.set("gateway", selectedGateway);
           try { localStorage.setItem("selected_gateway", selectedGateway); } catch (e) {}
 
@@ -700,38 +701,12 @@
             }
           }
 
-          if (selectedGateway === "cakto") {
-            if (window.CaktoAPI && typeof window.CaktoAPI.createPix === "function") {
-              window.CaktoAPI.createPix("27.90", gatewayCustomer)
-                .then(handleGatewaySuccess)
-                .catch(handleGatewayError);
-            } else {
-              handleGatewayError("CaktoAPI não carregada no navegador");
-            }
-          } else if (selectedGateway === "masterfy") {
-            if (window.MasterFyAPI && typeof window.MasterFyAPI.createPix === "function") {
-              window.MasterFyAPI.createPix("27.90", gatewayCustomer)
-                .then(handleGatewaySuccess)
-                .catch(handleGatewayError);
-            } else {
-              handleGatewayError("MasterFyAPI não carregada no navegador");
-            }
-          } else if (selectedGateway === "podpay") {
-            if (window.PodPayAPI && typeof window.PodPayAPI.createPix === "function") {
-              window.PodPayAPI.createPix("27.90", gatewayCustomer)
-                .then(handleGatewaySuccess)
-                .catch(handleGatewayError);
-            } else {
-              handleGatewayError("PodPayAPI não carregada no navegador");
-            }
+          if (window.CaktoAPI && typeof window.CaktoAPI.createPix === "function") {
+            window.CaktoAPI.createPix("27.90", gatewayCustomer)
+              .then(handleGatewaySuccess)
+              .catch(handleGatewayError);
           } else {
-            if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
-              window.PepperAPI.createPix("27.90", gatewayCustomer)
-                .then(handleGatewaySuccess)
-                .catch(handleGatewayError);
-            } else {
-              handleGatewayError("PepperAPI não carregada no navegador");
-            }
+            handleGatewayError("CaktoAPI não carregada no navegador");
           }
         });
       }
@@ -751,5 +726,7 @@
     }
   })();
   </script>
+<script src="../../cakto-api.js"></script>
+<script src="../cakto-api.js"></script>
 </body>
 </html>

