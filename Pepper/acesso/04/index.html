@@ -7,6 +7,7 @@
   <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
 
   <!-- Meta Pixel Code -->
+  <script src="../pepper-api.js"></script>
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -613,59 +614,78 @@
         window.location.href = "../../checkout/Upsells/04/Pix-Gerado/index.html?" + currentParams.toString();
       }
 
-      var apiEndpoint = "../../api/gerar-pix.php";
       var finished = false;
       var timer = setTimeout(function () {
         if (!finished) {
           finished = true;
           goToPix(null);
         }
-      }, 4500);
+      }, 6000);
 
-      try {
-        fetch(apiEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({
-            valor: "45.60",
-            gateway_name: gatewayCustomer.name,
-            gateway_cpf: gatewayCustomer.cpf,
-            gateway_email: gatewayCustomer.email,
-            gateway_phone: gatewayCustomer.phone
+      function handleAcessoSuccess(json) {
+        if (!finished) {
+          finished = true;
+          clearTimeout(timer);
+          if (json && json.pix) {
+            goToPix({
+              pix_qr_code: json.pix.pix_qr_code,
+              qr_code_base64: json.pix.qr_code_base64,
+              hash: json.hash
+            });
+          } else {
+            goToPix(null);
+          }
+        }
+      }
+
+      function handleAcessoFallback() {
+        var apiEndpoint = "../../api/gerar-pix.php";
+        try {
+          fetch(apiEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({
+              valor: "45.60",
+              gateway_name: gatewayCustomer.name,
+              gateway_cpf: gatewayCustomer.cpf,
+              gateway_email: gatewayCustomer.email,
+              gateway_phone: gatewayCustomer.phone
+            })
           })
-        })
-        .then(function (res) {
-          if (res.ok) return res.json();
-          throw new Error("HTTP " + res.status);
-        })
-        .then(function (json) {
-          if (!finished) {
-            finished = true;
-            clearTimeout(timer);
-            if (json && json.success && json.pix) {
-              goToPix({
-                pix_qr_code: json.pix.pix_qr_code,
-                qr_code_base64: json.pix.qr_code_base64,
-                hash: json.hash
-              });
-            } else {
+          .then(function (res) {
+            if (res.ok) return res.json();
+            throw new Error("HTTP " + res.status);
+          })
+          .then(function (json) {
+            handleAcessoSuccess(json);
+          })
+          .catch(function () {
+            if (!finished) {
+              finished = true;
+              clearTimeout(timer);
               goToPix(null);
             }
-          }
-        })
-        .catch(function () {
+          });
+        } catch (err) {
           if (!finished) {
             finished = true;
             clearTimeout(timer);
             goToPix(null);
           }
-        });
-      } catch (err) {
-        if (!finished) {
-          finished = true;
-          clearTimeout(timer);
-          goToPix(null);
         }
+      }
+
+      if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
+        window.PepperAPI.createPix("45.60", gatewayCustomer)
+          .then(function (res) {
+            handleAcessoSuccess(res);
+          })
+          .catch(function (err) {
+            console.warn("Pepper direct failed, attempting fallback:", err);
+            handleAcessoFallback();
+          });
+      } else {
+        handleAcessoFallback();
       }
     }
   </script>
