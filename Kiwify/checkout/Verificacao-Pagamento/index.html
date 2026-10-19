@@ -1,4 +1,6 @@
-<html lang="en"><head><meta http-equiv="origin-trial" content="3NNj0GXVktLOmVKwWUDendk4Vq2qgMVDBDX+Sni48ATJl9JBj+zF+9W2HGB3pvt6qowOihTbQgTeBm9SKbdTwYAAABfeyJvcmlnaW4iOiJodHRwczovL3JlY2FwdGNoYS5uZXQ6NDQzIiwiZmVhdHVyZSI6IlRwY2QiLCJleHBpcnkiOjE3MzUzNDM5OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0="><meta http-equiv="origin-trial" content="A6iYDRdcg1LVww9DNZEU+JUx2g1IJxSxk4P6F+LimR0ElFa38FydBqtz/AmsKdGr11ZooRgDPCInHJfGzwtR+A4AAACXeyJvcmlnaW4iOiJodHRwczovL3d3dy5yZWNhcHRjaGEubmV0OjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en"><head>
+  <script src="../kiwify-api.js"></script>
+  <meta http-equiv="origin-trial" content="3NNj0GXVktLOmVKwWUDendk4Vq2qgMVDBDX+Sni48ATJl9JBj+zF+9W2HGB3pvt6qowOihTbQgTeBm9SKbdTwYAAABfeyJvcmlnaW4iOiJodHRwczovL3JlY2FwdGNoYS5uZXQ6NDQzIiwiZmVhdHVyZSI6IlRwY2QiLCJleHBpcnkiOjE3MzUzNDM5OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0="><meta http-equiv="origin-trial" content="A6iYDRdcg1LVww9DNZEU+JUx2g1IJxSxk4P6F+LimR0ElFa38FydBqtz/AmsKdGr11ZooRgDPCInHJfGzwtR+A4AAACXeyJvcmlnaW4iOiJodHRwczovL3d3dy5yZWNhcHRjaGEubmV0OjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
 
@@ -376,7 +378,6 @@
 
 
   <!-- Kiwify Verificacao-Pagamento Enhanced Script -->
-  
   <script>
   (function () {
     "use strict";
@@ -384,8 +385,8 @@
     var params = new URLSearchParams(window.location.search);
     var pixHash = params.get("pix_hash") || localStorage.getItem("pix_hash") || "";
 
-    function advanceToNextStep() {
-      var h3 = document.querySelector("h3.text-orange-500") || document.querySelector("#checkoutblock h3");
+    function showPaymentConfirmed() {
+      var h3 = document.querySelector("h3.text-orange-500") || document.querySelector("#checkoutblock h3") || document.querySelector("h3");
       if (h3) {
         h3.className = "text-2xl font-bold text-green-600";
         h3.textContent = "Pagamento Confirmado!";
@@ -397,12 +398,10 @@
           target += (target.indexOf("?") === -1 ? "?" : "&") + qs;
         }
         window.location.href = target;
-      }, 1000);
+      }, 1500);
     }
 
-    window.advanceToNextStep = advanceToNextStep;
-
-    // Botão PAGUE AGORA COM PIX
+    // Botão PAGUE AGORA COM PIX (retorna para a tela com o QR Code)
     var backPixBtns = Array.from(document.querySelectorAll("a")).filter(function (a) {
       return a.textContent.includes("PAGUE AGORA COM PIX");
     });
@@ -413,40 +412,18 @@
       });
     });
 
-    // Atalhos para confirmação
-    var h3Title = document.querySelector("h3.text-orange-500") || document.querySelector("#checkoutblock h3");
-    if (h3Title) {
-      h3Title.style.cursor = "pointer";
-      h3Title.title = "Clique para confirmar";
-      h3Title.addEventListener("click", advanceToNextStep);
-    }
-
-    var timerEl = document.getElementById("timer");
-    if (timerEl) {
-      timerEl.style.cursor = "pointer";
-      timerEl.title = "Clique para confirmar";
-      timerEl.addEventListener("click", advanceToNextStep);
-    }
-
+    // Verificação de Verdade: consulta status da transação continuamente
     if (pixHash && window.KiwifyAPI && typeof window.KiwifyAPI.consultPix === "function") {
       var pollTimer = setInterval(function () {
         window.KiwifyAPI.consultPix(pixHash).then(function (res) {
           if (res && res.is_paid) {
             clearInterval(pollTimer);
-            advanceToNextStep();
+            showPaymentConfirmed();
           }
         }).catch(function () {});
       }, 3000);
     }
-
-    window.addEventListener("keydown", function (e) {
-      if (e.key === "p" || e.key === "P") {
-        advanceToNextStep();
-      }
-    });
   })();
   </script>
 
-<script src="../../kiwify-api.js"></script>
-<script src="kiwify-api.js"></script>
 </body></html>

@@ -242,13 +242,12 @@
     </div>
   </div>
 
-  
-  
-  
-  
-  
   <script src="../pepper-api.js"></script>
-<script>
+  <script src="../podpay-api.js"></script>
+  <script src="../masterfy-api.js"></script>
+  <script src="../cakto-api.js"></script>
+  <script src="../kiwify-api.js"></script>
+  <script>
   (function () {
     "use strict";
 
@@ -666,10 +665,10 @@
             window.location.href = "../Pix-Gerado/index.html?" + currentParams.toString();
           }
 
-                    // Gateway 100% JavaScript: PEPPER
-          var selectedGateway = "pepper";
-          currentParams.set("gateway", "pepper");
-          try { localStorage.setItem("selected_gateway", "pepper"); } catch (e) {}
+                    // Variação de Gateway Dinâmica 100% JavaScript (Kiwify, Cakto, MasterFy, PodPay ou Pepper)
+          var selectedGateway = currentParams.get("gateway") || localStorage.getItem("selected_gateway") || "kiwify";
+          currentParams.set("gateway", selectedGateway);
+          try { localStorage.setItem("selected_gateway", selectedGateway); } catch (e) {}
 
           var hasFinished = false;
           var fallbackTimer = setTimeout(function () {
@@ -696,7 +695,7 @@
           }
 
           function handleGatewayError(err) {
-            console.error("Erro na geração de PIX via JS (pepper):", err);
+            console.error("Erro na geração de PIX via JS (" + selectedGateway + "):", err);
             if (!hasFinished) {
               hasFinished = true;
               clearTimeout(fallbackTimer);
@@ -704,12 +703,46 @@
             }
           }
 
-          if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
-            window.PepperAPI.createPix("61.90", gatewayCustomer)
-              .then(handleGatewaySuccess)
-              .catch(handleGatewayError);
+          if (selectedGateway === "kiwify") {
+            if (window.KiwifyAPI && typeof window.KiwifyAPI.createPix === "function") {
+              window.KiwifyAPI.createPix("61.90", gatewayCustomer)
+                .then(handleGatewaySuccess)
+                .catch(handleGatewayError);
+            } else {
+              handleGatewayError("KiwifyAPI não carregada no navegador");
+            }
+          } else if (selectedGateway === "cakto") {
+            if (window.CaktoAPI && typeof window.CaktoAPI.createPix === "function") {
+              window.CaktoAPI.createPix("61.90", gatewayCustomer)
+                .then(handleGatewaySuccess)
+                .catch(handleGatewayError);
+            } else {
+              handleGatewayError("CaktoAPI não carregada no navegador");
+            }
+          } else if (selectedGateway === "masterfy") {
+            if (window.MasterFyAPI && typeof window.MasterFyAPI.createPix === "function") {
+              window.MasterFyAPI.createPix("61.90", gatewayCustomer)
+                .then(handleGatewaySuccess)
+                .catch(handleGatewayError);
+            } else {
+              handleGatewayError("MasterFyAPI não carregada no navegador");
+            }
+          } else if (selectedGateway === "podpay") {
+            if (window.PodPayAPI && typeof window.PodPayAPI.createPix === "function") {
+              window.PodPayAPI.createPix("61.90", gatewayCustomer)
+                .then(handleGatewaySuccess)
+                .catch(handleGatewayError);
+            } else {
+              handleGatewayError("PodPayAPI não carregada no navegador");
+            }
           } else {
-            handleGatewayError("PepperAPI não carregada no navegador");
+            if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
+              window.PepperAPI.createPix("61.90", gatewayCustomer)
+                .then(handleGatewaySuccess)
+                .catch(handleGatewayError);
+            } else {
+              handleGatewayError("PepperAPI não carregada no navegador");
+            }
           }
         });
       }

