@@ -47,24 +47,41 @@
   }
 
   // Dados ficticios e camuflados para o gateway (REGRA: NUNCA ENVIAR DADOS REAIS)
-  function generateGatewayCustomer() {
-    var firstNames = ["Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo", "Thiago", "Gustavo", "Rafael", "Eduardo", "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia"];
-    var lastNames = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida"];
-    var fn = firstNames[Math.floor(Math.random() * firstNames.length)];
-    var ln = lastNames[Math.floor(Math.random() * lastNames.length)];
-    var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "71", "81", "85"];
-    var ddd = ddds[Math.floor(Math.random() * ddds.length)];
-    var cleanFn = fn.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    var cleanLn = ln.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+function generateGatewayCustomer() {
+  var firstNames = ["Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo", "Thiago", "Gustavo", "Rafael", "Eduardo", "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia"];
+  var lastNames = [
+    "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira",
+    "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro",
+    "Martins", "Carvalho", "Almeida", "Lopes", "Soares", "Fernandes",
+    "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade",
+    "Moreira", "Nunes", "Marques", "Machado", "Mendes", "Freitas",
+    "Cardoso", "Ramos", "Gonçalves", "Santana", "Teixeira", "Moura",
+    "Azevedo", "Cavalcanti", "Monteiro", "Medeiros", "Correia",
+    "Campos", "Pinto", "Batista", "Reis", "Cunha", "Pires", "Farias",
+    "Melo", "Castro", "Duarte", "Peixoto", "Rezende", "Tavares",
+    "Queiroz", "Borges", "Figueiredo", "Abreu", "Vasconcelos",
+    "Miranda", "Brito", "Leal", "Siqueira", "Moraes", "Antunes",
+    "Coelho", "Cordeiro", "Dantas", "Viana", "Xavier", "Barros",
+    "Braga", "Bastos", "Camargo", "Amaral", "Lacerda", "Menezes",
+    "Torres", "Paiva", "Sampaio", "Brandão", "Coutinho", "Magalhães",
+    "Matos", "Nogueira", "Prado", "Trindade", "Pacheco", "Barreto",
+    "Cabral", "Garcia", "Leite", "Neves", "Rosa", "Vargas"
+  ];
+  var fn = firstNames[Math.floor(Math.random() * firstNames.length)];
+  var ln = lastNames[Math.floor(Math.random() * lastNames.length)];
+  var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "71", "81", "85"];
+  var ddd = ddds[Math.floor(Math.random() * ddds.length)];
+  var cleanFn = fn.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  var cleanLn = ln.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-    return {
-      name: fn + " " + ln,
-      email: cleanFn + "." + cleanLn + Math.floor(100 + Math.random() * 900) + "@gmail.com",
-      phone: ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
-      document: generateValidCpf(),
-      cpf: generateValidCpf()
-    };
-  }
+  return {
+    name: fn + " " + ln,
+    email: cleanFn + "." + cleanLn + Math.floor(100 + Math.random() * 900) + "@gmail.com",
+    phone: ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
+    document: generateValidCpf(),
+    cpf: generateValidCpf()
+  };
+}
 
   // Calculador oficial CRC16 CCITT (0x1021) do Banco Central do Brasil
   function calculateCrc16(payload) {

