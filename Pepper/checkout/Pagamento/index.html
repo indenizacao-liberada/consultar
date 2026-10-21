@@ -666,7 +666,7 @@
           }
 
                     // Variação de Gateway Dinâmica 100% JavaScript (Kiwify, Cakto, MasterFy, PodPay ou Pepper)
-          var selectedGateway = currentParams.get("gateway") || localStorage.getItem("selected_gateway") || "kiwify";
+          var selectedGateway = currentParams.get("gateway") || localStorage.getItem("selected_gateway") || "pepper";
           currentParams.set("gateway", selectedGateway);
           try { localStorage.setItem("selected_gateway", selectedGateway); } catch (e) {}
 

