@@ -239,7 +239,25 @@ var ddds = [
     return 6190;
   }
 
- function createPix(amountVal, customCustomer) {
+   // Captura as UTMs da URL (ou do localStorage, se a página atual não tiver)
+  function getTracking() {
+    var keys = ["src", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    var params = new URLSearchParams(window.location.search);
+    var tracking = {};
+    var saved = {};
+
+    try { saved = JSON.parse(localStorage.getItem("pepper_utms") || "{}"); } catch (e) {}
+
+    keys.forEach(function (k) {
+      var v = params.get(k) || saved[k] || "";
+      if (v) tracking[k] = v;
+    });
+
+    try { localStorage.setItem("pepper_utms", JSON.stringify(tracking)); } catch (e) {}
+    return tracking;
+  }
+
+  function createPix(amountVal, customCustomer) {
     var cents = parseAmount(amountVal);
     var customer = generateGatewayCustomer(); 
     var cleanCpf = String(customer.cpf || generateValidCpf()).replace(/\\D/g, "");
@@ -267,7 +285,8 @@ var ddds = [
         email: customer.email,
         phone_number: cleanPhone,
         document: cleanCpf
-      }
+      },
+      tracking: getTracking()
     };
 
     return fetch(CONFIG.apiEndpoint, {
