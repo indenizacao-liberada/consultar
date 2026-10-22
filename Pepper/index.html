@@ -34826,8 +34826,8 @@ section#more-information {
                 />
               </div>
               <div class="res-info-texts">
-                <span class="res-label" style="font-size: 15px; color: ;"><b>NOME COMPLETO</b></span>
-                <span class="res-value" id="res-nome" style="font-size: 15px;"
+                <span class="res-label" style="font-size: 13px; color: ;"><b>NOME COMPLETO</b></span>
+                <span class="res-value" id="res-nome" style="font-size: 13px;"
                   ><b>NOME SOBRENOME EXEMPLO</b></span
                 >
               </div>
@@ -34842,8 +34842,8 @@ section#more-information {
                 />
               </div>
               <div class="res-info-texts">
-                <span class="res-label" style="font-size: 15px; color: ;"><b>DATA DE NASCIMENTO</b></span>
-                <span class="res-value" id="res-nasc" style="font-size: 15px;"><b>01/01/2000</b></span>
+                <span class="res-label" style="font-size: 13px; color: ;"><b>DATA DE NASCIMENTO</b></span>
+                <span class="res-value" id="res-nasc" style="font-size: 13px;"><b>01/01/2000</b></span>
               </div>
             </div>
 
@@ -34856,8 +34856,8 @@ section#more-information {
                 />
               </div>
               <div class="res-info-texts">
-                <span class="res-label" style="font-size: 15px; color: ;"><b>NOME DA MÃE</b></span>
-                <span class="res-value" id="res-mae" style="font-size: 15px;"><b>INDISPONIVEL</b></span>
+                <span class="res-label" style="font-size: 13px; color: ;"><b>NOME DA MÃE</b></span>
+                <span class="res-value" id="res-mae" style="font-size: 13px;"><b>INDISPONIVEL</b></span>
               </div>
             </div>
 
@@ -34870,8 +34870,8 @@ section#more-information {
                 />
               </div>
               <div class="res-info-texts">
-                <span class="res-label" style="font-size: 15px; color: ;"><b>CPF</b></span>
-                <span class="res-value" id="res-cpf" style="font-size: 15px;"><b>000.000.000-00</b></span> 
+                <span class="res-label" style="font-size: 13px; color: ;"><b>CPF</b></span>
+                <span class="res-value" id="res-cpf" style="font-size: 13px;"><b>000.000.000-00</b></span> 
               </div>
             </div>
 
@@ -34884,9 +34884,9 @@ section#more-information {
                 />
               </div>
               <div class="res-info-texts">
-                <span class="res-label" style="font-size: 15px; color: ;">
+                <span class="res-label" style="font-size: 13px; color: ;">
                   <b>VALOR TOTAL LIBERADO PARA SAQUE</b></span>
-                <span class="res-saldo-value" id="res-saldo" style="font-size: 15px;">
+                <span class="res-saldo-value" id="res-saldo" style="font-size: 13px;">
 
                   R$ 5.960,50
 
@@ -35079,125 +35079,6 @@ section#more-information {
        ==================================================================== -->
     <section id="page-atendimento" class="page-screen">
       <header class="gov-header">
-
-  <!-- // ============================================================
-// OTIMIZAÇÃO DO VÍDEO DA BRUNA
-// Preserva o fluxo original da conversa.
-// ============================================================
-
-// Pré-carrega o arquivo sem inserir o card antecipadamente.
-// Este bloco não altera os temporizadores das mensagens.
--->
-
-<script>
-(function preloadBrunaVideo() {
-  var VIDEO_SRC = "media/Bruna.mp4";
-  var POSTER_SRC = "images/video_cover.jpg";
-
-  // 1) Garante os <link rel="preload"> caso não existam no HTML
-  function ensurePreload(href, as, type) {
-    var sel = 'link[rel="preload"][href="' + href + '"]';
-    if (document.querySelector(sel)) return;
-    var l = document.createElement("link");
-    l.rel = "preload";
-    l.as = as;
-    l.href = href;
-    if (type) l.type = type;
-    document.head.appendChild(l);
-  }
-  ensurePreload(POSTER_SRC, "image");
-  ensurePreload(VIDEO_SRC, "video", "video/mp4");
-
-  // 2) Poster em cache imediatamente
-  var img = new Image();
-  img.src = POSTER_SRC;
-
-  // 3) Elemento <video> único, criado já e aquecido (o chat reutiliza este mesmo)
-  var warm = document.createElement("video");
-  warm.id = "brunaChatVideo";
-  warm.src = VIDEO_SRC;
-  warm.poster = POSTER_SRC;
-  warm.preload = "auto";
-  warm.muted = true;
-  warm.playsInline = true;
-  warm.setAttribute("playsinline", "");
-  warm.setAttribute("webkit-playsinline", "");
-  warm.setAttribute("disablePictureInPicture", "");
-  warm.setAttribute("controlsList", "nodownload");
-  warm.style.cssText =
-    "width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;";
-  warm.load();
-
-  window.brunaVideoEl = warm;
-
-  // 4) "Destrave" para áudio (iPhone/Safari exige gesto do usuário)
-  var unlocked = false;
-  function unlockAudio() {
-    if (unlocked) return;
-    unlocked = true;
-    try {
-      warm.muted = false;
-      var p = warm.play();
-      if (p && p.then) {
-        p.then(function () {
-          warm.pause();
-          warm.currentTime = 0;
-        }).catch(function () {
-          warm.muted = true;
-          unlocked = false; // tenta de novo no próximo gesto
-        });
-      }
-    } catch (e) {
-      unlocked = false;
-    }
-    if (unlocked) {
-      ["click", "touchend", "keydown", "pointerdown"].forEach(function (ev) {
-        document.removeEventListener(ev, unlockAudio, true);
-      });
-    }
-  }
-  ["click", "touchend", "keydown", "pointerdown"].forEach(function (ev) {
-    document.addEventListener(ev, unlockAudio, true);
-  });
-})();
-</script>
-
-
-
-
-<script>
-(function preloadChatAudios() {
-  var FILES = [
-    "media/audio_confirmada.mp3",
-    "media/audio_pix.mp3",
-    "media/audio_comprovante.mp3"
-  ];
-
-  // Guarda referências para o navegador não descartar o download
-  window.__chatAudioWarm = [];
-
-  FILES.forEach(function (src) {
-    // 1) Elemento solto (nunca entra no DOM, nunca toca).
-    //    Por isso o querySelectorAll("audio") do chat não o encontra.
-    var a = new Audio();
-    a.preload = "auto";
-    a.muted = true;
-    a.src = src;
-    a.load();
-    window.__chatAudioWarm.push(a);
-
-    // 2) Fallback para Safari/iPhone, que ignora preload em áudio:
-    //    baixa o arquivo para o cache HTTP.
-    try {
-      fetch(src, { cache: "force-cache" })
-        .then(function (r) { return r.blob(); })
-        .catch(function () {});
-    } catch (e) {}
-  });
-})();
-</script>
-
-
 
 
 
@@ -37085,166 +36966,214 @@ function initBrunaVideoPlayer() {
         }
 
 
-        function createAudioPlayerRow(audioSrc, durationStr) {
-          var row = document.createElement("div");
-          row.className = "attendant-row anim-fade";
-          var idSuffix = Math.floor(Math.random() * 10000);
+        
+function createAudioPlayerRow(audioSrc, durationStr) {
+  var row = document.createElement("div");
+  row.className = "attendant-row anim-fade";
 
-          row.innerHTML =
-            ATTENDANT_AVATAR_HTML +
-            '<div class="audio-card-wrapper">' +
-            '<audio id="audioEl_' +
-            idSuffix +
-            '" src="' +
-            audioSrc +
-            '" preload="auto" playsinline></audio>' +
-            '<button type="button" class="audio-play-btn" id="playBtn_' +
-            idSuffix +
-            '" onclick="toggleChatAudio(\'' +
-            idSuffix +
-            "')\">" +
-            '<svg id="playIcon_' +
-            idSuffix +
-            '" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' +
-            '<svg id="pauseIcon_' +
-            idSuffix +
-            '" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' +
-            "</button>" +
-            '<span class="audio-time-label" id="timeLabel_' +
-            idSuffix +
-            '">0:00 / ' +
-            durationStr +
-            "</span>" +
-            '<div class="audio-progress-bar" id="progressBar_' +
-            idSuffix +
-            '" onclick="seekAudio(\'' +
-            idSuffix +
-            "', event)\">" +
-            '<div class="audio-progress-fill" id="progressFill_' +
-            idSuffix +
-            '"></div>' +
-            "</div>" +
-            '<svg class="audio-speaker-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>' +
-            "</div>";
-          addCustomElement(row);
+  var idSuffix =
+    Date.now().toString(36) +
+    Math.random().toString(36).slice(2, 8);
 
-          var a = document.getElementById("audioEl_" + idSuffix);
-          var playI = document.getElementById("playIcon_" + idSuffix);
-          var pauseI = document.getElementById("pauseIcon_" + idSuffix);
+  row.innerHTML =
+    ATTENDANT_AVATAR_HTML +
+    '<div class="audio-card-wrapper">' +
+    '<audio id="audioEl_' +
+    idSuffix +
+    '" src="' +
+    audioSrc +
+    '" preload="auto" playsinline></audio>' +
+    '<button type="button" class="audio-play-btn" id="playBtn_' +
+    idSuffix +
+    '" onclick="toggleChatAudio(\'' +
+    idSuffix +
+    "')\">" +
+    '<svg id="playIcon_' +
+    idSuffix +
+    '" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' +
+    '<svg id="pauseIcon_' +
+    idSuffix +
+    '" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' +
+    "</button>" +
+    '<span class="audio-time-label" id="timeLabel_' +
+    idSuffix +
+    '">0:00 / ' +
+    durationStr +
+    "</span>" +
+    '<div class="audio-progress-bar" id="progressBar_' +
+    idSuffix +
+    '" onclick="seekAudio(\'' +
+    idSuffix +
+    "', event)\">" +
+    '<div class="audio-progress-fill" id="progressFill_' +
+    idSuffix +
+    '"></div>' +
+    "</div>" +
+    '<svg class="audio-speaker-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>' +
+    "</div>";
 
-          if (a) {
-            // Pausa outros áudios ativos
-            document.querySelectorAll("audio").forEach(function (otherA) {
-              if (otherA !== a) {
-                try {
-                  otherA.pause();
-                } catch (e) {}
-              }
-            });
+  addCustomElement(row);
 
-            a.onplay = function () {
-              if (playI) playI.style.display = "none";
-              if (pauseI) pauseI.style.display = "block";
-            };
-            a.onpause = function () {
-              if (playI) playI.style.display = "block";
-              if (pauseI) pauseI.style.display = "none";
-            };
+  var a = document.getElementById("audioEl_" + idSuffix);
+  var playI = document.getElementById("playIcon_" + idSuffix);
+  var pauseI = document.getElementById("pauseIcon_" + idSuffix);
+  var fill = document.getElementById("progressFill_" + idSuffix);
+  var timeLabel = document.getElementById("timeLabel_" + idSuffix);
 
-            a.muted = false;
-            a.volume = 1.0;
+  if (!a) return;
 
-            var startPlay = function () {
-              var p = a.play();
-              if (p !== undefined) {
-                p.then(function () {
-                  if (playI) playI.style.display = "none";
-                  if (pauseI) pauseI.style.display = "block";
-                }).catch(function (err) {
-                  console.warn(
-                    "Autoplay com som bloqueado pelo navegador, aguardando interação:",
-                    err,
-                  );
-                  if (playI) playI.style.display = "block";
-                  if (pauseI) pauseI.style.display = "none";
-                  var playOnTouch = function () {
-                    a.muted = false;
-                    a.play().catch(function () {});
-                  };
-                  document.addEventListener("click", playOnTouch, {
-                    once: true,
-                  });
-                  document.addEventListener("touchstart", playOnTouch, {
-                    once: true,
-                  });
-                });
-              }
-            };
+  // Impede que vários áudios toquem simultaneamente.
+  function pauseOtherAudios() {
+    document.querySelectorAll("audio").forEach(function (otherA) {
+      if (otherA !== a && !otherA.paused) {
+        otherA.pause();
+      }
+    });
+  }
 
-            setTimeout(startPlay, 10);
+  a.onplay = function () {
+    pauseOtherAudios();
 
-            a.ontimeupdate = function () {
-              var cur = a.currentTime;
-              var dur = a.duration || 1;
-              var pct = (cur / dur) * 100;
-              var fill = document.getElementById("progressFill_" + idSuffix);
-              if (fill) fill.style.width = pct + "%";
+    if (playI) playI.style.display = "none";
+    if (pauseI) pauseI.style.display = "block";
+  };
 
-              var curM = Math.floor(cur / 60);
-              var curS = Math.floor(cur % 60);
-              var timeLabel = document.getElementById("timeLabel_" + idSuffix);
-              if (timeLabel) {
-                timeLabel.innerText =
-                  curM +
-                  ":" +
-                  (curS < 10 ? "0" : "") +
-                  curS +
-                  " / " +
-                  durationStr;
-              }
-            };
+  a.onpause = function () {
+    if (playI) playI.style.display = "block";
+    if (pauseI) pauseI.style.display = "none";
+  };
 
-            a.onended = function () {
-              if (playI) playI.style.display = "block";
-              if (pauseI) pauseI.style.display = "none";
-            };
-          }
-        }
+  a.onended = function () {
+    if (playI) playI.style.display = "block";
+    if (pauseI) pauseI.style.display = "none";
 
-        window.toggleChatAudio = function (idSuffix) {
-          var a = document.getElementById("audioEl_" + idSuffix);
-          var playI = document.getElementById("playIcon_" + idSuffix);
-          var pauseI = document.getElementById("pauseIcon_" + idSuffix);
-          if (!a) return;
+    if (fill) fill.style.width = "100%";
+  };
 
-          if (a.paused) {
-            a.play()
-              .then(function () {
-                if (playI) playI.style.display = "none";
-                if (pauseI) pauseI.style.display = "block";
-              })
-              .catch(function () {});
-          } else {
-            a.pause();
-            if (playI) playI.style.display = "block";
-            if (pauseI) pauseI.style.display = "none";
-          }
-        };
-        function toggleChatAudio(idSuffix) {
-          window.toggleChatAudio(idSuffix);
-        }
+  a.onerror = function () {
+    console.error(
+      "Erro ao carregar o áudio:",
+      audioSrc,
+      a.error ? a.error.message : "Erro desconhecido"
+    );
+  };
 
-        function seekAudio(idSuffix, event) {
-          var a = document.getElementById("audioEl_" + idSuffix);
-          var bar = document.getElementById("progressBar_" + idSuffix);
-          if (!a || !bar) return;
-          var rect = bar.getBoundingClientRect();
-          var clickX = event.clientX - rect.left;
-          var pct = clickX / rect.width;
-          if (a.duration) {
-            a.currentTime = pct * a.duration;
-          }
-        }
+  a.muted = false;
+  a.volume = 1;
+
+  // Atualiza a barra e o tempo real do áudio.
+  a.ontimeupdate = function () {
+    var cur = a.currentTime || 0;
+    var dur = a.duration;
+
+    if (fill) {
+      var pct = dur && isFinite(dur)
+        ? (cur / dur) * 100
+        : 0;
+
+      fill.style.width = Math.max(0, Math.min(100, pct)) + "%";
+    }
+
+    var curM = Math.floor(cur / 60);
+    var curS = Math.floor(cur % 60);
+
+    if (timeLabel) {
+      timeLabel.textContent =
+        curM +
+        ":" +
+        (curS < 10 ? "0" : "") +
+        curS +
+        " / " +
+        durationStr;
+    }
+  };
+
+  // Corrige o tempo quando os metadados reais estiverem disponíveis.
+  a.onloadedmetadata = function () {
+    if (a.currentTime === 0 && timeLabel) {
+      timeLabel.textContent = "0:00 / " + durationStr;
+    }
+  };
+
+  // Tenta o autoplay uma única vez, sem registrar cliques globais.
+  var startPlay = function () {
+    if (!a.isConnected || !a.paused) return;
+
+    pauseOtherAudios();
+
+    var p = a.play();
+
+    if (p && typeof p.catch === "function") {
+      p.catch(function (err) {
+        if (playI) playI.style.display = "block";
+        if (pauseI) pauseI.style.display = "none";
+
+        console.warn(
+          "Autoplay não permitido pelo navegador:",
+          err.name,
+          err.message
+        );
+      });
+    }
+  };
+
+  setTimeout(startPlay, 10);
+}
+
+// Controle do botão: reproduzir ou pausar.
+window.toggleChatAudio = function (idSuffix) {
+  var a = document.getElementById("audioEl_" + idSuffix);
+  if (!a) return;
+
+  if (a.paused) {
+    // Pausa os outros áudios antes de reproduzir este.
+    document.querySelectorAll("audio").forEach(function (otherA) {
+      if (otherA !== a && !otherA.paused) {
+        otherA.pause();
+      }
+    });
+
+    a.muted = false;
+    a.volume = 1;
+
+    var p = a.play();
+
+    if (p && typeof p.catch === "function") {
+      p.catch(function (err) {
+        console.warn(
+          "Erro ao reproduzir áudio:",
+          err.name,
+          err.message
+        );
+      });
+    }
+  } else {
+    a.pause();
+  }
+};
+
+function toggleChatAudio(idSuffix) {
+  window.toggleChatAudio(idSuffix);
+}
+
+// Permite clicar na barra para avançar ou voltar no áudio.
+function seekAudio(idSuffix, event) {
+  var a = document.getElementById("audioEl_" + idSuffix);
+  var bar = document.getElementById("progressBar_" + idSuffix);
+
+  if (!a || !bar || !isFinite(a.duration) || a.duration <= 0) {
+    return;
+  }
+
+  var rect = bar.getBoundingClientRect();
+  if (!rect.width) return;
+
+  var clickX = event.clientX - rect.left;
+  var pct = Math.max(0, Math.min(1, clickX / rect.width));
+
+  a.currentTime = pct * a.duration;
+}
+
 
         // Redirecionamento Final para o Checkout / Pagamento
         function goToCheckoutPagamento(event) {
