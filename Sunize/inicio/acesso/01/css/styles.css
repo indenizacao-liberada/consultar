@@ -1,0 +1,339 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. Barra Superior Branca com Logo Gov.br (sem foto no canto direito) */
+.gov-top-bar {
+  width: 100%;
+  height: 52px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.gov-top-bar .logo-gov {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* 2. Barra Azul Escura com Aba "Avisos" e leve divisória */
+.gov-blue-bar {
+  width: 100%;
+  height: 48px;
+  background-color: #003366;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tab-avisos-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.tab-avisos {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* 4. Seção Principal com Fundo Azul Escuro - Ocupa todo o espaço e centraliza perfeitamente */
+.acesso-main-section {
+  flex: 1;
+  width: 100%;
+  background-color: #003366;
+  padding: 32px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 5. Card Branco Centralizado */
+.container {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 28px 20px;
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 12px auto;
+  max-width: 140px;
+  height: auto;
+}
+
+.amount {
+  text-align: center;
+  margin: 12px 0 20px 0;
+}
+
+.amount-label {
+  font-size: 17px;
+  color: #111827;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.amount-value {
+  color: #22c55e;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.tax-box {
+  border: 2px solid #3b82f6;
+  border-radius: 30px;
+  padding: 14px 16px;
+  text-align: center;
+  margin: 18px 0;
+}
+
+.tax-box-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.tax-box-value {
+  font-weight: 700;
+  font-size: 15px;
+  color: #111827;
+}
+
+.button {
+  background-color: #3b50ff;
+  color: #ffffff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 30px;
+  width: 100%;
+  font-size: 15.5px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 18px 0;
+  transition: background-color 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button:hover {
+  background-color: #2e41df;
+}
+
+.info-box {
+  background-color: #f3f4f6;
+  padding: 18px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #222222;
+  text-align: center;
+}
+
+/* 6. Rodapé Oficial no Fundo da Tela */
+.gov-footer-logos {
+  background-color: #ffffff;
+  padding: 20px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+.gov-footer-logos img {
+  width: 240px;
+  max-width: 80%;
+  height: auto;
+}
+
+#loadingMessage {
+  display: none;
+  text-align: center;
+  margin: 15px 0;
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+/* Estilos Oficiais do PIX Pepper */
+#pixCodeContainer {
+  display: none;
+  width: 100%;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.pix-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.pix-pulse-dot {
+  width: 9px;
+  height: 9px;
+  background-color: #2563eb;
+  border-radius: 50%;
+  animation: pixPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes pixPulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.pix-timer-box {
+  font-size: 13px;
+  color: #4b5563;
+  margin-bottom: 14px;
+}
+
+.pix-timer-box strong {
+  color: #dc2626;
+  font-size: 15px;
+  margin-left: 4px;
+}
+
+.pix-qrcode-wrapper {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  display: inline-block;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.pix-qrcode-img {
+  width: 200px;
+  height: 200px;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.pix-copy-section {
+  text-align: left;
+  margin-top: 8px;
+}
+
+.pix-copy-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.pix-input-group {
+  margin-bottom: 10px;
+}
+
+.pix-input-group input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  color: #374151;
+  text-align: center;
+  outline: none;
+  font-family: monospace;
+}
+
+.pix-input-group input:focus {
+  border-color: #3b50ff;
+  background-color: #ffffff;
+}
+
+.copy-btn {
+  margin: 10px 0 16px 0 !important;
+  background-color: #22c55e !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-btn:hover {
+  background-color: #16a34a !important;
+}
+
+.pix-success-box {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.pix-success-icon {
+  width: 44px;
+  height: 44px;
+  background: #22c55e;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px auto;
+}
+
+.pix-success-title {
+  color: #065f46;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pix-success-desc {
+  color: #047857;
+  font-size: 13px;
+}
