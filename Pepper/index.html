@@ -34401,17 +34401,6 @@ section#more-information {
         </div>
       </div>
 
-      <script>
-        function redirect(event) {
-          if (event) event.preventDefault();
-          if (window.AppFunil && window.AppFunil.goTo) {
-            window.AppFunil.goTo("login");
-          } else {
-            var currentUrlParams = window.location.search;
-            window.location.href = "../login/index.html" + currentUrlParams;
-          }
-        }
-      </script>
     </section>
 
     <!-- ====================================================================
