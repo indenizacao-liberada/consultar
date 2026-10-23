@@ -26,7 +26,54 @@
 
 <!-- UTM FACEBOOK Code -->
 
+<script>
+(function () {
+  "use strict";
 
+  var PIXEL_ID = "1117296950800245";
+  var EVENT_KEY = "pepper_ic_sent";
+
+  // Evita disparos repetidos nesta aba.
+  try {
+    if (sessionStorage.getItem(EVENT_KEY)) return;
+  } catch (e) {}
+
+  function sendInitiateCheckout() {
+    if (typeof window.fbq !== "function") return false;
+
+    window.fbq(
+      "trackSingle",
+      PIXEL_ID,
+      "InitiateCheckout",
+      {
+        content_name: "Confirmar Pagamento",
+        content_type: "product",
+        currency: "BRL",
+        value: 19.70,
+        num_items: 1
+      }
+    );
+
+    try {
+      sessionStorage.setItem(EVENT_KEY, "1");
+    } catch (e) {}
+
+    return true;
+  }
+
+  // Espera o Pixel estar disponível antes de enviar.
+  if (!sendInitiateCheckout()) {
+    var attempts = 0;
+    var timer = setInterval(function () {
+      attempts++;
+
+      if (sendInitiateCheckout() || attempts >= 20) {
+        clearInterval(timer);
+      }
+    }, 250);
+  }
+})();
+</script>
 
 <script>
 (function () {
