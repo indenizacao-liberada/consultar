@@ -882,113 +882,300 @@ var ddds = [
 
   var fullName = firstName + " " + lastName1 + " " + lastName2;
 
-  // Gera e-mail usando padrões inspirados no código-base, sempre ligado
-  // ao nome completo gerado (inclusive quando o primeiro nome é composto).
+// ─── GERAÇÃO DE E-MAIL ADAPTADA AO SEU JS ────────────────────────────────
+// Usa as variáveis já existentes no seu código:
+// firstName, lastName1, lastName2, fullName, ddds e generateValidCpf().
+// Gera nomes variados, números opcionais e no máximo um ponto antes do @.
+
+function generateEmailFromName() {
   function normalizeEmailPart(value) {
-    return value
+    return String(value || "")
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9]/g, "");
   }
 
-  function randInt(min, max) {
+  function emailRandInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  function generateEmailFromName() {
-    var givenParts = firstName.split(/\s+/).map(normalizeEmailPart).filter(Boolean);
-    var first = givenParts[0] || normalizeEmailPart(firstName);
-    var givenExtra = givenParts.slice(1).join("");
-    var surname1 = normalizeEmailPart(lastName1);
-    var surname2 = normalizeEmailPart(lastName2);
-    var number = String(randInt(10, 9999));
-    var r = Math.random();
-    var local;
-
-    // Distribuição de formatos inspirada nos pesos do código-base.
-    // Todos os formatos usam partes reais do nome gerado.
-    if (r < 0.151) {
-      local = first + surname1 + number;
-    } else if (r < 0.246) {
-      local = first + (givenExtra || surname2) + number;
-    } else if (r < 0.346) {
-      var patterns = [
-        function () { return first + surname1 + surname2 + number; },
-        function () { return first + (givenExtra || surname1) + surname2 + number; },
-        function () { return first + (givenExtra || surname1) + number; },
-        function () { return first + surname1 + number; }
-      ];
-      local = pick(patterns)();
-    } else if (r < 0.442) {
-      var relatedPatterns = [
-        function () { return surname1 + first + number; },
-        function () { return first + surname2 + number; },
-        function () { return first + (givenExtra || "") + surname1.slice(0, randInt(3, Math.min(5, surname1.length))) + number; },
-        function () { return first + surname1 + surname2.slice(0, randInt(3, Math.min(5, surname2.length))) + number; }
-      ];
-      local = pick(relatedPatterns)();
-    } else if (r < 0.537) {
-      var truncatedFirst = first.slice(0, randInt(3, Math.min(6, first.length)));
-      local = truncatedFirst + surname1 + number;
-    } else if (r < 0.592) {
-      local = first + surname2 + number;
-    } else if (r < 0.647) {
-      local = surname1.slice(0, randInt(5, Math.max(5, surname1.length))) + first + number;
-    } else if (r < 0.685) {
-      local = surname1 + first + number;
-    } else if (r < 0.716) {
-      var allParts = givenParts.concat([surname1, surname2]).filter(Boolean);
-      local = allParts.slice(0, randInt(2, Math.min(4, allParts.length)))
-        .map(function (part) { return part[0]; }).join("") + String(randInt(100, 9999999));
-    } else if (r < 0.731) {
-      local = surname2 + first + number;
-    } else if (r < 0.745) {
-      local = first + number;
-    } else if (r < 0.758) {
-      local = first + "." + surname1 + number;
-    } else if (r < 0.768) {
-      local = first + String(randInt(100000, 99999999));
-    } else if (r < 0.775) {
-      local = first + "_" + surname1 + number;
-    } else {
-      local = surname1 + "." + first + number;
-    }
-
-    if (!local || local.length < 3) {
-      local = first + surname1 + String(randInt(1, 999));
-    }
-
-    // Domínios variados, com Gmail, Outlook e Hotmail mais frequentes.
-    // Pesos: Gmail 40%, Outlook 25%, Hotmail 20%, Yahoo 8%, iCloud 7%.
-    var domainRoll = Math.random();
-    var domain;
-    if (domainRoll < 0.40) {
-      domain = "gmail.com";
-    } else if (domainRoll < 0.65) {
-      domain = "outlook.com";
-    } else if (domainRoll < 0.85) {
-      domain = "hotmail.com";
-    } else if (domainRoll < 0.93) {
-      domain = Math.random() < 0.8 ? "yahoo.com" : "yahoo.com.br";
-    } else {
-      domain = "icloud.com";
-    }
-
-    return local + "@" + domain;
+  function pickRandom(items) {
+    return items[Math.floor(Math.random() * items.length)];
   }
 
-  var email = generateEmailFromName();
-  var ddd = pick(ddds);
+  var stopWords = ["de", "da", "do", "dos", "das", "e", "di", "d", "a", "o"];
 
-  return {
-    name: fullName,
-    email: email,
-    phone: ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
-    document: generateValidCpf(),
-    cpf: generateValidCpf()
+  function splitNameParts(value) {
+    return String(value || "")
+      .trim()
+      .split(/\s+/)
+      .map(normalizeEmailPart)
+      .filter(function (part) {
+        return part.length >= 2 && stopWords.indexOf(part) === -1;
+      });
+  }
+
+  var givenParts = splitNameParts(firstName);
+  var surname1Parts = splitNameParts(lastName1);
+  var surname2Parts = splitNameParts(lastName2);
+  var nameParts = givenParts.concat(surname1Parts, surname2Parts);
+
+  if (!nameParts.length) {
+    nameParts = splitNameParts(fullName);
+  }
+  if (!nameParts.length) {
+    nameParts = ["user"];
+  }
+  if (!givenParts.length) {
+    givenParts = [nameParts[0]];
+  }
+
+  var first = givenParts[0] || nameParts[0] || "user";
+  var last = surname2Parts[surname2Parts.length - 1] ||
+    surname1Parts[surname1Parts.length - 1] ||
+    nameParts[nameParts.length - 1] || first;
+  var surname1 = surname1Parts.join("") || nameParts[1] || last;
+  var surname2 = surname2Parts.join("") || nameParts[2] || surname1 || last;
+  var middle = givenParts[1] || nameParts[1] || surname1 || surname2 || last;
+  var secondLast = nameParts.length > 1 ? nameParts[nameParts.length - 2] : first;
+  var otherParts = nameParts.slice(1);
+  var initials = nameParts.map(function (part) {
+    return part.charAt(0);
+  }).join("") || first.charAt(0);
+  var fullNameCompact = normalizeEmailPart(fullName) || nameParts.join("");
+  var fullNameDotted = nameParts.length > 1
+    ? first + "." + nameParts.slice(1).join("")
+    : first;
+
+  // Aproximadamente 52% sem números e 48% com algum sufixo numérico.
+  function getOptionalNumber() {
+    var r = Math.random();
+    if (r < 0.52) return "";
+    if (r < 0.78) return String(emailRandInt(1, 99));
+    if (r < 0.91) return String(emailRandInt(100, 999));
+    if (r < 0.97) return String(emailRandInt(1000, 9999));
+    if (r < 0.99) return String(emailRandInt(1985, 2006));
+
+    var day = String(emailRandInt(1, 28)).padStart(2, "0");
+    var month = String(emailRandInt(1, 12)).padStart(2, "0");
+    return Math.random() < 0.5
+      ? day + month
+      : day + month + String(emailRandInt(85, 99));
+  }
+
+  // Domínios: mantém a distribuição definida no seu JS.
+  // Gmail 40%, Outlook 25%, Hotmail 20%, Yahoo 8%, iCloud 7%.
+  function getEmailDomain() {
+    var r = Math.random();
+    if (r < 0.40) return "gmail.com";
+    if (r < 0.65) return "outlook.com";
+    if (r < 0.85) return "hotmail.com";
+    if (r < 0.93) return Math.random() < 0.8 ? "yahoo.com" : "yahoo.com.br";
+    return "icloud.com";
+  }
+
+  var aliases = {
+    jessica: ["jess", "jeh", "jessi"],
+    beatriz: ["bia", "bea", "biih", "bi"],
+    gabriela: ["gabi", "gah", "gabii"],
+    isabela: ["isa", "bela", "belly", "bellinha"],
+    mariana: ["mari", "mary", "mah", "marih"],
+    heloisa: ["helo", "heloh", "helzinha"],
+    julia: ["juju", "juh", "juliinha"],
+    vitoria: ["vivi", "vitih", "vito", "vi"],
+    larissa: ["lari", "larih", "lala"],
+    rafaela: ["rafa", "rafah", "fe", "rafinha"],
+    leticia: ["lety", "leh", "lele"],
+    luiza: ["luih", "luuuh", "luizinha"],
+    fernanda: ["fer", "nanda", "nandinha"],
+    bianca: ["bi", "bih", "bii"],
+    bruna: ["bru", "bruuh", "brunah", "bruninha"],
+    amanda: ["manda", "amandinha", "mandy"],
+    camila: ["cah", "camih", "caminha"],
+    natalia: ["naty", "natih", "nats"],
+    priscila: ["pri", "prisci", "pris"],
+    giovana: ["gi", "gio", "geo"],
+    sabrina: ["sah", "sabi", "sabih"],
+    patricia: ["paty", "pah", "pat"],
+    gabriel: ["gab", "gabi", "gabruh"],
+    lucas: ["lu", "luca", "lukinha"],
+    matheus: ["math", "mths", "matheuzin", "matheuzinho"],
+    guilherme: ["gui", "guih", "guizinho"],
+    pedro: ["pe", "peh", "pedrinho"],
+    thiago: ["thi", "thiagao", "thii"],
+    rafael: ["rafa", "raf", "rafinha"],
+    joao: ["jo", "jao", "joaozin", "joaozinho"],
+    gustavo: ["gus", "guto", "gustinha"],
+    felipe: ["feh", "fe", "felipinho"],
+    ana: ["aninha", "aninhas", "anny"],
+    debora: ["deh", "debs", "debinha"],
+    eduarda: ["edu", "dudu", "dudinha"],
+    carol: ["carolzinha", "carolh", "carols"],
+    livia: ["liv", "livinha", "livih"],
+    layla: ["lay", "laylay", "laylinha"],
+    yasmim: ["yas", "yasmin", "yasminha"],
+    sofia: ["sofi", "sofinha", "sofiih"],
+    clara: ["clarinha", "clah", "clarih"],
+    alice: ["ali", "alicinha", "alih"],
+    luana: ["lu", "luany", "luana"],
+    sara: ["sarinha", "sarih", "sah"]
   };
+
+  function getNickname(name) {
+    if (aliases[name]) return pickRandom(aliases[name]);
+    var suffixes = ["inha", "inho", "zinha", "zinho", "in", "iss", "ita"];
+    var maxLen = Math.min(name.length, 6);
+    var minLen = Math.min(3, maxLen);
+    var base = name.slice(0, emailRandInt(minLen || 1, maxLen || 1));
+    return base + pickRandom(suffixes);
+  }
+
+  var numberSuffix = getOptionalNumber();
+  var nick = function () { return getNickname(first); };
+  var shortFirstMax = Math.min(6, first.length);
+  var shortFirstMin = Math.min(3, shortFirstMax);
+  var shortFirst = first.slice(0, emailRandInt(shortFirstMin || 1, shortFirstMax || 1));
+
+  // Grupos ponderados: concatenados 30%, ponto 25%, combinações 20%,
+  // iniciais/apelidos 15%, underscore/hífen 10%.
+  var weightedGroups = [
+    {
+      weight: 30,
+      patterns: [
+        function () { return first + last + numberSuffix; },
+        function () { return first + surname1 + numberSuffix; },
+        function () { return first + surname2 + numberSuffix; },
+        function () { return first + otherParts.join("") + numberSuffix; },
+        function () { return first + middle + last + numberSuffix; },
+        function () { return (otherParts[0] || last) + last + numberSuffix; },
+        function () { return first.charAt(0) + otherParts.join("") + numberSuffix; },
+        function () { return secondLast + last + numberSuffix; },
+        function () { return surname1 + first + numberSuffix; },
+        function () { return surname2 + first + numberSuffix; },
+        function () { return last + first + numberSuffix; },
+        function () { return fullNameCompact + numberSuffix; },
+        function () { return middle + secondLast + numberSuffix; },
+        function () { return first + numberSuffix; }
+      ]
+    },
+    {
+      weight: 25,
+      patterns: [
+        function () { return first + "." + last + numberSuffix; },
+        function () { return first + "." + middle + numberSuffix; },
+        function () { return first + "." + middle + last + numberSuffix; },
+        function () { return first + "." + middle.charAt(0) + last + numberSuffix; },
+        function () { return first.charAt(0) + "." + last + numberSuffix; },
+        function () { return (middle.charAt(0) || first.charAt(0)) + "." + last + numberSuffix; },
+        function () { return first.charAt(0) + middle.charAt(0) + "." + last + numberSuffix; },
+        function () { return last + "." + first + numberSuffix; },
+        function () { return middle + "." + last + numberSuffix; },
+        function () { return fullNameDotted + numberSuffix; },
+        function () { return last + "." + middle + numberSuffix; },
+        function () { return first + "." + secondLast + numberSuffix; },
+        function () { return secondLast + last + "." + first + numberSuffix; },
+        function () { return surname1 + "." + first + numberSuffix; }
+      ]
+    },
+    {
+      weight: 20,
+      patterns: [
+        function () { return fullNameCompact + numberSuffix; },
+        function () { return first + otherParts.slice(0, 2).join("") + numberSuffix; },
+        function () { return first + (givenParts[1] || surname1) + last + numberSuffix; },
+        function () { return nameParts.slice(1).join("") + first + numberSuffix; },
+        function () { return first + secondLast + numberSuffix; },
+        function () { return (givenParts[1] || surname1) + secondLast + numberSuffix; },
+        function () { return first + (otherParts[0] || "") + numberSuffix; },
+        function () { return first + last.slice(0, Math.min(4, last.length)) + numberSuffix; }
+      ]
+    },
+    {
+      weight: 15,
+      patterns: [
+        function () { return initials + last + numberSuffix; },
+        function () { return initials + numberSuffix; },
+        function () { return first.charAt(0) + last + numberSuffix; },
+        function () { return nick() + numberSuffix; },
+        function () { return nick() + "." + last + numberSuffix; },
+        function () { return nick() + middle + numberSuffix; },
+        function () { return shortFirst + last + numberSuffix; },
+        function () { return first + "." + initials.slice(1) + numberSuffix; },
+        function () { return initials + secondLast + numberSuffix; }
+      ]
+    },
+    {
+      weight: 10,
+      patterns: [
+        function () { return first + "_" + last + numberSuffix; },
+        function () { return first + "-" + last + numberSuffix; },
+        function () { return last + "_" + first + numberSuffix; },
+        function () { return first + "_" + middle + numberSuffix; },
+        function () { return first + "-" + middle + numberSuffix; },
+        function () { return initials + "_" + last + numberSuffix; },
+        function () { return first + numberSuffix + "_" + last; },
+        function () { return first + "-" + secondLast + numberSuffix; }
+      ]
+    }
+  ];
+
+  var totalWeight = weightedGroups.reduce(function (sum, group) {
+    return sum + group.weight;
+  }, 0);
+  var roll = Math.random() * totalWeight;
+  var chosenGroup = weightedGroups[weightedGroups.length - 1];
+
+  for (var i = 0; i < weightedGroups.length; i++) {
+    roll -= weightedGroups[i].weight;
+    if (roll < 0) {
+      chosenGroup = weightedGroups[i];
+      break;
+    }
+  }
+
+  var emailLocal = pickRandom(chosenGroup.patterns)();
+
+  // Limpa caracteres e separadores duplicados.
+  emailLocal = String(emailLocal || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, "")
+    .replace(/[._-]{2,}/g, function (match) { return match.charAt(0); })
+    .replace(/^[._-]+|[._-]+$/g, "");
+
+  // Regra obrigatória: no máximo um ponto antes do @.
+  var dotIndex = emailLocal.indexOf(".");
+  if (dotIndex !== -1) {
+    emailLocal = emailLocal.slice(0, dotIndex + 1) +
+      emailLocal.slice(dotIndex + 1).replace(/\./g, "");
+  }
+
+  // O identificador local de um e-mail pode ter até 64 caracteres.
+  if (emailLocal.length > 64) {
+    emailLocal = emailLocal.slice(0, 64).replace(/[._-]+$/g, "");
+  }
+  if (emailLocal.length < 3) {
+    emailLocal = (first + String(emailRandInt(10, 999))).slice(0, 64);
+  }
+
+  return emailLocal + "@" + getEmailDomain();
 }
+
+// ─── OBJETO FINAL ─────────────────────────────────────────────────────────
+var email = generateEmailFromName();
+var ddd = Array.isArray(ddds) && ddds.length
+  ? ddds[Math.floor(Math.random() * ddds.length)]
+  : "";
+var generatedCpf = generateValidCpf();
+
+return {
+  name: fullName,
+  email: email,
+  phone: String(ddd) + "9" + String(Math.floor(10000000 + Math.random() * 90000000)),
+  document: generatedCpf,
+  cpf: generatedCpf
+};
+
 
 
 
