@@ -35425,7 +35425,8 @@ v.play().catch(function () {});
             a.preload = "auto";
             a.setAttribute("playsinline", "");
             a.setAttribute("webkit-playsinline", "");
-            a.muted = false;
+            // MUTED durante o pré-carregamento — nunca toca som antes da hora
+            a.muted = true;
             a.volume = 1;
             a.__iosPrimed = false;
             a.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;";
@@ -35464,19 +35465,19 @@ v.play().catch(function () {});
             }
           } catch (e) {}
 
-          // iOS primer: play+pause imediato em cada áudio pré-criado
-          // Isso "desbloqueia" o elemento para chamadas futuras de .play() em contextos assíncronos
+          // iOS primer: play(muted)+pause em cada áudio pré-criado
+          // Desbloqueia o elemento SEM emitir som — o unmute só acontece em createAudioPlayerRow
           __AUDIO_SRCS.forEach(function(src) {
             var a = __preloadedAudios[src];
             if (!a || a.__iosPrimed) return;
             a.__iosPrimed = true;
-            a.muted = false;
-            a.volume = 1;
+            a.muted = true;   // permanece mudo durante o primer
             var pp = a.play();
             if (pp && typeof pp.then === "function") {
               pp.then(function() {
                 a.pause();
                 a.currentTime = 0;
+                // mantém muted=true — só é removido quando createAudioPlayerRow reutiliza o elemento
               }).catch(function() {
                 a.__iosPrimed = false; // retry on next gesture if blocked
               });
