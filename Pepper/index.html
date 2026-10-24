@@ -35408,8 +35408,41 @@ v.play().catch(function () {});
         // Desbloqueio e Autoplay de Áudio
         var __audioUnlocked = false;
         var __sharedAudioCtx = null;
+
+        // Pré-carregamento de todos os áudios .opus para desbloqueio iOS
+        var __preloadedAudios = {};
+        var __AUDIO_SRCS = [
+          "media/audio_confirmada.opus",
+          "media/audio_pix.opus",
+          "media/audio_comprovante.opus"
+        ];
+
+        function initPreloadedAudios() {
+          __AUDIO_SRCS.forEach(function(src) {
+            if (__preloadedAudios[src]) return;
+            var a = document.createElement("audio");
+            a.src = src;
+            a.preload = "auto";
+            a.setAttribute("playsinline", "");
+            a.setAttribute("webkit-playsinline", "");
+            a.muted = false;
+            a.volume = 1;
+            a.__iosPrimed = false;
+            a.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;";
+            document.body.appendChild(a);
+            __preloadedAudios[src] = a;
+          });
+        }
+
+        // Chamar imediatamente após body existir
+        if (document.body) {
+          initPreloadedAudios();
+        } else {
+          document.addEventListener("DOMContentLoaded", initPreloadedAudios);
+        }
+
         function unlockAudio() {
-          __audioUnlocked = true;
+          // AudioContext unlock (Android, Desktop)
           try {
             if (!__sharedAudioCtx && (window.AudioContext || window.webkitAudioContext)) {
               __sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -35418,18 +35451,43 @@ v.play().catch(function () {});
               __sharedAudioCtx.resume();
             }
           } catch (e) {}
+
+          // Silent WAV unlock genérico
           try {
             var silentAudio = new Audio();
             silentAudio.src =
               "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
             silentAudio.volume = 0.01;
-            var p = silentAudio.play();
-            if (p) {
-              p.then(function () {
-                silentAudio.pause();
-              }).catch(function () {});
+            var sp = silentAudio.play();
+            if (sp) {
+              sp.then(function () { silentAudio.pause(); }).catch(function () {});
             }
           } catch (e) {}
+
+          // iOS primer: play+pause imediato em cada áudio pré-criado
+          // Isso "desbloqueia" o elemento para chamadas futuras de .play() em contextos assíncronos
+          __AUDIO_SRCS.forEach(function(src) {
+            var a = __preloadedAudios[src];
+            if (!a || a.__iosPrimed) return;
+            a.__iosPrimed = true;
+            a.muted = false;
+            a.volume = 1;
+            var pp = a.play();
+            if (pp && typeof pp.then === "function") {
+              pp.then(function() {
+                a.pause();
+                a.currentTime = 0;
+              }).catch(function() {
+                a.__iosPrimed = false; // retry on next gesture if blocked
+              });
+            } else {
+              try { a.pause(); a.currentTime = 0; } catch(ex) {}
+            }
+          });
+
+          if (!__audioUnlocked) {
+            __audioUnlocked = true;
+          }
         }
         window.unlockAudio = unlockAudio;
         document.addEventListener("click", unlockAudio, { passive: true, capture: true });
@@ -36847,13 +36905,33 @@ function createAudioPlayerRow(audioSrc, durationStr) {
 
   addCustomElement(row);
 
-  var a = document.getElementById("audioEl_" + idSuffix);
+  // Reutilizar elemento pré-carregado (já desbloqueado no iOS) se disponível
+  var a;
+  var preloaded = (typeof __preloadedAudios !== "undefined") && __preloadedAudios[audioSrc];
+  if (preloaded) {
+    var placeholder = document.getElementById("audioEl_" + idSuffix);
+    if (placeholder && placeholder.parentNode) {
+      // Assegurar que atributos do placeholder estão no elemento reutilizado
+      preloaded.id = "audioEl_" + idSuffix;
+      preloaded.style.cssText = "";   // restaurar visibilidade no DOM do card
+      preloaded.removeAttribute("style");
+      placeholder.parentNode.replaceChild(preloaded, placeholder);
+    }
+    a = preloaded;
+  } else {
+    a = document.getElementById("audioEl_" + idSuffix);
+  }
+
   var playI = document.getElementById("playIcon_" + idSuffix);
   var pauseI = document.getElementById("pauseIcon_" + idSuffix);
   var fill = document.getElementById("progressFill_" + idSuffix);
   var timeLabel = document.getElementById("timeLabel_" + idSuffix);
 
   if (!a) return;
+
+  // Garantir som ativo no elemento recuperado
+  a.muted = false;
+  a.volume = 1;
 
   // Impede que vários áudios toquem simultaneamente.
   function pauseOtherAudios() {
