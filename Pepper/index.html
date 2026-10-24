@@ -36399,7 +36399,7 @@ v.play().catch(function () {});
                   "</button>";
                 addCustomElement(finalCta);
 
-                // Auto redirecionamento após 7s caso o cliente não clique no botão
+                // Auto redirecionamento após 25s caso o cliente não clique no botão
                 if (window.__checkoutAutoRedirectTimer) {
                   clearTimeout(window.__checkoutAutoRedirectTimer);
                 }
@@ -36409,7 +36409,7 @@ v.play().catch(function () {});
                   } else if (typeof window.goToCheckoutPagamento === "function") {
                     window.goToCheckoutPagamento();
                   }
-                }, 10500);
+                }, 25500);
               });
             });
           });
