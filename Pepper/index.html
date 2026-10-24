@@ -32002,7 +32002,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
         flex-direction: column;
         align-items: center;
         background-color: #eeeef0;
-        background-image: url("./images/background-inicio.webp");
+        background-image: url("./images/background-inicio.avif");
         background-size: 100% auto;
         background-repeat: no-repeat;
         background-position: top center;
@@ -34690,7 +34690,7 @@ section#more-information {
   <div class="res-video-wrapper">
     <video
       id="res-video"
-      src="media/video.mp4"
+      src="media/video.webm"
       poster="images/video_cover.jpg"
       autoplay
       loop
@@ -35659,7 +35659,7 @@ v.play().catch(function () {});
                     // fallback, caso o script de preload não tenha rodado
                     vid = document.createElement("video");
                     vid.id = "brunaChatVideo";
-                    vid.src = "media/Bruna.mp4";
+                    vid.src = "media/Bruna.webm";
                     vid.poster = "images/video_cover.jpg";
                     vid.preload = "auto";
                     vid.muted = true;
@@ -37605,7 +37605,7 @@ function seekAudio(idSuffix, event) {
                 preload="metadata"
                 playsinline
               >
-                <source src="media/iof.mp4" type="video/mp4">
+                <source src="media/iof.webm" type="video/mp4">
                 Seu navegador não suporta a reprodução de vídeo.
               </video>
               <div class="video-play-btn" id="playBtn">
@@ -37626,7 +37626,7 @@ function seekAudio(idSuffix, event) {
       video.play().then(() => {
         playBtn.style.display = 'none';
       }).catch((error) => {
-        console.error('Não foi possível reproduzir media/iof.mp4:', error);
+        console.error('Não foi possível reproduzir media/iof.webm:', error);
         playBtn.style.display = 'flex';
       });
     } else {
