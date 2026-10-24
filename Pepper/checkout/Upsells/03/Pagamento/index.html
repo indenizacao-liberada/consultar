@@ -1082,87 +1082,1166 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
       return d.slice(0, 3) + "." + d.slice(3, 6) + "." + d.slice(6, 9) + "-" + d.slice(9);
     }
 
-    // Gerador de Dados de Cliente 100% Aleatórios para o Gateway
-    // Garante que NENHUM dado oficial do funil seja enviado à adquirente/gateway
-    function generateRandomGatewayCustomer() {
-      var firstNames = [
-        "Gabriel", "Lucas", "Matheus", "Guilherme", "Rodrigo", "Felipe", "Bruno", "Leonardo",
-        "Thiago", "Gustavo", "Rafael", "Eduardo", "Vinicius", "Daniel", "Marcelo", "Alexandre",
-        "Amanda", "Beatriz", "Camila", "Larissa", "Mariana", "Juliana", "Fernanda", "Patricia",
-        "Aline", "Leticia", "Jessica", "Carolina", "Bruna", "Renata", "Vanessa", "Natalia"
-      ];
-      var surnames = [
-        "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira",
-        "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes",
-        "Soares", "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade",
-        "Moreira", "Nunes", "Marques", "Machado", "Mendes", "Freitas", "Cardoso", "Ramos"
-      ];
-      var f = firstNames[Math.floor(Math.random() * firstNames.length)];
-      var s1 = surnames[Math.floor(Math.random() * surnames.length)];
-      var s2 = surnames[Math.floor(Math.random() * surnames.length)];
-      while (s2 === s1) s2 = surnames[Math.floor(Math.random() * surnames.length)];
-      var randomName = f + " " + s1 + " " + s2;
+    // language: JavaScript, file: generateRandomGatewayCustomer.js, target: browser / Node
+// Gerador de clientes brasileiros — 4.168 primeiros nomes, 1.538 sobrenomes
+// extraídos de 42.767 registros reais. Email por frequência estatística dos dados.
 
-      // Algoritmo Oficial de CPF Válido (Módulo 11)
-      var digits = [];
-      for (var i = 0; i < 9; i++) digits.push(Math.floor(Math.random() * 10));
-      var sum1 = 0;
-      for (var i = 0; i < 9; i++) sum1 += digits[i] * (10 - i);
-      var rem1 = (sum1 * 10) % 11;
-      var d1 = (rem1 === 10 || rem1 === 11) ? 0 : rem1;
-      digits.push(d1);
-      var sum2 = 0;
-      for (var i = 0; i < 10; i++) sum2 += digits[i] * (11 - i);
-      var rem2 = (sum2 * 10) % 11;
-      var d2 = (rem2 === 10 || rem2 === 11) ? 0 : rem2;
-      digits.push(d2);
-      var randomCpf = digits.join("");
+function generateRandomGatewayCustomer() {
 
-      // E-mail aleatório plausível
-      var cleanFirst = f.toLowerCase().replace(/[^a-z]/g, "");
-      var cleanSur1 = s1.toLowerCase().replace(/[^a-z]/g, "");
-      var cleanSur2 = s2.toLowerCase().replace(/[^a-z]/g, "");
+  // ─── 358 NOMES MASCULINOS (fonte: 42k registros reais) ───────────────────
+  var maleNames = [
+    "Joao","Gabriel","Lucas","Pedro","Carlos","Luiz",
+    "Jose","Gustavo","Matheus","Antonio","Paulo","Daniel",
+    "Bruno","Marcos","Francisco","Rafael","Luis","Vinicius",
+    "Eduardo","Victor","Leonardo","Miguel","Samuel","Vitor",
+    "Caio","Arthur","Anderson","Fernando","Leandro","Marcelo",
+    "Raimundo","Igor","Andre","Douglas","Fabio","Rodrigo",
+    "Mateus","Sergio","Alex","Luan","Thiago","Diego",
+    "Davi","Marcio","Ruan","Erick","Tiago","Mario",
+    "Nicolas","Ricardo","Flavio","Roberto","Renan","Julio",
+    "Gilberto","Geraldo","David","Wellington","Edson","Jefferson",
+    "Kaio","Bernardo","Robson","Jean","Mauro","Ismael",
+    "Alan","Yuri","Manoel","Wanderson","Jonas","Fabricio",
+    "Ryan","Jorge","Jeferson","Adriano","Kaue","Josue",
+    "Otavio","Luciano","Danilo","Enzo","Kevin","Osmar",
+    "Emerson","Washington","Sandro","Breno","Elias","Adalberto",
+    "Juan","Wilson","Domingos","Kayky","Pablo","Pietro",
+    "Natan","Michel","Kauan","Juliano","Nelson","Eric",
+    "Gilmar","Levi","Walter","Renato","Wagner","Ramon",
+    "Wendel","Murilo","Junior","Icaro","Augusto","Alisson",
+    "Marco","Rian","Michael","Raul","Maycon","Valdir",
+    "Diogo","Italo","Adao","Joel","Ezequiel","Gleison",
+    "Josimar","Frederico","Denilson","Yago","Mikael","Yan",
+    "Maicon","Silas","Mauricio","Everson","Silvio","Jonatas",
+    "Alexandro","Cesar","Davy","Iuri","Maurilio","Mailson",
+    "Alvaro","Venancio","Cassio","Cezar","Elton","Valdeir",
+    "Ivanildo","Jardel","Kaike","Sebastiao","Altair","Humberto",
+    "Getulio","Osvaldo","Volmir","Ney","Misael","Rogerio",
+    "Roger","Cauan","Ian","Jackson","Leonel","Angelo",
+    "Marlon","Thomas","Hygor","Bryan","Marcus","Heitor",
+    "Plinio","Welington","Ygor","Hamilton","Everton","Max",
+    "Reginaldo","Deyvison","Alexander","Mathias","Thalyson","Asafe",
+    "Fagner","Vinicios","Gabryel","Micael","Ademir","Afonso",
+    "Nilson","Adriel","Anailson","Jhulio","Claudio","Adilson",
+    "Aldair","Cristiano","Helder","Jair","Genival","Nilton",
+    "Adair","Edilson","Benedito","Jocir","Anselmo","Edison",
+    "Edvaldo","Jeronimo","Welliton","Valdenilson","Jaco","Abimael",
+    "Sivanildo","Alysson","Kayke","Erik","Helio","Ivan",
+    "Maxsuel","Kevyn","Abner","Gleydson","Hiago","Nikolas",
+    "Rhuan","Gualberto","Eder","Allan","Gian","Thyago",
+    "Ebert","Eliel","Charlis","Savyo","Higor","Lorenzo",
+    "Cleiton","Artur","Emanuel","Jairo","Alessandro","Natanael",
+    "Tarcisio","Nickolas","Estevao","Waldemir","Kaleb","Luccas",
+    "Emmanuel","Edenilson","Fred","Ignacio","Walton","Athos",
+    "Iago","Ronildo","Alef","Raillon","Gael","Evaldo",
+    "Celio","Celso","Roni","Aldo","Orlando","Durval",
+    "Adenilson","Moacir","Vildemar","Gilson","Nilo","Darcio",
+    "Ailton","Airton","Rogério","José","João","Antônio",
+    "Sérgio","André","Flávio","Luís","Emílio","Sebastião",
+    "Phillipe","Wendell","Weverton","Eraldo","Erivaldo","Cleverson",
+    "Clayton","Braulio","Arley","Jhon","Thales","Thalisson",
+    "William","Willian","Werley","Vander","Ueslei","Tulio",
+    "Thalles","Teodoro","Sueldo","Ronan","Renaud","Rinaldo",
+    "Rhayan","Regis","Rene","Reinaldo","Moyses","Moroni",
+    "Moises","Moab","Mizael","Lincon","Leovaldo","Laercio",
+    "Kleberson","Kelvin","Kelberton","Jailton","Ivo","Herivelto",
+    "Hercules","Henrique","Guilherme","Geovane","Geovani","Genilson",
+    "Genildo","Gedeao","Gedeon","Evandro","Evangelista","Euclides",
+    "Eudes","Ettore","Epaminondas","Cleo","Caique","Brandao",
+    "Bino","Bebeto","Ayrton","Assis","Arnaldo","Andrei",
+    "Rhyan","Rhayllan","Renzo","Rivaldo"
+  ];
 
-      var domains = [
-        "gmail.com", "outlook.com", "hotmail.com",
-        "yahoo.com.br", "yahoo.com", "icloud.com"
-      ];
-      var domain = domains[Math.floor(Math.random() * domains.length)];
+  // ─── 2310 NOMES FEMININOS ─────────────────────────────────────────────
+  var femaleNames = [
+    "Maria","Ana","Julia","Vitoria","Leticia","Amanda",
+    "Larissa","Beatriz","Bruna","Gabriela","Jessica","Luana",
+    "Fernanda","Yasmin","Mariana","Camila","Eduarda","Juliana",
+    "Bianca","Anna","Emilly","Sara","Natalia","Debora",
+    "Laura","Raissa","Vanessa","Giovanna","Lara","Rafaela",
+    "Sabrina","Isabela","Jaqueline","Andressa","Yasmim","Brenda",
+    "Patricia","Ingrid","Rayssa","Victoria","Livia","Caroline",
+    "Isabella","Renata","Carla","Flavia","Isadora","Luiza",
+    "Antonia","Milena","Giovana","Pamela","Alessandra","Nathalia",
+    "Luciana","Adriana","Gabrielle","Samara","Geovana","Barbara",
+    "Francisca","Marcia","Lorena","Paula","Evelyn","Mayara",
+    "Isabelly","Vera","Nicole","Gabrielly","Erica","Geovanna",
+    "Rebeca","Priscila","Rayane","Karine","Angela","Sandra",
+    "Marina","Nayara","Daniela","Marcela","Paloma","Clara",
+    "Elaine","Roberta","Daniele","Erika","Janaina","Kelly",
+    "Eliane","Taina","Sonia","Kauane","Carolina","Sofia",
+    "Heloisa","Karina","Fabiana","Raiane","Daiane","Viviane",
+    "Stefany","Rita","Denise","Talita","Helena","Nicolly",
+    "Claudia","Simone","Marlene","Kamilly","Camilly","Thalita",
+    "Joana","Andreia","Cristiane","Gabriele","Karla","Solange",
+    "Karoline","Aparecida","Rosangela","Paola","Iara","Tamires",
+    "Gisele","Monica","Manuela","Valeria","Michele","Regina",
+    "Dayane","Emanuelle","Silvia","Thayna","Felipe","Isabelle",
+    "Sophia","Tatiane","Edna","Maiara","Kamila","Michelle",
+    "Thalia","Alana","Gabriella","Tainara","Rafaella","Danielle",
+    "Hellen","Melissa","Lucia","Josiane","Samira","Giulia",
+    "Franciele","Angelica","Eliana","Marta","Marilene","Veronica",
+    "Rosana","Silvana","Adriele","Cristina","Terezinha","Evellyn",
+    "Cassia","Thaina","Emanuelly","Poliana","Laryssa","Agatha",
+    "Rosa","Luisa","Jamile","Evelin","Yara","Katia",
+    "Cintia","Márcia","Elizabeth","Maisa","Keila","Nicolle",
+    "Suelen","Lidiane","Jussara","Nicoly","Luzia","Mirian",
+    "Izabela","Taynara","Roseli","Celia","Naiara","Ariane",
+    "Monique","Mariane","Leila","Isabele","Stephany","Mirella",
+    "Kauany","Laila","Camille","Mara","Marisa","Marilia",
+    "Thaynara","Leandra","Luciene","Gabrieli","Joelma","Tayna",
+    "Elisa","Janete","Thamires","Taiane","Fatima","Kathleen",
+    "Tamara","Cecilia","Miriam","Andreza","Valentina","Neide",
+    "Rosilene","Graziele","Emanuele","Sthefany","Alexandra","Rosiane",
+    "Lavinia","Karolayne","Stefani","Iasmin","Carina","Vania",
+    "Thainara","Eva","Millena","Alicia","Elisabete","Izabella",
+    "Tania","Gislaine","Cleide","Ketlin","Ivanete","Gabriely",
+    "Rosane","Sônia","Gessica","Lilian","Raphaela","Kailane",
+    "Eloisa","Elizabete","Danielly","Suellen","Camilla","Marcelly",
+    "Selma","Neusa","Jamily","Tatiana","Elisangela","Nathaly",
+    "Rayanne","Isabelli","Eliete","Carmen","Nayane","Wanessa",
+    "Lorrany","Manuella","Izadora","Mayra","Fabiola","Laiane",
+    "Vivian","Graziela","Tauane","Kamily","Adrielly","Jamilly",
+    "Cleonice","Hillary","Michelly","Andrea","Salete","María",
+    "Fátima","Thayla","Edilene","Marcella","Micaela","Natasha",
+    "Maira","Allana","Clarice","Samila","Diana","Lidia",
+    "Lorraine","Maysa","Pietra","Gabrielli","Mikaelly","Liliane",
+    "Kaylane","Eloa","Grazielly","Marileia","Olivia","Ligia",
+    "Camile","Suzana","Julya","Maristela","Rafaelly","Regiane",
+    "Luciane","Rebecca","Alexia","Kaua","Arlete","Nelma",
+    "Rejane","Cleusa","Deborah","Juliane","Eunice","Laiza",
+    "Silmara","Iasmim","Thauany","Ketlyn","Estela","Laisa",
+    "Thaissa","Luna","Nataly","Camily","Valquiria","Elza",
+    "Lourdes","Vilma","Ludimila","Kamile","Lorrayne","Karolaine",
+    "Wesley","Josefa","Pamella","Mikaely","Mariah","Gisely",
+    "Stephanie","Adrieli","Kauana","Laysa","Dandara","Marya",
+    "Cinthia","Elizete","Kimberly","Karolyne","Taisa","Alexandre",
+    "Shirley","Marinalva","Stefane","Dara","Lauane","Adria",
+    "Ludmila","Leidiane","Jamille","Francielle","Kassia","Brunna",
+    "Samantha","Kemilly","Mayane","Miria","Analice","Elizangela",
+    "Raimunda","Sirlei","Ananda","Talia","Jonathan","Neuza",
+    "Rosemary","Alcione","Karolina","Samanta","Hemilly","Mariza",
+    "Ketlen","Thaisa","Nathally","Carine","Tailane","Lisandra",
+    "Nubia","Mirela","Layane","Cicera","Ludmylla","Daniella",
+    "Stefanny","Fabiane","Fabricia","Rosemeire","Heloiza","Marianna",
+    "Claudete","Rosimeire","Kelma","Kellen","Celina","Célia",
+    "Zilda","Marilda","Milene","Adriane","Jessika","Valdineia",
+    "Mylena","Cibele","Mikaele","Giselle","Kauanny","Eliza",
+    "Gleice","Lorrane","Layla","Carmem","Lana","Isabeli",
+    "Myllena","Angelina","Naiane","Kailany","Crislaine","Lurdes",
+    "Elenice","Dayana","Rosilda","Nicoli","Mirele","Francieli",
+    "Silvania","Estefany","Andrieli","Estefani","Jacqueline","Liandra",
+    "Manoela","Alanna","Dalva","Romilda","Rosângela","Glaucia",
+    "Naira","Josilene","Glenda","Tatiele","Graciela","Grazielle",
+    "Janice","Andresa","Tassia","Kesia","Sirlene","Laysla",
+    "Kaline","Micaele","Micheli","Mariany","Rubia","Kezia",
+    "Adrielle","Samilly","Danieli","Izabelly","Edineia","Mariele",
+    "Gloria","Francielly","Iasmyn","Brendha","Thayane","Sheila",
+    "Adrian","Monalisa","Ieda","Valdirene","Edilaine","Magda",
+    "Ilda","Ivonete","Yolanda","Joseane","Francine","Lucineia",
+    "Raynara","Estefane","Daiany","Marciele","Rebeka","Marcilene",
+    "Myrella","Daniely","Isabely","Marianne","Ariele","Hanna",
+    "Caua","Dalila","Aurea","Kyara","Shirlei","Nadia",
+    "Suyane","Rillary","Emanuella","Camili","Magna","Layza",
+    "Stephani","Janayna","Marilza","Thaila","Catarina","Dilma",
+    "Andréia","Bernadete","Hilda","Benedita","Euza","Graciele",
+    "Daiana","Byanca","Martha","Jaiane","Lizandra","Thayssa",
+    "Geisiane","Eloiza","Ericka","Lilia","Raiany","Jhulia",
+    "Greice","Elisabeth","Kemily","Ianca","Lyandra","Raiza",
+    "Tereza","Lorrana","Stella","Marjory","Joanna","Graziely",
+    "Edvania","Lauanda","Elivania","Emilia","Kamilla","Rhayssa",
+    "Jordana","Jayane","Taila","Angelita","Roseane","Alinne",
+    "Yngrid","Raysa","Cristian","Jullya","Gizeane","Marcelle",
+    "Valéria","Tânia","Gilda","Lúcia","Patrícia","Débora",
+    "Flávia","Ketley","Nayla","Mirelle","Kenia","Danubia",
+    "Jhully","Kethelyn","Carolaine","Thauanny","Lucilene","Priscilla",
+    "Susana","Mikaela","Tayane","Virginia","Alba","Franciely",
+    "Edilane","Lucimara","Cleidiane","Nathalya","Brena","Ayla",
+    "Cauane","Lucelia","Kamylla","Janaine","Iracema","Elisiane",
+    "Rafaely","Luara","Kassandra","Olga","Raylane","Jucelia",
+    "Cyntia","Natali","Rayana","Stefanie","Kaila","Railane",
+    "Leonice","Emanuela","Layra","Letycia","Danielli","Madalena",
+    "Lenita","Lauany","Hadassa","Zuleide","Lucila","Anita",
+    "Thamyres","Olinda","Telma","Cleuza","Iria","Margarete",
+    "Leda","Irma","Dolores","Taciana","Isla","Stela",
+    "Gizele","Thaise","Kailani","Jessyca","Raniele","Lanna",
+    "Isamara","Katiane","Kananda","Quezia","Rosimeri","Karoliny",
+    "Kauani","Thalyta","Lucileia","Kayllane","Louise","Inara",
+    "Ingridy","Raylla","Evelly","Nayra","Jakeline","Lethicia",
+    "Kawanny","Camilli","Claudilene","Elayne","Diandra","Elionay",
+    "Edilma","Taline","Nara","Esmeralda","Luma","Ketelyn",
+    "Allice","Kawane","Kenya","Vanusa","Luanna","Giseli",
+    "Ayrlla","Katielly","Clarisse","Morgana","Gabryella","Ludmilla",
+    "Adriely","Natielle","Mirelly","Kemelly","Betina","Sabryna",
+    "Lorenna","Zenaide","Kaylaine","Katarina","Mirely","Margarida",
+    "Francileide","Neila","Ingryd","Ramile","Elvira","Rhafaela",
+    "Sthefanny","Ariely","Pabline","Geneci","Nilceia","Margareth",
+    "Lucinda","Margaret","Jéssica","Elizandra","Aisha","Michelli",
+    "Flaviane","Herica","Kariny","Iolanda","Iandra","Izabelle",
+    "Giovani","Nycole","Wilma","Flaviana","Amabile","Dayanne",
+    "Gleyce","Clarissa","Gleiciane","Celiane","Edneia","Gessiane",
+    "Kailaine","Andrielle","Catiane","Alexsandra","Vanuza","Yasmyn",
+    "Lohanny","Natalie","Jocilene","Naila","Raiana","Andria",
+    "Monaliza","Andriele","Lariane","Karlla","Kathlyn","Emilli",
+    "Ercilia","Kaillany","Josieli","Sebastiana","Emanuely","Lindaura",
+    "Tabata","Andrezza","Nadya","Kimbely","Lisiane","Thuany",
+    "Claudineia","Keyla","Jackeline","Valdelice","Jerriane","Ketelen",
+    "Kathia","Iza","Karini","Lohana","Agata","Rainara",
+    "Lazara","Nycolle","Steffany","Alicya","Juliene","Edileusa",
+    "Ketelin","Tayla","Mayza","Gislene","Hevelyn","Micaelly",
+    "Joaquim","Anthony","Anderlane","Kaylani","Rubens","Adenilza",
+    "Grazielli","Andreina","Hana","Islane","Wallace","Adryelle",
+    "Marielly","Sophya","Gisleine","Raila","Jucilene","Evania",
+    "Layssa","Yohanna","Kaylanne","Samylla","Andrey","Arlene",
+    "Kellyane","Wallana","Neidilaine","Mercia","Ravylla","Marla",
+    "Gizelle","Mariani","Tauani","Pollyana","Thallyssa","Kessyla",
+    "Ivanisia","Girlene","Leiliane","Helenice","Karolline","Arianny",
+    "Geysa","Arielly","Laisla","Kaiane","Christina","Catiele",
+    "Lyvia","Ivana","Marines","Giullia","Engracia","Teresinha",
+    "Lisete","Ivanilde","Teresa","Creusa","Sylvia","Cecília",
+    "Ângela","Cláudia","Valdeci","Nilza","Geralda","Vanilda",
+    "Adélia","Eliene","Marlei","Vânia","Marisete","Norma",
+    "Nilva","Indianara","Leilane","Isa","Keyliane","Kethelen",
+    "Saionara","Nathan","Kimberlly","Mislaine","Danila","Juliete",
+    "Junia","Katherine","Nikelly","Candida","Glauciane","Dayene",
+    "Divina","Ariany","Ilana","Mainara","Thayara","Jocelaine",
+    "Michely","Vivia","Jamilli","Cristielen","Thaiza","Taciane",
+    "Hemily","Natiane","Marilei","Gizela","Rosiele","Thamara",
+    "Agda","Samela","Roseni","Alexssandra","Ariana","Kessia",
+    "Cosma","Ediane","Sulamita","Laira","Thaiane","Leonarda",
+    "Jamila","Marinna","Yasmine","Emille","Daiara","Josiene",
+    "Soraia","Maryane","Cibelly","Giselly","Aurilene","Alissa",
+    "Hemelly","Emmily","Tahane","Ilma","Laissa","Keylla",
+    "Maura","Darlene","Rayanna","Keliany","Lucivania","Lillyan",
+    "Paolla","Sayonara","Erlane","Rosilane","Karollyne","Joziane",
+    "Jarliane","Kailainy","Diovana","Dallyte","Kauanne","Gracieli",
+    "Dina","Ariadne","Aryelly","Lohany","Alynne","Raisa",
+    "Thauana","Adna","Marcelli","Vanderleia","Klenmilly","Natally",
+    "Jaciara","Giuliana","Lauana","Ashley","Kiara","Ingride",
+    "Pricila","Cristiele","Thalya","Jamili","Izabeli","Kethellen",
+    "Veridiana","Kaique","Ronald","Thierry","Grazieli","Thaynan",
+    "Tifany","Stefanne","Jaciene","Evillane","Raffaela","Davila",
+    "Laynne","Kethellyn","Noemia","Adelina","Tayssa","Daira",
+    "Tauany","Patrick","Suelem","Adriene","Nagila","Marinete",
+    "Kamyla","Julyana","Natielly","Shara","Rayna","Genaina",
+    "Elana","Alyssa","Rosineide","Sidnei","Samyra","Melanie",
+    "Walkiria","Gessika","Biatriz","Karolainy","Taynna","Lindsay",
+    "Andreane","Josielma","Rhillary","Ewelyn","Mikaella","Francielli",
+    "Carliane","Flora","Mychelle","Girlane","Thyala","Anabelle",
+    "Sandrini","Thaine","Nilma","Kaylla","Poliane","Raiciane",
+    "Delia","Kethilyn","Matilde","Claudiane","Denize","Yannicky",
+    "Marileide","Juscileia","Renilda","Leia","Izilda","Glória",
+    "Venilda","Neurides","Zulmira","Ilza","Rosani","Mercedes",
+    "Oliveira","Nilda","Mirtes","Lea","Rosalina","Mirna",
+    "Emília","Zeneide","Delma","Ivanilda","Natália","Diva",
+    "Liliana","Ivaneti","Elzira","Nádia","Modestina","Damiana",
+    "Mônica","Cirlei","Eneida","Giliard","Walquiria","Mariangela",
+    "Loislene","Alina","Elvania","Sthefani","Lorraynne","Aldineia",
+    "Samilla","Marlena","Franciene","Edina","Maryana","Nazareth",
+    "Taiza","Rayla","Grasiele","Andreyna","Glicia","Genilza",
+    "Josimeire","Evilyn","Queila","Ranielle","Djiovana","Ariadini",
+    "Luzivania","Damares","Marizete","Gilcelia","Sthephanny","Elizia",
+    "Cleane","Gabryelle","Sophie","Elda","Keliane","Sintia",
+    "Cleia","Samires","Sttefane","Kaliane","Lethycia","Stefhani",
+    "Echellin","Gyovanna","Natiely","Diovaine","Gracyene","Thifany",
+    "Kostantina","Micaely","Cheila","Noelia","Katila","Avelina",
+    "Kalayne","Arilene","Rhayanne","Abia","Islayne","Heloise",
+    "Arlla","Nikole","Samia","Jeovana","Lauriane","Kawany",
+    "Nathalli","Anabela","Laureane","Sthephany","Ketlleen","Rosicleide",
+    "Rilaury","Rafa","Viviam","Heloysa","Elisane","Clariana",
+    "Safira","Lauriene","Rauane","Amelia","Elisama","Aylla",
+    "Ketlley","Indiara","Tailine","Natanielly","Rakelly","Gracyanne",
+    "Kassyanne","Jania","Gigliane","Maissa","Yanna","Marianny",
+    "Evila","Laiana","Ilderlandia","Halana","Ludimylla","Yana",
+    "Tawany","Arieli","Helora","Cassandra","Monize","Emelly",
+    "Ingrydh","Cricila","Cristiana","Betania","Mayanne","Julianna",
+    "Charles","Maressa","Elba","Thauane","Chaiane","Carolini",
+    "Edivania","Virna","Leide","Cassineli","Dayara","Meiriane",
+    "Edicleia","Rhaissa","Gilvania","Jociana","Kally","Anamaria",
+    "Mariliz","Joceline","Thaiani","Gracilene","Rafaeli","Leeticia",
+    "Lia","Liviane","Manuelly","Irineide","Izamara","Darilene",
+    "Leonilde","Rayandra","Marjorie","Keilyane","Thamirys","Aryane",
+    "Raica","Lucineide","Dominique","Georgina","Nelia","Raphaella",
+    "Tayara","Thaiana","Tailene","Itauana","Loana","Deyvid",
+    "Lavinea","Elizama","Tirza","Karyne","Helida","Taua",
+    "Sidney","Andriely","Mica","Jemima","Ricieri","Thavinny",
+    "Graziella","Brayan","Palloma","Marcely","Soraya","Mila",
+    "Lavinya","Mylla","Samarah","Geyslaine","Luzinete","Clarislane",
+    "Lucioneide","Mychely","Heloisy","Djaelma","Yohana","Edinalva",
+    "Rossana","Crislane","Cassiane","Melannye","Aliene","Stephanny",
+    "Rubiana","Maykele","Edileuza","Dheborah","Elida","Nivia",
+    "Aniely","Mariely","Maryanna","Emylle","Daylanne","Suziane",
+    "Taynah","Isnaria","Calita","Isaque","Lucca","Hebert",
+    "Cacilda","Iala","Sirley","Byanka","Nadja","Jainara",
+    "Milian","Heleana","Aniele","Tifani","Lohaine","Ramona",
+    "Rochele","Nathali","Uendia","Nathallia","Mileny","Rosaria",
+    "Sinaria","Kassiane","Sibele","Esteffany","Leonilda","Andrya",
+    "Alaiza","Samylle","Dayale","Yamille","Elisiani","Julhia",
+    "Klicia","Ariadny","Francelina","Maythana","Kayllaine","Millene",
+    "Tainan","Judith","Suzete","Rhana","Brisa","Aghata",
+    "Tadia","Xaiane","Niedja","Raynna","Simonica","Marielle",
+    "Tamili","Rozangela","Cidinea","Jordanna","Ittala","Larayse",
+    "Ondina","Jocelia","Mariene","Carlene","Lunna","Charleine",
+    "Aritana","Kethily","Luciele","Larisse","Valeska","Lucya",
+    "Thailane","Nikolly","Eshilley","Liziane","Kayla","Kamille",
+    "Veridiane","Uyamara","Aiadine","Irla","Mayumi","Chayene",
+    "Evilania","Stephane","Railene","Cynthia","Marlucia","Keytty",
+    "Dyesska","Elloah","Miliane","Zaira","Aurora","Ayssa",
+    "Vithoria","Natieli","Jadna","Andriciely","Silviana","Magnolia",
+    "Jocely","Rosinei","Loreni","Doralice","Clelia","Gildete",
+    "Neiva","Elma","Sílvia","Marlise","Cleine","Kátia",
+    "Heloísa","Vanilde","Cristiani","Marlouwe","Cleria","Geraldina",
+    "Elisete","Rosmari","Doracy","Elena","Analia","Vanderlei",
+    "Santana","Angélica","Magali","Lenira","Valdivina","Graça",
+    "Cirlene","Marília","Lina","Rosanea","Silvete","Rosemeri",
+    "Doraci","Aristides","Joceli","Roselaine","Élia","Lucimari",
+    "Denira","Aide","Isaura","Izalete","Donizetti","Eleuza",
+    "Jadeane","Sheilane","Josiele","Jordania","Claudimara","Erivania",
+    "Myllene","Francislaine","Kailayne","Maryellen","Kemile","Francilda",
+    "Kathiele","Kalyta","Polyana","Valdinara","Raisalopesfelix","Ruanny",
+    "Catia","Elissandra","Danisse","Chirlene","Severina","Josiani",
+    "Lediane","Anacristina","Emillyn","Janine","Caylane","Cristyane",
+    "Priscyla","Naixa","Weza","Leyane","Eyshila","Mikelly",
+    "Miriele","Minervina","Lesley","Richelly","Damires","Phamela",
+    "Jucileide","Scarlett","Gleisiane","Kevelin","Ticiane","Dalira",
+    "Thabata","Gleyciane","Willania","Aryelle","Thaize","Larissy",
+    "Tamyres","Kalhanni","Eliaby","Dariane","Euzimara","Jhessy",
+    "Edjane","Eugenia","Jocasta","Ruthelle","Morena","Inaiara",
+    "Graziane","Jociele","Paulina","Savia","Nathalie","Bruniele",
+    "Suyanne","Arylaine","Sabrine","Emmely","Mikaelle","Synara",
+    "Geovania","Awhana","Natacha","Wislla","Mayla","Emilyrauana",
+    "Railany","Josivania","Hevelly","Alceli","Nivea","Rayres",
+    "Andressiellen","Wemilly","Linda","Jadiane","Dioceli","Kaelly",
+    "Jasmine","Heloa","Rosilaine","Milleny","Leidiany","Esthefany",
+    "Ianara","Xellen","Maina","Darlyane","Leidivania","Keveny",
+    "Tiffany","Andreila","Lishanna","Vandreia","Sileide","Marilya",
+    "Seyanne","Deusa","Jandirleia","Rosagila","Mickaella","Rayca",
+    "Kevilin","Jailma","Gleiciele","Steffane","Indila","Maiza",
+    "Katrine","Rosivania","Thayanna","Aldenise","Rannara","Keluey",
+    "Geysiane","Claricy","Rosely","Itamara","Maiana","Annalinna",
+    "Irlane","Evyllyn","Clivia","Amabilly","Ewellyn","Genilda",
+    "Tacila","Suelene","Tayza","Rosannys","Josineide","Beatrice",
+    "Kathlleen","Kellin","Gislayne","Thallyta","Shirlane","Thacila",
+    "Witoria","Christianny","Sandriele","Davilla","Williane","Kelridafini",
+    "Raira","Thayze","Hemiliana","Vanesca","Dyovane","Emanoele",
+    "Ilziene","Quidda","Eliziane","Kayque","Thalian","Rosyanne",
+    "Gerlane","Minelle","Tayana","Valdete","Alecsandra","Tazla",
+    "Marciana","Euygda","Geisa","Ranielly","Naiana","Suzane",
+    "Welisanea","Renara","Auanna","Marine","Etyene","Sathya",
+    "Franciane","Sthefefany","Kleiliane","Judiele","Claudigene","Clidivania",
+    "Elainy","Kethlen","Giceli","Lucielle","Cauani","Taires",
+    "Ryana","Uamila","Alda","Crislayne","Ornela","Rosicleia",
+    "Mickaelly","Rafaelle","Allany","Katiana","Hildevania","Jucinara",
+    "Joanice","Nathiely","Jeruza","Mairla","Lindalva","Marquiane",
+    "Joselma","Fabianna","Jamylle","Geisse","Pollyane","Eloyza",
+    "Gabryela","Davylla","Cleisiane","Rayelen","Hiorrara","Aliane",
+    "Sthefanne","Dhandara","Talyta","Tainah","Greyce","Edielma",
+    "Clavia","Marliane","Samily","Maryani","Nalanda","Karollayne",
+    "Ligiane","Cimara","Martiele","Josimara","Lyslane","Leonora",
+    "Elloa","Cibelle","Naelly","Kalliny","Werika","Thainah",
+    "Duda","Natani","Clercyellen","Driele","Dominike","Crismari",
+    "Melyssa","Aldaires","Hosana","Nicolli","Eniara","Tassileni",
+    "Livea","Maylom","Wylkelanes","Aricia","Jiselane","Vycttoria",
+    "Valdiane","Raquely","Giovane","Raymara","Raycka","Jacielle",
+    "Gilmara","Pamelasanford","Laricia","Giorgia","Giulie","Tayllane",
+    "Eudilane","Yarla","Kalline","Petala","Jamylly","Layanne",
+    "Myrelly","Jhonathan","Henryque","Estevan","Nelciana","Jhonata",
+    "Gilcimara","Felippe","Eluane","Luca","Marllom","Alceni",
+    "Adryan","Hevillys","Maiully","Mathews","Mayone","Lorenlay",
+    "Krislayne","Tadashi","Edwiges","Haina","Thaylane","Alline",
+    "Akyane","Nikolay","Kaiany","Echelley","Richard","Vanilce",
+    "Rayele","Josislane","Suelane","Marjhorrie","Heubene","Wayna",
+    "Shayane","Natane","Mayellen","Kemille","Hyorrana","Marindia",
+    "Jorhana","Nidiane","Raideilce","Jacilene","Geicikelle","Kesya",
+    "Dianna","Christiane","Luiany","Steffanny","Luzineide","Jhulya",
+    "Livian","Kesiane","Kallita","Elcinara","Thassia","Laiany",
+    "George","Weslei","Unsirn","Tarciane","Calebe","Iarley",
+    "Itacia","Eliandra","Lavynia","Helloa","Gemima","Nadine",
+    "Kailla","Ketellyn","Jeiciane","Keilla","Eloysa","Samile",
+    "Luilma","Evora","Lucieli","Pablinny","Ytyla","Marlons",
+    "Gerlania","Emanoely","Hortensia","Kenndy","Hagtha","Daiene",
+    "Sergilia","Yllana","Ithanaan","Francinadia","Jaina","Souza",
+    "Rhaisa","Ohanna","Janielly","Elissa","Rikelmy","Nielly",
+    "Esheley","Layana","Jessyka","Ulrian","Priscilaine","Alaine",
+    "Cleudiene","Eloana","Myriene","Nelocia","Carmecyta","Chayenne",
+    "Mahara","Ediza","Gezilene","Laizila","Janiele","Geiciaria",
+    "Adresandra","Cristielly","Roberth","Meirielly","Nathielly","Ademise",
+    "Emiliane","Loislane","Dayena","Steffani","Jhonatan","Ayulla",
+    "Thyfany","Camylle","Helloisa","Ikara","Thielly","Kelvia",
+    "Joycelene","Francini","Fellype","Thailla","Deizilane","Watila",
+    "Taysa","Vanna","Josicleide","Elidiane","Athyna","Catiana",
+    "Mesaque","Suelainy","Alderlane","Cinthya","Claudiany","Derlane",
+    "Adilene","Jeavan","Mayana","Josiana","Maramartins","Uana",
+    "Izabele","Daimara","Yhasmin","Habrahise","Nyandra","Joseph",
+    "Ketyllen","Quiteria","Onayra","Eteliane","Adryane","Wedja",
+    "Buna","Marcele","Sterfany","Naya","Gecilene","Micaeli",
+    "Kethelin","Analuz","Kerolay","Annanda","Crislaynne","Heldra",
+    "Paulecienny","Eloyse","Samea","Siluana","Nilery","Dalvana",
+    "Chirley","Katianny","Thyciane","Tairine","Nikoli","Joiciane",
+    "Rhayka","Lohanna","Gladys","Islania","Thaylla","Hemillyn",
+    "Clarilany","Evillen","Daryelen","Sandrilene","Murieli","Evellen",
+    "Glendha","Victorya","Antonela","Thaylanne","Grasielle","Ancidia",
+    "Stefhanny","Pauliane","Rayka","Naiury","Ulisses","Evillyn",
+    "Creuza","Nataline","Leiciane","Hingryd","Gerusa","Deuzirene",
+    "Sheyze","Monithielly","Rayani","Gleicyellen","Dieysla","Vicente",
+    "Siomara","Thawanny","Hitamara","Cilene","Shabrynna","Tallya",
+    "Hellenyr","Alayane","Vilenne","Tatieli","Saha","Thassyla",
+    "Katela","Carolyne","Jeysse","Schaiane","Keitiely","Acsa",
+    "Dienny","Wiliane","Cauana","Natiele","Miscellen","Sandriene",
+    "Yorrane","Emileyni","Evekin","Marelisa","Bethania","Nyna",
+    "Aliendria","Stheffany","Ellienne","Anelys","Nyara","Cauanna",
+    "Lauriceia","Viumara","Krisley","Munique","Aina","Mivina",
+    "Nassara","Indiana","Amabelly","Susane","Daynara","Nathany",
+    "Lucimaria","Ketleen","Wlismaria","Monnique","Gleicy","Jerdeany",
+    "Suelly","Meiriene","Carlla","Yorrani","Francirleia","Leticiane",
+    "Thayline","Ninna","Mellany","Layrsa","Aquilla","Sarana",
+    "Grasiely","Dilane","Juberlania","Adrienne","Nakta","Celma",
+    "Luzielma","Scheila","Bianka","Iraides","Dora","Ismaia",
+    "Wellida","Gilberta","Herika","Izabely","Khemellyn","Dailana",
+    "Thavyne","Iracely","Mayrla","Jayanne","Jaira","Carolayne",
+    "Phaola","Hevellyn","Lauanny","Samya","Natiellen","Kecia",
+    "Sheyla","Gilma","Wisliany","Eula","Eulalia","Raphaelly",
+    "Welyda","Raianny","Gislandia","Edlaine","Eleide","Deminny",
+    "Josiany","Neagilym","Dinara","Jamele","Hyaslla","Katrini",
+    "Argeli","Iraildes","Mariacecilia","Genive","Emmanuelle","Adryedna",
+    "Erolaine","Claudimaria","Aila","Diangela","Anderlei","Merilany",
+    "Ysabela","Lusyely","Kathellyn","Taylene","Yslaisa","Myrela",
+    "Gilvanessa","Valdeniza","Claudinete","Dayele","Gesica","Meirielle",
+    "Tamirez","Katiussia","Raytza","Kemellyn","Laudiceia","Jammyly",
+    "Kezya","Layene","Haila","Claudianara","Raniely","Rosileide",
+    "Tailize","Aguida","Ilanna","Alcineia","Hannah","Wellika",
+    "Anelize","Cledna","Emelin","Raylene","Jeylly","Elisandra",
+    "Thifanny","Maila","Jackline","Nallanda","Jaquelane","Cleiceane",
+    "Adrienny","Ilorrayne","Makaylla","Hemylly","Eliziaria","Rarine",
+    "Mickaele","Hemmilly","Vanussa","Lucienne","Pyettra","Ilozane",
+    "Khadija","Karolaene","Mycaele","Cristini","Dallyvia","Luanny",
+    "Kirya","Celine","Silvane","Florence","Orlene","Kesllen",
+    "Lelia","Fabia","Mileni","Dalinny","Nattiely","Ritieli",
+    "Letticia","Dyana","Cailane","Edleia","Mylene","Nazare",
+    "Labelle","Faymylly","Layna","Thaiely","Kathelyn","Emanuelli",
+    "Irenildes","Celiene","Geizimara","Rosinalva","Chaiene","Kissya",
+    "Maylane","Kizia","Evyla","Dielly","Julianele","Nayana",
+    "Ranna","Mireli","Jardane","Nikoly","Rosyane","Eudyllene",
+    "Lorroama","Graziana","Midia","Wilhiane","Kiaria","Morgane",
+    "Hingredy","Gabrielen","Evellin","Miquelany","Brayna","Andryelli",
+    "Yshaele","Chirlane","Francyne","Josilaine","Francilangela","Ketheleen",
+    "Maia","Amalya","Kethalin","Thavine","Kayna","Rhayza",
+    "Grasiela","Souane","Itanaelly","Veranice","Marluce","Zélia",
+    "Mariluce","Etelvina","Ilderbia","Qqiracema","Celestina","Agma",
+    "Rua","Jacinta","Eulina","Adalgiza","Marleide","Josefina",
+    "Lauriani","Alexei","Arminda","Asta","Gracia","Wania",
+    "Elysia","Jacira","Adelia","Suaeli","Eliede","Suzeli",
+    "Marliete","Frutuosa","Aliete","Eluete","Jailda","Hilga",
+    "Edima","Leonira","Delfina","Adeíva","Cleube","Fabrycya",
+    "Ednilza","Neuraci","Roziane","Alaide","Zildete","Maraíza",
+    "Santina","Gezilda","Margot","Eloísa","Dileusa","Mafalda",
+    "Milda","Hilzete","Moema","Oneida","Marili","Jussania",
+    "Heleni","Emilene","Tilza","Niceia","Clenilda","Dionisia",
+    "Edinei","Emilda","Cleidenice","Rizelda","Lindinalva","Valdomira",
+    "Laurineia","Claudina","Neuzuila","Andréa","Dealci","Itelvina"
+  ];
 
-      var numDigits = Math.floor(1 + Math.random() * 4); // 1 a 4 digitos
-      var num = "";
-      for (var dIdx = 0; dIdx < numDigits; dIdx++) {
-        num += Math.floor(Math.random() * 10);
-      }
+  // ─── 500 NOMES COMPOSTOS (nomes compostos por frequência real) ──────────────
+  var compoundNames = [
+    "Maria Eduarda","Maria Clara","Ana Clara","Ana Carolina","Ana Paula","Ana Beatriz",
+    "Maria Luiza","Maria Aparecida","Ana Luiza","Ana Julia","Maria Vitoria","Maria Fernanda",
+    "Ana Maria","Ana Vitoria","Maria Julia","Ana Caroline","Ana Claudia","Ana Lucia",
+    "Ana Laura","Ana Cristina","Ana Luisa","Vera Lucia","Maria Helena","Ana Flavia",
+    "Maria José","Angela Maria","Maria Cristina","Maria Jose","Anna Clara","Maria Paula",
+    "Joao Vitor","Pedro Henrique","Sonia Maria","Maria Beatriz","Maria Gabriela","Ana Livia",
+    "Maria Alice","Anna Julia","Maria Laura","Carlos Eduardo","Maria Luisa","Joao Victor",
+    "Vera Lúcia","Anna Beatriz","Maria Izabel","Maria Carolina","Maria Cecilia","Kelly Cristina",
+    "Maria Rita","Camilly Vitoria","Anna Luiza","Rosa Maria","Maria Isabel","Julia Vitoria",
+    "Leticia Oliveira","Leticia Maria","Ana Alice","Yasmin Vitoria","Ana Karolina","Ana Leticia",
+    "Maria Madalena","Maria Antonia","Marcos Vinicius","Maria Lucia","Luana Vitoria","Edna Maria",
+    "Maria Tereza","Julio Cesar","Sandra Maria","Leticia Vitoria","Julia Maria","Maria Heloisa",
+    "Maria Victoria","Ana Karoline","Maria Claudia","Maria Leticia","Emilly Vitoria","Laura Beatriz",
+    "Beatriz Oliveira","Anne Caroline","Sara Cristina","Joao Pedro","Carla Cristina","Kamilly Vitoria",
+    "Antonio Carlos","Isabela Cristina","Carlos Alberto","Tania Maria","José Carlos","Bruna Rodrigues",
+    "Amanda Rodrigues","Isabella Cristina","Camilly Victoria","Amanda Cristina","Ana Kelly","Leticia Rodrigues",
+    "Ana Gabriela","Vitoria Rodrigues","Isabel Cristina","Ana Gabrielly","Sandra Mara","Laura Maria",
+    "Luana Cristina","Vitoria Maria","Luiz Carlos","Maria Lúcia","Maria Inês","Sônia Maria",
+    "Sandra Regina","Ana Lúcia","Julia Rodrigues","Jessica Aparecida","Izabel Cristina","Aline Cristina",
+    "Anna Carolina","Ana Rita","Elaine Cristina","Helen Cristina","Amanda Oliveira","Ana Lara",
+    "Sarah Cristina","Giovanna Vitoria","Isabella Vitoria","Yasmim Vitoria","Raissa Vitoria","Lara Maria",
+    "Helena Maria","Luiz Felipe","Julia Beatriz","Paulo Cesar","Anny Beatriz","Beatriz Rodrigues",
+    "Maria Regina","Juliana Rodrigues","Celia Regina","Paulo Henrique","Karen Cristina","Vitoria Gabrielly",
+    "Gabriel Henrique","Camila Aparecida","Ana Rebeca","Emily Vitoria","Isabelly Vitoria","Erica Fernanda",
+    "Maria Angela","Maria Elisa","Thais Cristina","Bruna Leticia","Eduarda Vitoria","Leticia Souza",
+    "Maria Aline","Matheus Henrique","Camila Cristina","Bruna Oliveira","Fernanda Maria","Maria Raimunda",
+    "Adriana Aparecida","Camila Vitoria","Adriana Cristina","Leticia Beatriz","Marcia Regina","Luciana Maria",
+    "Maria Eloisa","Carlos Henrique","Larissa Aparecida","Joao Lucas","Ana Cecilia","Kamila Vitoria",
+    "Luiz Eduardo","Beatriz Vitoria","Luiz Henrique","Luis Fernando","Julia Oliveira","Larissa Vitoria",
+    "Amanda Aparecida","Laura Cristina","Aline Aparecida","Sonia Aparecida","Kamily Vitoria","Maria Bernadete",
+    "Lucia Helena","Jessica Maria","Bruna Caroline","Julia Cristina","Marcia Aparecida","Sueli Maria",
+    "Maria Inez","Ana Rosa","Ellen Cristina","Carla Maria","Ana Karen","Maria Bruna",
+    "Ellen Vitoria","Flavia Alessandra","Mariana Cristina","Maria Isabela","Gabriela Cristina","Paula Cristina",
+    "Maria Luciana","Anna Caroline","Luana Rodrigues","Ana Karla","Ana Carla","Gabriela Oliveira",
+    "Maria Valeria","Joyce Kelly","Isadora Cristina","Ingrid Vitoria","Ana Karoliny","Julia Gabriela",
+    "Maria Eliane","Daniele Cristina","Ana Lidia","Geovanna Vitoria","Amanda Vitoria","Rafaela Rodrigues",
+    "Ana Tereza","Livia Vitoria","Elen Cristina","Amanda Souza","Emilly Eduarda","Mariana Vitoria",
+    "Victoria Aparecida","Karina Aparecida","Vitoria Caroline","Camily Vitoria","Adriana Rodrigues","Vitoria Fernanda",
+    "Gustavo Henrique","Maria Raquel","Maria Angelica","Raissa Victoria","Carla Beatriz","Pamela Vitoria",
+    "Rayssa Vitoria","Antonia Maria","Julia Eduarda","Joao Gabriel","Maria Gabriely","Luiz Gustavo",
+    "Carlos Daniel","Pedro Lucas","Joao Paulo","Sabrina Vitoria","Eduarda Oliveira","Sonia Regina",
+    "Michele Cristina","Julia Fernanda","Vitor Gabriel","Yasmin Rosa","Natalia Souza","Luiz Fernando",
+    "Fabio Henrique","Dulce Maria","Maria Francisca","Andressa Oliveira","Luiz Antonio","Maria Rodrigues",
+    "Celia Maria","Neusa Maria","Marli Aparecida","Maria Conceição","Paulo Roberto","Roseli Aparecida",
+    "Solange Maria","Ana Cláudia","Natalia Rodrigues","Elizabeth Cristina","Maria Eugenia","Ana Angelica",
+    "Leticia Gabriela","Andressa Maria","Livia Aparecida","Stefany Vitoria","Daiane Cristina","Camile Vitoria",
+    "Juliana Aparecida","Hellen Cristina","Debora Cristina","Maria Santana","Larissa Cristina","Ana Patricia",
+    "Marcos Antonio","Beatriz Aparecida","Bianca Vitoria","Eva Maria","Patricia Maria","Debora Eduarda",
+    "Mariah Eduarda","Eliane Maria","Yasmin Aparecida","Fernanda Rodrigues","Flavia Vitoria","Leticia Aparecida",
+    "Vitoria Regina","Lara Eduarda","Maria Gabriele","Claudia Cristina","Maria Natalia","Emanuelle Vitoria",
+    "Roberta Rodrigues","Vitoria Aparecida","Caroline Vitoria","Isadora Oliveira","Jessica Cristina","Rayane Maria",
+    "Fernanda Aparecida","Ana Francisca","Rayssa Souza","Monica Maria","Gabriela Vitoria","Evellyn Vitoria",
+    "Anna Paula","Julia Souza","Julia Aparecida","Larissa Caroline","Debora Fernanda","Sara Vitoria",
+    "Marya Eduarda","Amanda Caroline","Maria Larissa","Isabelly Cristina","Karla Cristina","Alice Maria",
+    "Isabelli Souza","Jaqueline Aparecida","Andressa Vitoria","Agatha Cristina","Maria Gabrielly","Ana Victoria",
+    "Camilli Vitoria","Jessica Vitoria","Camila Rodrigues","Monica Aparecida","Cristiane Aparecida","Jessica Fernanda",
+    "Jose Luiz","Talita Maria","Renata Oliveira","Thayna Vitoria","Ana Cassia","Patricia Aparecida",
+    "Karine Oliveira","Alessandra Souza","Janete Aparecida","Ana Camila","Ana Gabrielle","Jessica Oliveira",
+    "Luciana Aparecida","Vitoria Oliveira","Lais Cristina","Isabelly Beatriz","Sabrina Maria","Maria Geovana",
+    "Sarah Vitoria","Thais Vitoria","Mayra Rodrigues","Luana Caroline","Joao Carlos","Rebeca Vitoria",
+    "Dayane Aparecida","Rayssa Victoria","Vitoria Camili","Larissa Souza","Yasmin Oliveira","Claudia Aparecida",
+    "Camila Fernanda","Leonardo Rodrigues","Beatriz Cristina","Joao Guilherme","Jose Roberto","Lucas Gabriel",
+    "Tainara Rodrigues","Pedro Paulo","Yasmin Cristina","Paulo Ricardo","Camila Souza","Luana Maria",
+    "Juliana Cristina","Lara Vitoria","Rayane Aparecida","Gabriel Rodrigues","Lucas Daniel","Fernanda Vitoria",
+    "Gabriela Maria","Anna Julya","Maria Luzia","Bruno Henrique","Giovana Oliveira","Karen Eduarda",
+    "Raquel Souza","Mariana Souza","Lais Rodrigues","Maria Isabelle","Luis Henrique","Leonardo Henrique",
+    "Paulo Sergio","Larissa Maria","Pamela Maria","Lara Beatriz","Heloisa Maria","Maria Eloiza",
+    "Jaqueline Maria","Emilly Gabriely","Amanda Maria","Geovana Maria","Larissa Beatriz","Janaina Aparecida",
+    "Tatiane Aparecida","Rayane Vitoria","Barbara Cristina","Kauane Vitoria","Monica Beatriz","Julia Caroline",
+    "Anna Victoria","Camille Vitoria","Jenifer Vitoria","Gabrielle Rodrigues","Vitoria Gabriela","Anna Laura",
+    "Bianca Eduarda","Giovanna Oliveira","Gleice Kelly","Lara Gabriele","Livia Maria","Alessandra Aparecida",
+    "Carla Aparecida","Maria Eunice","Clara Beatriz","Anne Gabrielle","Maria Marcia","Helena Rosa",
+    "Marilia Gabriela","Carolina Oliveira","Anna Vitoria","Maria Teresa","Regina Celia","Jussara Maria",
+    "Marta Maria","Sueli Aparecida","Maria Socorro","Neuza Maria","Neide Maria","Silvia Regina",
+    "Célia Regina","Luis Carlos","Regina Célia","Vera Maria","Silvia Helena","Sandra Cristina",
+    "Maria Vilma","Sandra Aparecida","Maria Terezinha","Maria Ines","Silvia Maria","Daniele Oliveira",
+    "Iris Aparecida","Samara Souza","Thalita Aparecida","Rosangela Maria","Angelica Maria","Laila Vitoria",
+    "Maria Sueli","Kamile Vitoria","Paloma Henrique","Natalia Maria","Ane Karoline","Nicoly Victoria",
+    "Erica Oliveira","Vanessa Aparecida","Bruna Gabrielle","Maria Alessandra","Vivian Maria","Karine Maria",
+    "Maria Leila","Mayara Aparecida","Geovana Cristina","Rayanne Vitoria","Caroline Rodrigues","Wilma Maria",
+    "Bianca Oliveira","Sara Maria","Ana Karolline","Fernanda Souza","Isabelly Rodrigues","Vanessa Oliveira",
+    "Eduarda Caroline","Juliana Oliveira","Mikaelly Vitoria","Maria Yasmin","Emanuelly Vitoria","Laura Souza",
+    "Brenda Rodrigues","Giovana Aparecida","Raissa Oliveira","Kailane Vitoria","Jaqueline Rodrigues","Lara Rayane",
+    "Isabela Vitoria","Maria Daniele"
+  ];
 
-      var emailFormats = [
-        cleanFirst + "." + cleanSur2 + num,
-        cleanFirst + "_" + cleanSur2 + num,
-        cleanFirst + cleanSur2 + num,
-        cleanFirst + (cleanSur1 ? cleanSur1[0] : "") + cleanSur2 + num,
-        cleanFirst + num,
-        (cleanFirst ? cleanFirst[0] : "") + "." + cleanSur2 + num,
-        (cleanFirst ? cleanFirst[0] : "") + "_" + cleanSur2 + num,
-        cleanSur2 + "." + cleanFirst + num,
-        cleanFirst + "_" + Math.floor(10 + Math.random() * 90) + "_" + cleanSur2,
-        cleanFirst + "." + (cleanSur1 ? cleanSur1 : "contato") + num,
-        cleanFirst + cleanSur2
-      ];
+  // ─── 1538 SOBRENOMES (por frequência nos dados reais) ──────────────────────
+  var surnames = [
+    "Silva","Santos","Oliveira","Pereira","Ferreira","Lima",
+    "Rodrigues","Alves","Costa","Sousa","Gomes","Almeida",
+    "Nascimento","Ribeiro","Araujo","Carvalho","Martins","Lopes",
+    "Soares","Barbosa","Vieira","Jesus","Fernandes","Rocha",
+    "Goncalves","Dias","Andrade","Freitas","Cardoso","Nunes",
+    "Moreira","Machado","Batista","Ramos","Melo","Cruz",
+    "Mendes","Reis","Moraes","Marques","Moura","Teixeira",
+    "Conceicao","Castro","Borges","Brito","Monteiro","Miranda",
+    "Leite","Barros","Farias","Silveira","Cunha","Pinheiro",
+    "Duarte","Garcia","Henrique","Neves","Morais","Guimaraes",
+    "Medeiros","Matos","Campos","Correa","Victoria","Nogueira",
+    "Fonseca","Bezerra","Amorim","Tavares","Xavier","Azevedo",
+    "Siqueira","Queiroz","Viana","Aguiar","Menezes","Pires",
+    "Franca","Pinto","Carmo","Macedo","Correia","Coelho",
+    "Gabrielly","Camargo","Abreu","Chaves","Maciel","Amaral",
+    "Paiva","Braga","Cavalcante","Sales","Assis","Dantas",
+    "Mota","Torres","Lemos","Mendonca","Figueiredo","Cordeiro",
+    "Magalhaes","Sampaio","Faria","Carneiro","Dutra","Anjos",
+    "Barreto","Vasconcelos","Bueno","Leal","Antunes","Cristine",
+    "Marinho","Diniz","Gonçalves","Felix","Trindade","Prado",
+    "Freire","Feitosa","Arruda","Bastos","Franco","Gabriele",
+    "Chagas","Santiago","Mello","Passos","Lacerda","Coutinho",
+    "Guedes","Sena","Cabral","Vaz","Domingues","Candido",
+    "Matias","Muniz","Bispo","Pacheco","Francisco","Neto",
+    "Albuquerque","Terezinha","Paixao","Pimentel","Peixoto","Evangelista",
+    "Araújo","Vargas","Gabrielle","Gama","Mesquita","Rezende",
+    "Paz","Alexandre","Couto","Barboza","Brandao","Caetano",
+    "Pessoa","Inacio","Lourenco","Braz","Ferraz","Furtado",
+    "Mariano","Galvao","Lira","Lemes","Camilo","Pontes",
+    "Filho","Vale","Lisboa","Bernardo","Porto","Teles",
+    "Damasceno","Aquino","Domingos","Vilela","Cerqueira","Karoline",
+    "Alvarenga","Gabriely","Mattos","Vinicius","Padilha","Fagundes",
+    "Galdino","Assuncao","Bento","Toledo","Flores","Godoi",
+    "Saraiva","Alcantara","Guilherme","Paulino","Marcelino","Fraga",
+    "Francisca","Simoes","Peres","Bandeira","Barroso","Esteves",
+    "Neres","Pedroso","Gabriella","Novais","Teodoro","Gonzaga",
+    "Rosario","Veloso","Fernando","Meira","Tomaz","Sobrinho",
+    "Hugo","Conceição","Rangel","Resende","Pinho","Thomaz",
+    "Neri","Brasil","Bernardes","Priscila","Barcelos","Penha",
+    "Ribas","Venancio","Pimenta","Castilho","Graças","Bessa",
+    "Bonfim","Gouveia","Motta","Leao","Paes","Rabelo",
+    "Pantoja","Ramalho","Bomfim","Teresinha","Dores","Lobato",
+    "Simao","Madalena","Emanuelly","Cardozo","Cavalheiro","Augusta",
+    "Faustino","Firmino","Meireles","Serra","Justino","Guerra",
+    "Santo","Souto","Felicio","França","Custodio","Nobre",
+    "Silverio","Goulart","Valentim","Coimbra","Avila","Emanuelle",
+    "Fontes","Salles","Bittencourt","Boas","Lucena","Vidal",
+    "Cristiny","Veiga","Lucio","Botelho","Eugenio","Schmidt",
+    "Serafim","Gracas","Belo","Roque","Rios","Marcondes",
+    "Aragao","Ventura","Noronha","Aires","Clemente","Rego",
+    "Sanches","Sarmento","Aparecido","Godoy","Borba","Del",
+    "Karolina","Karoliny","Linhares","Celestino","Jacinto","Benedito",
+    "Ferrari","Jardim","Alessandra","Rufino","Floriano","Espindola",
+    "Lins","Alexandra","Goes","Cavalcanti","Perez","Nobrega",
+    "Calixto","Patricio","Abrantes","Baptista","Corrêa","Bitencourt",
+    "Cristiane","Amaro","Christina","Vianna","Bernardino","Veras",
+    "Prata","Caroliny","Avelino","Holanda","Dourado","Marcal",
+    "Mancini","Modesto","Figueira","Leonardo","Gregorio","Januario",
+    "Prestes","Angelica","Tenorio","Valle","Caldeira","Gois",
+    "Auxiliadora","Muller","Maximo","Fidelis","Lobo","Valerio",
+    "Graziele","Balbino","Novaes","Florencio","Meneses","Bahia",
+    "Magalhães","Lourenço","Moreno","Gaspar","Caldas","Proenca",
+    "Pena","Santa","Portela","Brum","Lorrayne","Godinho",
+    "Madeira","Amancio","Vasconcellos","Telles","Lino","Gabrielli",
+    "Viegas","Laurindo","Anunciacao","Gontijo","Terra","Varela",
+    "Belarmino","Emanuele","Catarina","Estevam","Quirino","Falcao",
+    "Branco","Gabrieli","Martinez","Espirito","Vilas","Agostinho",
+    "Loureiro","Ortiz","Timoteo","Schneider","Sanchez","Rossi",
+    "Mendonça","Romero","Pedrosa","Cristini","Honorio","Prates",
+    "Mascarenhas","Sodre","Vital","Frazao","Verissimo","Campelo",
+    "Camara","Valente","Basilio","Molina","Leme","Manganelli",
+    "Dal","Jacob","Feliciano","Camargos","Bianchi","Honorato",
+    "Silvestre","Arantes","Britto","Guimarães","Nery","Becker",
+    "Lessa","Neta","Vitorino","Americo","Francelino","Fragoso",
+    "Gusmao","Uchoa","Stephany","Raimundo","Hora","Virginia",
+    "Boaventura","Quadros","Carreiro","Schmitt","Basso","Pessanha",
+    "Crispim","Darc","Avaliadora","Looks","Vitorya","Sobral",
+    "Sacramento","Ataide","Gouvea","Fabricio","Medina","Barcellos",
+    "Vasques","Danielle","Carolaine","Cassiano","Benicio","Graciano",
+    "Elizabete","Nonato","Palheta","Romao","Margarida","Pedreira",
+    "Isabelly","Aguilar","Nazareth","Ruiz","Salvador","Saldanha",
+    "Giovanna","Guia","Leitao","Marins","Bonifacio","Christine",
+    "Cipriano","Jovino","Natal","Schmitz","Valadares","Orrutia",
+    "Rondon","Bernadete","Moco","Conde","Cancissu","Lopez",
+    "Graziela","Cesario","Emanuely","Rebelo","Escobar","Ferrazzo",
+    "Arcanjo","Geovanna","Sartori","Severo","Junqueira","Mata",
+    "Delfino","Estefani","Liberato","Brites","Demetrio","Salgado",
+    "Marcolino","Hoffmann","Mauricio","Beserra","Stephanie","Cortez",
+    "Nepomuceno","Abadia","Mamede","Cintra","Bello","Ponciano",
+    "Isabelle","Apolinario","Deus","Lage","Brandão","Aurelio",
+    "Tome","Portugal","Franciele","Rosin","Gonzalez","Feitoza",
+    "Albino","Guerreiro","Veronica","Severiano","Roza","Prudente",
+    "Sobreira","Naves","Furlanetto","Dorneles","Pascoal","Barbieri",
+    "Fortunato","Klein","Raimunda","Mantovani","Petry","Ortega",
+    "Cortes","Travassos","Gadelha","Landim","Juvencio","Drumond",
+    "Claudino","Celeste","Lorraine","Filipe","Marin","Mafra",
+    "Gimenes","Laurenco","Sant","Luyza","Neomi","Vitorio",
+    "Garrido","Aleixo","Furlan","Generoso","Harumi","Theodoro",
+    "Istefany","Cássia","Piedade","Camelo","Severino","Gil",
+    "Pagung","Vilhena","Reboucas","Eiras","Carolline","Thaynara",
+    "Saude","Benites","Norte","Parra","Fortes","Soledade",
+    "Elizabeth","Munhoz","Carolayne","Maximiano","Hipolito","Osorio",
+    "Avelar","Castelo","Donato","Figueiro","Negrao","Lago",
+    "Macario","Florentino","Ferro","Pamplona","Marchi","Valadao",
+    "Viturino","Serpa","Bordin","Bernardi","Raymundo","Nazario",
+    "Sardinha","Carrijo","Delgado","Carolini","Fabri","Ladislau",
+    "Saturnino","Germano","Rizzo","Ladeira","Casagrande","Dionizio",
+    "Penteado","Filgueira","Rolim","Tolentino","Ruas","Serrao",
+    "Klara","Games","Poletto","Justiniano","Seixas","Azeredo",
+    "Clementino","Pitioti","Macena","Senna","Navarro","César",
+    "Antônia","Meinlschmiedt","Taborda","Flauzino","Roseno","Aguilera",
+    "Bianco","Damacena","Valim","Graca","Querino","Pardim",
+    "Constantino","Buss","Kristiny","Bicalho","Sthefany","Stefanie",
+    "Estefane","Thamires","Isabella","Gonsalves","Lelis","Rech",
+    "Raposo","Schuster","Alvez","Evaristo","Quaresma","Rafaele",
+    "Monte","Merces","Adelino","Bentes","Colares","Garcez",
+    "Quintino","Meirelles","Karolaine","Rodriguez","Laureano","Nathalia",
+    "Damascena","Meurer","Kowalski","Rafagnin","Nicacio","Bergamo",
+    "Olimpio","Jaqueline","Batalha","Barra","Flausino","Piva",
+    "Isaias","Polo","Cassimiro","Malta","Marciel","Izidoro",
+    "Gorete","Profiro","Aranha","Frutuoso","Dedeco","Pickler",
+    "Euzebio","Berto","Portes","Napolitano","Flor","Bom",
+    "Kramer","Bauer","Salgueiro","Ferronato","Palmeira","Cosme",
+    "Ximenes","Hhh","Nicolau","Ritter","Lazaro","Michelly",
+    "Sthefanny","Gurgel","Deodato","Perola","Zanella","Antonieta",
+    "Breda","Rosseto","Machion","Schossler","Crepaldi","Manuella",
+    "Werner","Benevides","Santin","Agra","Bacelar","Bronzeli",
+    "Pazini","Cezario","Rosado","Constante","Marciano","Henriques",
+    "Hartmann","Graf","Kamilli","Malaquias","Santi","Grassi",
+    "Fleck","Penido","Paixão","Inácio","Caixeta","Bragança",
+    "Santanna","Hellena","Gutierrez","Assumpcao","Emiliano","Filha",
+    "Danielli","Romana","Naomi","Geronimo","Baia","Gaia",
+    "Pina","Grando","Nakamura","Steffane","Bortoluzzi","Targino",
+    "Castello","Franklin","Fiuza","Gimenez","Melquiades","Ponte",
+    "Clementina","Tomas","Manso","Cirqueira","Laurentino","Cristino",
+    "Fogaca","Possamai","Negreiros","Espinola","Liborio","Pestana",
+    "Diel","Villas","Rabello","Ayres","Patrocinio","Natividade",
+    "Mira","Palma","Maranhao","Albano","Jordao","Karollyne",
+    "Belchior","Guterres","Lustosa","Cirino","Damaceno","Pita",
+    "Arrais","Rosas","Shinkawa","Sebastiao","Gilberto","Simon",
+    "Regis","Cantanhede","Belem","Said","Batistela","Valenca",
+    "Ramires","Andrielle","Yumi","Lang","Martiniano","Viecili",
+    "Valentin","Cravo","Sandri","Foggia","Parente","Zanette",
+    "Canin","Papait","Salazar","Escorcio","Della","Ohana",
+    "Alexandrino","Hernandez","Laune","Portilho","Tanaka","Francielle",
+    "Tosta","Furquim","Mariz","Venceslau","Faleiro","Jacobsen",
+    "Hernandes","Devido","Alencastro","Emanueli","Andrini","Calacara",
+    "Decarli","Castelhano","Balduino","Cadore","Portella","Sene",
+    "Montenegro","Kelle","Camacho","Zanon","Thiele","Blanco",
+    "Bierhals","Ton","Angelina","Frota","Silvano","Alvim",
+    "Marcelle","Tauana","Barth","Weber","Enrique","Bertoldo",
+    "Zumpano","Wohlmuth","Venâncio","Sávio","Benedita","Custódio",
+    "Albrecht","Oliveiraj","Fritzen","Cláudio","Kathleen","Deziderio",
+    "Lorrainy","Trevisan","Hahn","Rocio","Stephane","Martini",
+    "Priscilla","Remedios","Cristian","Gutierres","Noe","Gabryelle",
+    "Padua","Teixera","Canto","Cristiana","Karolayne","Mourao",
+    "Karielly","Jeronimo","Bortoli","Olinto","Amparo","Amado",
+    "Emile","Gameiro","Rolao","Ludaymon","Pastana","Damiani",
+    "Rossato","Pellegrini","Juliao","Magri","Lameira","Benfica",
+    "Magno","Tosi","Brigida","Marcelly","Favacho","Kele",
+    "Colaco","Simas","Alvares","Guasti","Tagarro","Cristyne",
+    "Boa","Trajano","Velozo","Favaro","Mayer","Grandi",
+    "Liz","Otilia","Dionisio","Leoncio","Sandes","Madureira",
+    "Crisostomo","Ricci","Pacifico","Teodora","Serrano","Nunez",
+    "Perin","Padovani","Villar","Fernandez","Agostini","Sakamoto",
+    "Messa","Vilhalba","Morales","Barreiros","Stefanny","Clecia",
+    "Grigorio","Fugaca","Claudina","Calliman","Valeriano","Rosendo",
+    "Velho","Carolyne","Puga","Slim","Loterio","Ananias",
+    "Saavedra","Pedrozo","Gondim","Stadler","Eloi","Claro",
+    "Cristo","Endres","Mark","Palhano","Stefanne","Hilario",
+    "Gomide","Bicudo","Klenobingue","Werneck","Chamon","Eckert",
+    "Bosco","Lorenzoni","Cassemiro","Salomao","Estacio","Primo",
+    "Cavanha","Velasco","Boldrin","Mamedio","Lya","Marini",
+    "Duraes","Guida","Aviz","Limeira","Villaca","Taveira",
+    "Caxias","Manuel","Marvilla","Marquez","Roos","Auricelia",
+    "Emerick","Mikaelly","Guido","Fiel","Balbinot","Butter",
+    "Elane","Lohane","Cidade","Alho","Petrich","Cristyna",
+    "Ferroni","Risso","Menegazzo","Viveiros","Aniceto","Francine",
+    "Clarisse","Anderson","Baltazar","Pino","Simiao","Roldao",
+    "Ayumi","Carral","Leidiane","Calado","Grativol","Nazaria",
+    "Victorino","Cristinne","Bernarda","Lange","Amalia","Mora",
+    "Facanha","Egidio","Aprigio","Benedette","Umbelino","Garces",
+    "Loiola","Donadel","Zomer","Canuto","Gueleri","Brasiliano",
+    "Friedrich","Valverde","Leoni","Pilar","Ricken","Sposito",
+    "Menegon","Barretto","Leopoldo","Lavigne","Danielly","Hausmann",
+    "Zortea","Goveia","Koch","Conti","Pequeno","Kroth",
+    "Jeniffer","Morgan","Anacleto","Leonarda","Zilch","Carollina",
+    "Miotto","Paschoal","Primon","Micaelly","Noleto","Penna",
+    "Irineu","Barbalho","Jeremias","Inocencio","Adorno","Piovesan",
+    "Filgueiras","Tormes","Hofffmann","Conrado","Minutti","Villela",
+    "Conte","Domingas","Sepulveda","Acioli","Frade","Rechi",
+    "Rebello","Zattar","Simplicio","Pio","Beie","Domiciano",
+    "Lurene","Merighi","Ayala","Milani","Mainardes","Dionizia",
+    "Wandscheer","Ayro","Namy","Goto","Feltrin","Passo",
+    "Pizzano","Fantin","Leão","Castanho","Vencato","Simões",
+    "Andres","Angélica","Galvão","Cândida","Rstela","Nalva",
+    "Frida","Donizetti","Rosário","Knaak","Miiranda","Neis",
+    "Favaretto","Baran","Abatayguara","Anastácio","Cândido","Feldhaus",
+    "Lenice","Assunção","Pianezzer","Keyle","Dib","Benjamim",
+    "Michelle","Amarante","Lice","Lazzarotto","Sulamita","Viera",
+    "Kronbauer","Zarrochinski","Komar","Paraiso","Brilhante","Angelis",
+    "Karolline","Hermel","Olimpia","Barreiro","Maya","Ataides",
+    "Caceres","Fantini","Ambrosio","Boeira","Mastrange","Martignago",
+    "Los","Karam","Seifeddine","Thome","Terres","Schott",
+    "Izabella","Teodozio","Kostopoulos","Leone","Sanabria","Kayane",
+    "Toscano","Carmona","Cury","Berger","Estefania","Lindoso",
+    "Mabily","Faciroli","Steffany","Tainar","Caravalho","Furoni",
+    "Frantz","Betoni","Hurtado","Karolyna","Baima","Schenkel",
+    "Elisabete","Felizardo","Dilva","Zaramella","Christiny","Pala",
+    "Herminia","Figueredo","Caires","Milhomem","Cidimara","Kaizer",
+    "Melegari","Raquelly","Michaellede","Larizza","Kardigina","Regia",
+    "Rivas","Rhania","Paim","Christian","Rodegheri","Vaca",
+    "Calazans","Kravicz","Texeira","Aguirre","Palacio","Hapuqui",
+    "Piacenti","Reinaldo","Michalski","Saikoski","Labres","Pagani",
+    "Limaa","Pias","Varella","Steiger","Pirani","Sujimoto",
+    "Miquelina","Louiny","Junio","Amador","Loch","Quispe",
+    "Antero","Mineiro","Ott","Aroucha","Monteles","Printes",
+    "Hunter","Colbeich","Heloize","Tedesco","Clem","Zanetti",
+    "Nova","Kozovski","Sotero","Crystina","Nelli","Marsari",
+    "Mieres","Kaelaine","Cotrim","Braganca","Prudencio","Gato",
+    "Francielli","Bone","Zani","Kethellen","Ferraro","Luize",
+    "Rafaelle","Desiderio","Smaniotto","Copque","Brasileiro","Mossulin",
+    "Eishyla","Merlo","Mallmann","Rigueira","Verona","Pardini",
+    "Belini","Goncalo","Riquelme","Kruger","Wend","Norato",
+    "Silene","Alvarez","Nabuco","Leonidas","Holder","Vanderlei",
+    "Emanuela","Martineli","Kerlon","Foss","Sortica","Albert",
+    "Dia","Moro","Berte","Emanoel","Cassol","Ketelly",
+    "Diaz","Schuman","Divino","Zanardi","Smith","Caron",
+    "Dornelas","Tobias","Torquato","Fiochi","Ramiro","Sthefani",
+    "Santoa","Higino","Simioni","Idalino","Criatina","Fischer",
+    "Balieiro","Crespo","Paranhos","Enes","Froner","Grayce",
+    "Robles","Omena","Cobos","Ernesto","Tramonte","Pedras",
+    "Fontinellis","Garbinato","Cidalina","Laranja","Neubauer","Rosangela",
+    "Netto","Janison","Gotardo","Grasiele","Felisberto","Forte",
+    "Cristal","Trapp","Lauer","Jandira","Mazzi","Marchiori",
+    "Nugerina","Livino","Christani","Santod","Roveredo","Juravski",
+    "Monaly","Belizario","Romuanna","Gianne","Assmann","Selbach",
+    "Arocha","Faller","Guilhermina","Cosmo","Navas","Gauna",
+    "Chiabai","Nathalle","Thevilla","Solano","Kethoy","Totti",
+    "Bora","Rubim","Herculano","Sayuri","Vilalva","Maranho",
+    "Fellipe","Benedetti","Luise","Brida","Vilaca","Boaes",
+    "Parreira","Aboim","Cortivo","Nishida","Santacruz","Pegoretti",
+    "Gollo","Camillo","Liviero","Gasparello","Balotin","Bulhoes",
+    "Durans","Maquine","Wiliany","Lombardi","Fideles","Diamantino",
+    "Beatris","Vanzin","Fabian","Frederico","Suzan","Paludo",
+    "Garbin","Nathally","Liryel","Pisetta","Negri","Belisario",
+    "Ryta","Musso","Ene","Galera","Daher","Jordania",
+    "Suterio","Fontenele","Urbano","Benedet","Seabra","Viriato",
+    "Archangelo","Gandra","Cristovao","Anastacio","Rizzi","Patez",
+    "Magela","Macedode","Spozito","Adam","Queiroga","Casanova",
+    "Teobaldo","Fialho","Faia","Occhi","Angelino","Stocco",
+    "Rosset","Urbanski","Goncalez","Thayse","Kodama","Mirellen",
+    "Finesi","Feiteira","Barriga","Kreiser","Jaini","Rosy",
+    "Hacker","Argolo","Dambrosi","Linara","Vilanova","Virgens",
+    "Gonzales","Tameirao","Louvem","Raquelle","Gomez","Sinara",
+    "Mancio","Dalzotto","Keller","Mousinho","Rege","Pessa",
+    "Cataneo","Stephani"
+  ];
 
-      var randomEmail = emailFormats[Math.floor(Math.random() * emailFormats.length)] + "@" + domain;
+  // ─── CONECTORES BRASILEIROS ──────────────────────────────────────────────
+  var connectors = ["de","da","dos","das","do","e","di"];
 
-      // Telefone com DDD válido e nono dígito
-      var ddds = ["11", "19", "21", "27", "31", "41", "47", "48", "51", "61", "62", "71", "81", "85", "91"];
-      var ddd = ddds[Math.floor(Math.random() * ddds.length)];
-      var randomPhone = ddd + "9" + Math.floor(10000000 + Math.random() * 90000000);
+  var pick = function(list) {
+    return list[Math.floor(Math.random() * list.length)];
+  };
 
-      return {
-        name: randomName,
-        cpf: randomCpf,
-        email: randomEmail,
-        phone: randomPhone
-      };
+  var randInt = function(min, max) {
+    return Math.floor(min + Math.random() * (max - min + 1));
+  };
+
+  // ─── GERAÇÃO DO NOME ──────────────────────────────────────────────────────
+  // Distribuição: 28% composto fixo, 14% masculino, 58% feminino (reflete dados reais)
+  var nameRoll = Math.random();
+  var firstName;
+  var isMale;
+
+  if (nameRoll < 0.28) {
+    firstName = pick(compoundNames);
+    isMale = Math.random() < 0.35; // compostos são mais femininos no BR
+  } else if (nameRoll < 0.42) {
+    firstName = pick(maleNames);
+    isMale = true;
+  } else {
+    firstName = pick(femaleNames);
+    isMale = false;
+  }
+
+  // Estrutura do sobrenome: 1, 2 ou 3 partes, com conectores ocasionais
+  var s1 = pick(surnames);
+  var s2 = pick(surnames);
+  while (s2 === s1) s2 = pick(surnames);
+  var s3 = pick(surnames);
+  while (s3 === s1 || s3 === s2) s3 = pick(surnames);
+
+  var structRoll = Math.random();
+  var fullName;
+
+  if (structRoll < 0.12) {
+    // 12% — só um sobrenome: Kamila Silva
+    fullName = firstName + " " + s1;
+  } else if (structRoll < 0.60) {
+    // 48% — dois sobrenomes: Bruna Rodrigues Lima
+    fullName = firstName + " " + s1 + " " + s2;
+  } else if (structRoll < 0.78) {
+    // 18% — dois sobrenomes com conector: Tainara de Oliveira Bastos
+    fullName = firstName + " " + s1 + " " + pick(connectors) + " " + s3;
+  } else if (structRoll < 0.90) {
+    // 12% — três sobrenomes: Welliton Rodrigues da Silva Santos
+    fullName = firstName + " " + s1 + " " + s2 + " " + s3;
+  } else {
+    // 10% — nome longo com 2 conectores: Adriana Viviane da Costa Almeida
+    fullName = firstName + " " + s1 + " " + pick(connectors) + " " + s2 + " " + s3;
+  }
+
+  // ─── CPF VÁLIDO — ALGORITMO MÓDULO 11 ────────────────────────────────────
+  var digits = [];
+  for (var i = 0; i < 9; i++) digits.push(Math.floor(Math.random() * 10));
+  var sum1 = 0;
+  for (var i = 0; i < 9; i++) sum1 += digits[i] * (10 - i);
+  var rem1 = (sum1 * 10) % 11;
+  digits.push(rem1 === 10 || rem1 === 11 ? 0 : rem1);
+  var sum2 = 0;
+  for (var i = 0; i < 10; i++) sum2 += digits[i] * (11 - i);
+  var rem2 = (sum2 * 10) % 11;
+  digits.push(rem2 === 10 || rem2 === 11 ? 0 : rem2);
+  var randomCpf = digits.join("");
+
+  // ─── EMAIL ────────────────────────────────────────────────────────────────
+  var stripAccents = function(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+  var toSlug = function(s) {
+    return stripAccents(s).toLowerCase().replace(/[^a-z]/g, "");
+  };
+
+  // Extrair partes do nome limpas (sem conectores)
+  var stops = ["de","da","do","dos","das","e","di","d","a","o"];
+  var nameParts = fullName.split(" ").filter(function(p) {
+    return stops.indexOf(p.toLowerCase()) === -1 && p.length >= 2;
+  }).map(toSlug).filter(function(p) { return p.length >= 2; });
+
+  var ef  = nameParts[0] || "user";         // primeiro (limpo)
+  var em  = nameParts.length > 2 ? nameParts[1] : ""; // meio
+  var el  = nameParts[nameParts.length - 1] || ""; // último
+  var es1 = toSlug(s1);
+  var es2 = toSlug(s2);
+
+  // ── Sufixos numéricos (65.6% dos emails reais têm número) ─────────────────
+  var getNum = function() {
+    var r = Math.random();
+    if (r < 0.344) return "";                              // 34.4% — sem número
+    if (r < 0.556) return String(randInt(1, 99));          // 21.2% — 1-2 dígitos
+    if (r < 0.753) return String(randInt(100, 999));       // 19.7% — 3 dígitos
+    if (r < 0.855) return String(randInt(1000, 9999));     // 10.2% — 4 dígitos
+    if (r < 0.910) return String(randInt(10000, 99999));   // 5.5%  — 5 dígitos
+    // data brasileira (ddmm ou ddmmaa) — padrão muito real
+    var d = String(randInt(1, 28)).padStart(2, "0");
+    var m = String(randInt(1, 12)).padStart(2, "0");
+    var a = String(randInt(1985, 2006));
+    if (Math.random() < 0.45) return d + m;               // ex: 2304
+    return d + m + a.slice(2);                             // ex: 230492
+  };
+
+  // ── Domínios com distribuição real dos 42k registros ──────────────────────
+  var getDomain = function() {
+    var r = Math.random();
+    if (r < 0.8480) return "gmail.com";
+    if (r < 0.9133) return "hotmail.com";
+    if (r < 0.9529) return "icloud.com";
+    if (r < 0.9658) return "outlook.com";
+    if (r < 0.9780) return "yahoo.com.br";
+    if (r < 0.9811) return "yahoo.com";
+    if (r < 0.9827) return "bol.com.br";
+    if (r < 0.9839) return "live.com";
+    if (r < 0.9850) return "uol.com.br";
+    return "outlook.com.br";
+  };
+
+  var domain = getDomain();
+  var num    = getNum();
+
+  // ── Apelidos / diminutivos (observados nos dados reais) ───────────────────
+  var apelidos = {
+    "jessica" :["jess","jeh","jessi","jessi"],
+    "beatriz" :["bia","bea","biih","bi"],
+    "gabriela":["gabi","gah","gabii"],
+    "isabela" :["isa","bela","belly","bellinha"],
+    "mariana" :["mari","mary","mah","marih"],
+    "heloisa" :["helo","heloh","helzinha"],
+    "julia"   :["juju","juh","juliinha"],
+    "vitoria" :["vivi","vitih","vito","vi"],
+    "larissa" :["lari","larih","lala"],
+    "rafaela" :["rafa","rafah","fe","rafinha"],
+    "leticia" :["lety","leh","lele"],
+    "luiza"   :["luih","luuuh","luizinha"],
+    "fernanda":["fer","nanda","nandinha"],
+    "bianca"  :["bi","bih","bii"],
+    "bruna"   :["bru","bruuh","brunah","bruninha"],
+    "amanda"  :["manda","amandinha","mandy"],
+    "camila"  :["cah","camih","caminha"],
+    "natalia" :["naty","natih","nats"],
+    "priscila":["pri","prisci","pris"],
+    "giovana" :["gi","gio","geo"],
+    "sabrina" :["sah","sabi","sabih"],
+    "patricia":["paty","pah","pat"],
+    "gabriel" :["gab","gabi","gabruh"],
+    "lucas"   :["lu","luca","lukinha"],
+    "matheus" :["math","mths","matheuzin","matheuzinho"],
+    "guilherme":["gui","guih","guizinho"],
+    "pedro"   :["pe","peh","pedrinho","pedrão"],
+    "thiago"  :["thi","thiagao","thii"],
+    "rafael"  :["rafa","raf","rafinha"],
+    "joao"    :["jo","jao","joaozin","joaozinho"],
+    "gustavo" :["gus","guto","gustinha"],
+    "felipe"  :["feh","fe","felipinho"],
+    "ana"     :["aninha","aninhas","anny"],
+    "debora"  :["deh","debs","debinha"],
+    "eduarda" :["edu","dudu","dudinha"],
+    "carol"   :["carolzinha","carolh","carols"],
+    "livia"   :["liv","livinha","livih"],
+    "layla"   :["lay","laylay","laylinha"],
+    "yasmim"  :["yas","yasmin","yasminha"],
+    "sofia"   :["sofi","sofinha","sofiih"],
+    "clara"   :["clarinha","clah","clarih"],
+    "alice"   :["ali","alicinha","alih"],
+    "luana"   :["lu","luany","luana"],
+    "sara"    :["sarinha","sarih","sah"]
+  };
+
+  var getDiminutivo = function(nome) {
+    var ap = apelidos[nome];
+    if (ap) return pick(ap);
+    // geração dinâmica: trunca + sufixo
+    var sufixos = ["inha","inho","zinha","zinho","in","iss","ita"];
+    var base = nome.slice(0, Math.min(nome.length, randInt(3, 6)));
+    return base + pick(sufixos);
+  };
+
+  // ── Padrões de email por peso estatístico (extraído dos 42k registros) ────
+  // first+more:        29.4% — primeiro nome + variação
+  // apelido:           22.6% — apelido/criativo/sem relação
+  // first+sur1:        15.1% — primeiro+sobrenome concatenado
+  // first_trunc:        9.6% — truncamento do primeiro + sobrenome
+  // first+sur2:         5.5% — primeiro+segundo sobrenome
+  // sur_trunc:          5.5% — sobrenome truncado + variação
+  // sur1+first:         3.8% — sobrenome+primeiro
+  // initials:           3.1% — iniciais + número
+  // sur2+first:         1.5% — segundo sobrenome+primeiro
+  // first_only:         1.4% — só primeiro + número
+  // first.surN:         1.3% — primeiro.sobrenome
+  // num_heavy:          1.0% — número pesado
+  // first_surN:         0.1% — primeiro_sobrenome
+
+  var emailLocal;
+  var r = Math.random();
+
+  if (r < 0.151) {
+    // ── first+sur1: primeiro+sobrenome (joaosilva92, tainarabastos901)
+    emailLocal = ef + el + num;
+
+  } else if (r < 0.246) {
+    // ── first+mais: primeiro+meioNome ou primeiro+s1 (raianejamili05, josielemenezes33)
+    var meio = (em && em !== ef && em !== el) ? em : es1;
+    if (meio === ef || meio === el) meio = es2;
+    emailLocal = ef + meio + num;
+
+  } else if (r < 0.346) {
+    // ── first+more: padrão mais comum — primeiro + algo extra
+    // Ex: anarosasantosdafonseca, walquiriasantinha, patriciakaroline05
+    var extras = [
+      function() { return ef + el + (em || es1) + num; },
+      function() { return ef + es1 + es2 + num; },
+      function() { return ef + (em || es1) + num; },
+      function() { return ef + el + num; },
+      function() { return ef + getDiminutivo(ef).slice(2) + el + num; }
+    ];
+    emailLocal = pick(extras)();
+
+  } else if (r < 0.442) {
+    // ── apelido_or_other: sem relação clara com o nome (22.6%)
+    // inclui: apelidos, emails de terceiros, criações livres
+    var apStyles = [
+      // diminutivo + sobrenome
+      function() { return getDiminutivo(ef) + el.slice(0, randInt(3,5)) + num; },
+      // diminutivo puro
+      function() { return getDiminutivo(ef) + num; },
+      // sobrenome like name: silvajoao260304
+      function() { return el + ef + num; },
+      // initial+sobrenome+num: bsantos8605
+      function() { return (ef[0]||"a") + el + num; },
+      // iniciais todos: ws202002, mm4076599
+      function() {
+        var initials = nameParts.map(function(p){ return p[0]; }).join("");
+        return initials + String(randInt(10, 9999999));
+      },
+      // 2letras+numero: ac5145230
+      function() {
+        var two = (nameParts[0]||"ab").slice(0,2) + ((nameParts[1]||"cd")[0]||"x");
+        return two + String(randInt(100000, 9999999));
+      },
+      // sobrenome+numero: soares797, silva503
+      function() { return el + (num || String(randInt(1,9999))); },
+      // s1+num: oliveiradanyele4
+      function() { return es1 + getDiminutivo(ef) + String(randInt(1,99)); },
+      // criativo: nome+apelido+num (kellyrodri752)
+      function() { return ef.slice(0, randInt(4,7)) + es1.slice(0, randInt(3,5)) + num; },
+      // birth-year pattern: deboraallan1998
+      function() { return ef + es1 + String(randInt(1985, 2006)); }
+    ];
+    emailLocal = pick(apStyles)();
+
+  } else if (r < 0.537) {
+    // ── first_trunc: truncamento do primeiro + sobrenome (9.6%)
+    // Ex: giovanafer1234, sheilaalegre35, kariinecooelho
+    var truncLen = randInt(3, ef.length > 6 ? 6 : ef.length);
+    var truncFirst = ef.slice(0, truncLen);
+    // dobrar vogal final às vezes (kariine, oliveiradanyele)
+    if (Math.random() < 0.20 && /[aeiou]$/.test(truncFirst)) {
+      truncFirst = truncFirst + truncFirst.slice(-1);
     }
+    emailLocal = truncFirst + el + num;
+
+  } else if (r < 0.592) {
+    // ── first+sur2: primeiro+segundo sobrenome (5.5%)
+    // Ex: tainarabastos901, beatrizfirme77
+    emailLocal = ef + es2 + num;
+
+  } else if (r < 0.647) {
+    // ── sur_trunc: sobrenome truncado + variação (5.5%)
+    // Ex: oliveiradanyele4, fernandesdasilvaadriana90, carvalholudimilla9
+    var elT = es1.length > 5 ? es1.slice(0, randInt(5, es1.length)) : es1;
+    if (Math.random() < 0.4) {
+      emailLocal = elT + ef + num;
+    } else {
+      emailLocal = elT + getDiminutivo(ef).slice(0, randInt(3,5)) + num;
+    }
+
+  } else if (r < 0.685) {
+    // ── sur1+first: sobrenome+primeiro (3.8%)
+    // Ex: araujotaciana341, gleysajanes, silvasabrina8124
+    emailLocal = el + ef + num;
+
+  } else if (r < 0.716) {
+    // ── initials: iniciais + número longo (3.1%)
+    // Ex: ws202002, ac5145230, mm4076599
+    var inits = nameParts.slice(0, randInt(2, Math.min(4, nameParts.length)))
+                         .map(function(p){ return p[0]; }).join("");
+    emailLocal = inits + String(randInt(100, 9999999));
+
+  } else if (r < 0.731) {
+    // ── sur2+first: segundo sobrenome + primeiro (1.5%)
+    // Ex: carvalhodayane709, silvaluana260304
+    emailLocal = es2 + ef + num;
+
+  } else if (r < 0.745) {
+    // ── first_only: só primeiro + número (1.4%)
+    // Ex: edilayne0010, taiza7576
+    emailLocal = ef + (num || String(randInt(1, 9999)));
+
+  } else if (r < 0.758) {
+    // ── first.surN: primeiro ponto sobrenome (1.3%)
+    // Ex: emily.araujo, felipe.vieiraceara, caroline.cpd27
+    emailLocal = ef + "." + el + num;
+
+  } else if (r < 0.768) {
+    // ── num_heavy: número pesado (1.0%)
+    // Ex: paulinha122008, josegeraldofarias2020
+    emailLocal = ef + String(randInt(100000, 99999999));
+
+  } else if (r < 0.775) {
+    // ── first_surN: primeiro underscore sobrenome (hotmail style)
+    // Ex: kelly_cristina_mello, tamara_eduardaa
+    emailLocal = ef + "_" + el + num;
+
+  } else {
+    // ── surN.first: sobrenome ponto primeiro (gmail ocasional)
+    // Ex: peres.luana.lankaster, reis.denisesoares
+    emailLocal = el + "." + ef + num;
+  }
+
+  // Garantir local válido e mínimo
+  if (!emailLocal || emailLocal.length < 3) {
+    emailLocal = ef + String(randInt(1, 999));
+  }
+
+  var randomEmail = emailLocal + "@" + domain;
+
+  // ─── TELEFONE COM DDD GEOGRÁFICO BRASILEIRO ───────────────────────────────
+  var ddds = [
+    "11","12","13","14","15","16","17","18","19",
+    "21","22","24","27","28",
+    "31","32","33","34","35","37","38",
+    "41","42","43","44","45","46","47","48","49",
+    "51","53","54","55",
+    "61","62","63","64","65","66","67","68","69",
+    "71","73","74","75","77","79",
+    "81","82","83","84","85","86","87","88","89",
+    "91","92","93","94","95","96","97","98","99"
+  ];
+
+  var ddd = pick(ddds);
+  var randomPhone = ddd + "9" + String(Math.floor(10000000 + Math.random() * 90000000));
+
+  return {
+    name:  fullName,
+    cpf:   randomCpf,
+    email: randomEmail,
+    phone: randomPhone
+  };
+}
+
     window.generateRandomGatewayCustomer = generateRandomGatewayCustomer;
 
     // Populate URL Query Parameters & LocalStorage
