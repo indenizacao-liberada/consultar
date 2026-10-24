@@ -1183,13 +1183,14 @@ var ddd = Array.isArray(ddds) && ddds.length
   : "";
 var generatedCpf = generateValidCpf();
 
-return {
-  name: fullName,
-  email: email,
-  phone: String(ddd) + "9" + String(Math.floor(10000000 + Math.random() * 90000000)),
-  document: generatedCpf,
-  cpf: generatedCpf
-};
+  return {
+    name: fullName,
+    email: email,
+    phone: ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
+    document: generateValidCpf(),
+    cpf: generateValidCpf()
+  };
+}
 
 
 
