@@ -36409,7 +36409,7 @@ v.play().catch(function () {});
                   } else if (typeof window.goToCheckoutPagamento === "function") {
                     window.goToCheckoutPagamento();
                   }
-                }, 7500);
+                }, 10500);
               });
             });
           });
@@ -37009,6 +37009,25 @@ function createAudioPlayerRow(audioSrc, durationStr) {
       timeLabel.textContent = "0:00 / " + durationStr;
     }
   };
+
+  // iOS Safari throttles requestAnimationFrame for audio-only elements.
+  // timeupdate é disparado pelo motor de mídia e funciona mesmo quando rAF para.
+  a.addEventListener("timeupdate", function () {
+    var cur = a.currentTime || 0;
+    var dur = a.duration;
+
+    if (fill && dur && isFinite(dur)) {
+      fill.style.width = Math.max(0, Math.min(100, (cur / dur) * 100)) + "%";
+    }
+
+    var curSec = Math.floor(cur);
+    if (timeLabel && curSec !== lastLabelSec) {
+      lastLabelSec = curSec;
+      var curM = Math.floor(cur / 60);
+      var curS = curSec % 60;
+      timeLabel.textContent = curM + ":" + (curS < 10 ? "0" : "") + curS + " / " + durationStr;
+    }
+  });
 
   // Tenta o autoplay uma única vez, sem registrar cliques globais.
   var startPlay = function () {
