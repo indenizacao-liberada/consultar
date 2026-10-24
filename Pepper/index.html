@@ -36953,54 +36953,37 @@ function createAudioPlayerRow(audioSrc, durationStr) {
   a.muted = false;
   a.volume = 1;
 
-  // Loop rAF — barra fluida a ~60fps, label atualiza a cada segundo.
-  var rafId = null;
-  var lastLabelSec = -1;
-
-  function rafLoop() {
-    if (!a || a.paused || a.ended) {
-      rafId = null;
-      return;
-    }
-
+  // Atualiza barra e contador via ontimeupdate — funciona em iOS Safari
+  // (requestAnimationFrame é throttled pelo iOS quando não há renderização ativa)
+  a.ontimeupdate = function () {
+    if (!a) return;
     var cur = a.currentTime || 0;
-    var dur = a.duration;
-
-    if (fill && dur && isFinite(dur)) {
-      fill.style.width = Math.max(0, Math.min(100, (cur / dur) * 100)) + "%";
-    }
-
-    // Label só redesenha quando o segundo muda
-    var curSec = Math.floor(cur);
-    if (timeLabel && curSec !== lastLabelSec) {
-      lastLabelSec = curSec;
-      var curM = Math.floor(cur / 60);
-      var curS = curSec % 60;
+    var dur = a.duration || 1;
+    var pct = Math.max(0, Math.min(100, (cur / dur) * 100));
+    if (fill) fill.style.width = pct + "%";
+    var curM = Math.floor(cur / 60);
+    var curS = Math.floor(cur % 60);
+    if (timeLabel) {
       timeLabel.textContent = curM + ":" + (curS < 10 ? "0" : "") + curS + " / " + durationStr;
     }
+  };
 
-    rafId = requestAnimationFrame(rafLoop);
-  }
-
-  // Substituir onplay/onpause/onended para integrar o loop rAF
   a.onplay = function () {
     pauseOtherAudios();
     if (playI) playI.style.display = "none";
     if (pauseI) pauseI.style.display = "block";
-    if (!rafId) rafId = requestAnimationFrame(rafLoop);
   };
 
   a.onpause = function () {
     if (playI) playI.style.display = "block";
     if (pauseI) pauseI.style.display = "none";
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
   };
 
   a.onended = function () {
     if (playI) playI.style.display = "block";
     if (pauseI) pauseI.style.display = "none";
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     if (fill) fill.style.width = "100%";
+    if (timeLabel) timeLabel.textContent = durationStr + " / " + durationStr;
   };
 
   // Corrige o tempo quando os metadados reais estiverem disponíveis.
