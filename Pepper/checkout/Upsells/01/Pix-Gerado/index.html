@@ -48,15 +48,13 @@ src="https://www.facebook.com/tr?id=1139786872072953&ev=PageView&noscript=1"
 
 
 <!-- UTM FACEBOOK Code -->
-
 <script>
 (function () {
   "use strict";
 
   var PIXEL_ID = "1117296950800245";
-  var EVENT_KEY = "pepper_ic_sent";
+  var EVENT_KEY = "pepper_ic_sent_1117296950800245";
 
-  // Evita disparos repetidos nesta aba.
   try {
     if (sessionStorage.getItem(EVENT_KEY)) return;
   } catch (e) {}
@@ -84,32 +82,23 @@ src="https://www.facebook.com/tr?id=1139786872072953&ev=PageView&noscript=1"
     return true;
   }
 
-  // Espera o Pixel estar disponível antes de enviar.
   if (!sendInitiateCheckout()) {
     var attempts = 0;
     var timer = setInterval(function () {
       attempts++;
-
-      if (sendInitiateCheckout() || attempts >= 20) {
-        clearInterval(timer);
-      }
+      if (sendInitiateCheckout() || attempts >= 20) clearInterval(timer);
     }, 250);
   }
 })();
 </script>
-
-
-
-
 
 <script>
 (function () {
   "use strict";
 
   var PIXEL_ID = "1139786872072953";
-  var EVENT_KEY = "pepper_ic_sent";
+  var EVENT_KEY = "pepper_ic_sent_1139786872072953";
 
-  // Evita disparos repetidos nesta aba.
   try {
     if (sessionStorage.getItem(EVENT_KEY)) return;
   } catch (e) {}
@@ -137,21 +126,15 @@ src="https://www.facebook.com/tr?id=1139786872072953&ev=PageView&noscript=1"
     return true;
   }
 
-  // Espera o Pixel estar disponível antes de enviar.
   if (!sendInitiateCheckout()) {
     var attempts = 0;
     var timer = setInterval(function () {
       attempts++;
-
-      if (sendInitiateCheckout() || attempts >= 20) {
-        clearInterval(timer);
-      }
+      if (sendInitiateCheckout() || attempts >= 20) clearInterval(timer);
     }, 250);
   }
 })();
 </script>
-
-
 
 
 
