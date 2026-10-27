@@ -502,7 +502,7 @@ function generateGatewayCustomer() {
     "Laurineia","Claudina","Neuzuila","Andréa","Dealci","Itelvina"
   ];
 
-  var compoundNames = [
+  var allCompoundNames = [
     "Maria Eduarda","Maria Clara","Ana Clara","Ana Carolina","Ana Paula","Ana Beatriz",
     "Maria Luiza","Maria Aparecida","Ana Luiza","Ana Julia","Maria Vitoria","Maria Fernanda",
     "Ana Maria","Ana Vitoria","Maria Julia","Ana Caroline","Ana Claudia","Ana Lucia",
@@ -588,6 +588,35 @@ function generateGatewayCustomer() {
     "Brenda Rodrigues","Giovana Aparecida","Raissa Oliveira","Kailane Vitoria","Jaqueline Rodrigues","Lara Rayane",
     "Isabela Vitoria","Maria Daniele"
   ];
+
+
+  // Separa os nomes compostos pelo primeiro nome, mantendo os 500 nomes originais.
+  function normalizeNameForMatch(value) {
+    var text = String(value || "").toLowerCase();
+    if (typeof text.normalize === "function") {
+      text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+    return text.replace(/[^a-z0-9]/g, "");
+  }
+
+  var maleCompoundStarts = {
+    antonio: true, bruno: true, carlos: true, fabio: true, gabriel: true,
+    gustavo: true, joao: true, jose: true, julio: true, leonardo: true,
+    lucas: true, luis: true, luiz: true, marcos: true, matheus: true,
+    paulo: true, pedro: true, vitor: true
+  };
+
+  var maleCompoundNames = [];
+  var femaleCompoundNames = [];
+  for (var compoundIndex = 0; compoundIndex < allCompoundNames.length; compoundIndex++) {
+    var compoundName = allCompoundNames[compoundIndex];
+    var compoundStart = normalizeNameForMatch(compoundName.split(/\s+/)[0]);
+    if (maleCompoundStarts[compoundStart]) {
+      maleCompoundNames.push(compoundName);
+    } else {
+      femaleCompoundNames.push(compoundName);
+    }
+  }
 
   var lastNames = [
     "Silva","Santos","Oliveira","Pereira","Ferreira","Lima",
@@ -713,7 +742,7 @@ function generateGatewayCustomer() {
     "Gorete","Profiro","Aranha","Frutuoso","Dedeco","Pickler",
     "Euzebio","Berto","Portes","Napolitano","Flor","Bom",
     "Kramer","Bauer","Salgueiro","Ferronato","Palmeira","Cosme",
-    "Ximenes","Hhh","Nicolau","Ritter","Lazaro","Michelly",
+    "Ximenes","Nicolau","Ritter","Lazaro","Michelly",
     "Sthefanny","Gurgel","Deodato","Perola","Zanella","Antonieta",
     "Breda","Rosseto","Machion","Schossler","Crepaldi","Manuella",
     "Werner","Benevides","Santin","Agra","Bacelar","Bronzeli",
@@ -849,6 +878,202 @@ function generateGatewayCustomer() {
     "Cataneo","Stephani"
   ];
 
+  // Estes itens da lista original eram nomes próprios, não sobrenomes.
+  // Os sobrenomes brasileiros são neutros quanto ao gênero; por isso os dois
+  // pools usam a mesma base limpa, em arrays separados para permitir ajustes futuros.
+  var givenNamesMistakenAsSurnames = [
+    "Gabrielly",
+    "Cristine",
+    "Gabriele",
+    "Terezinha",
+    "Gabrielle",
+    "Karoline",
+    "Gabriely",
+    "Vinicius",
+    "Guilherme",
+    "Gabriella",
+    "Priscila",
+    "Emanuelly",
+    "Emanuelle",
+    "Cristiny",
+    "Karolina",
+    "Karoliny",
+    "Alessandra",
+    "Alexandra",
+    "Cristiane",
+    "Christina",
+    "Caroliny",
+    "Auxiliadora",
+    "Graziele",
+    "Lorrayne",
+    "Gabrielli",
+    "Emanuele",
+    "Cristini",
+    "Stephany",
+    "Avaliadora",
+    "Looks",
+    "Carolaine",
+    "Elizabete",
+    "Margarida",
+    "Isabelly",
+    "Giovanna",
+    "Christine",
+    "Bernadete",
+    "Graziela",
+    "Emanuely",
+    "Geovanna",
+    "Estefani",
+    "Mauricio",
+    "Stephanie",
+    "Isabelle",
+    "Franciele",
+    "Raimunda",
+    "Luyza",
+    "Neomi",
+    "Istefany",
+    "Cássia",
+    "Carolline",
+    "Thaynara",
+    "Carolayne",
+    "Carolini",
+    "Klara",
+    "Antônia",
+    "Sthefany",
+    "Stefanie",
+    "Estefane",
+    "Thamires",
+    "Isabella",
+    "Rafaele",
+    "Karolaine",
+    "Nathalia",
+    "Jaqueline",
+    "Gorete",
+    "Michelly",
+    "Sthefanny",
+    "Antonieta",
+    "Manuella",
+    "Kamilli",
+    "Hellena",
+    "Danielli",
+    "Steffane",
+    "Clementina",
+    "Karollyne",
+    "Andrielle",
+    "Francielle",
+    "Emanueli",
+    "Tauana",
+    "Sávio",
+    "Benedita",
+    "Kathleen",
+    "Lorrainy",
+    "Stephane",
+    "Priscilla",
+    "Gabryelle",
+    "Cristiana",
+    "Karolayne",
+    "Karielly",
+    "Brigida",
+    "Marcelly",
+    "Cristyne",
+    "Teodora",
+    "Stefanny",
+    "Claudina",
+    "Carolyne",
+    "Stefanne",
+    "Lya",
+    "Auricelia",
+    "Mikaelly",
+    "Elane",
+    "Lohane",
+    "Cristyna",
+    "Clarisse",
+    "Ayumi",
+    "Leidiane",
+    "Nazaria",
+    "Cristinne",
+    "Bernarda",
+    "Amalia",
+    "Benedette",
+    "Danielly",
+    "Jeniffer",
+    "Carollina",
+    "Micaelly",
+    "Domingas",
+    "Lurene",
+    "Dionizia",
+    "Rstela",
+    "Nalva",
+    "Frida",
+    "Miiranda",
+    "Lenice",
+    "Keyle",
+    "Michelle",
+    "Sulamita",
+    "Karolline",
+    "Maya",
+    "Kayane",
+    "Estefania",
+    "Steffany",
+    "Tainar",
+    "Karolyna",
+    "Elisabete",
+    "Christiny",
+    "Herminia",
+    "Cidimara",
+    "Raquelly",
+    "Rhania",
+    "Limaa",
+    "Miquelina",
+    "Heloize",
+    "Crystina",
+    "Kaelaine",
+    "Francielli",
+    "Kethellen",
+    "Rafaelle",
+    "Eishyla",
+    "Silene",
+    "Emanuela",
+    "Ketelly",
+    "Sthefani",
+    "Santoa",
+    "Criatina",
+    "Grayce",
+    "Cidalina",
+    "Rosangela",
+    "Grasiele",
+    "Jandira",
+    "Nugerina",
+    "Monaly",
+    "Romuanna",
+    "Guilhermina",
+    "Nathalle",
+    "Kethoy",
+    "Sayuri",
+    "Wiliany",
+    "Beatris",
+    "Suzan",
+    "Nathally",
+    "Ryta",
+    "Jordania",
+    "Thayse",
+    "Mirellen",
+    "Jaini",
+    "Rosy",
+    "Linara",
+    "Raquelle",
+    "Sinara"
+  ];
+  var excludedSurnameKeys = {};
+  for (var excludedIndex = 0; excludedIndex < givenNamesMistakenAsSurnames.length; excludedIndex++) {
+    excludedSurnameKeys[normalizeNameForMatch(givenNamesMistakenAsSurnames[excludedIndex])] = true;
+  }
+
+  var neutralLastNames = lastNames.filter(function (surname) {
+    return !excludedSurnameKeys[normalizeNameForMatch(surname)];
+  });
+  var femaleLastNames = neutralLastNames.slice();
+  var maleLastNames = neutralLastNames.slice();
+
 var ddds = [
   "11", "12", "13", "14", "15", "16", "17", "18", "19",
   "21", "22", "24",
@@ -866,18 +1091,34 @@ var ddds = [
     return list[Math.floor(Math.random() * list.length)];
   }
 
-  // 35% de chance de usar um nome composto.
+  // 35% de chance de usar um nome composto, sempre escolhendo pelo gênero.
   var useCompoundName = Math.random() < 0.35;
-  var firstName = useCompoundName
-    ? pick(compoundNames)
-    : pick(Math.random() < 0.5 ? maleNames : femaleNames);
+  var gender;
+  var firstName;
 
-  // Escolhe dois sobrenomes diferentes.
-  var lastName1 = pick(lastNames);
-  var lastName2 = pick(lastNames);
+  if (useCompoundName) {
+    if (Math.random() < 0.5) {
+      gender = "female";
+      firstName = pick(femaleCompoundNames);
+    } else {
+      gender = "male";
+      firstName = pick(maleCompoundNames);
+    }
+  } else if (Math.random() < 0.5) {
+    gender = "male";
+    firstName = pick(maleNames);
+  } else {
+    gender = "female";
+    firstName = pick(femaleNames);
+  }
+
+  // Sobrenomes filtrados; a escolha do pool acompanha o gênero do nome.
+  var lastNamesPool = gender === "female" ? femaleLastNames : maleLastNames;
+  var lastName1 = pick(lastNamesPool);
+  var lastName2 = pick(lastNamesPool);
 
   while (lastName2 === lastName1) {
-    lastName2 = pick(lastNames);
+    lastName2 = pick(lastNamesPool);
   }
 
   var fullName = firstName + " " + lastName1 + " " + lastName2;
@@ -1168,13 +1409,14 @@ var ddd = Array.isArray(ddds) && ddds.length
   : "";
 var generatedCpf = generateValidCpf();
 
-return {
-  name: fullName,
-  email: email,
-  phone: String(ddd) + "9" + String(Math.floor(10000000 + Math.random() * 90000000)),
-  document: generatedCpf,
-  cpf: generatedCpf
-};
+  return {
+    name: fullName,
+    email: email,
+    phone: ddd + "9" + Math.floor(10000000 + Math.random() * 90000000),
+    document: generateValidCpf(),
+    cpf: generateValidCpf()
+  };
+}
 
 
 
