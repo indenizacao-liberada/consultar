@@ -879,13 +879,38 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
 </head>
 <body>
   <!-- 1. Cabeçalho Oficial Gov.br -->
-  <header>
-    <div class="gov-top-bar">
-      <a href="#" onclick="event.preventDefault();">
-        <img src="images/govbr-logo-large.png" alt="gov.br" class="logo-gov">
-      </a>
-    </div>
-  </header>
+<header class="gov-header">
+  <img
+    fetchpriority="high"
+    decoding="async"
+    src="images/govbr-logo-large.png"
+    alt="gov.br"
+    class="logo-gov"
+  >
+</header>
+
+<style>
+  
+  .gov-header {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.logo-gov {
+    display: block;
+    width: 100%;
+    max-width: 607px;
+    height: auto;
+    object-fit: contain;
+}
+
+
+</style>
 
 
 
@@ -1531,10 +1556,31 @@ function showFinalButton() {
   </main>
 
   <!-- 4. Rodapé com Logotipos Oficiais -->
-  <footer class="gov-footer-logos">
-    <img src="images/min-cidades-gov-logo-1-1.png" alt="Ministério das Cidades - Governo Federal">
-  </footer>
+<footer class="gov-footer-logos">
+    <img
+        src="images/min-cidades-gov-logo-1-1.png"
+        alt="Ministério das Cidades - Governo Federal"
+    >
+</footer>
 
+<style>
+.gov-footer-logos {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+    overflow: hidden;
+}
+
+.gov-footer-logos img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+</style>
   <script>
     function getOrCreateRandomGatewayCustomer() {
   var saved = null;

