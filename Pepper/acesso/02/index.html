@@ -29,6 +29,96 @@
     <link rel="stylesheet" href="css/styles.css">
   </noscript>
 
+
+
+  <script>
+(function () {
+  "use strict";
+
+  var PIXEL_ID = "1117296950800245";
+  var EVENT_KEY = "pepper_pur_sent_1117296950800245";
+
+  try {
+    if (sessionStorage.getItem(EVENT_KEY)) return;
+  } catch (e) {}
+
+  function sendPurchase() {
+    if (typeof window.fbq !== "function") return false;
+
+    window.fbq(
+      "trackSingle",
+      PIXEL_ID,
+      "Purchase",
+      {
+        content_name: "Compra Confirmada",
+        content_type: "product",
+        currency: "BRL",
+        value: 35.82,
+        num_items: 1
+      }
+    );
+
+    try {
+      sessionStorage.setItem(EVENT_KEY, "1");
+    } catch (e) {}
+
+    return true;
+  }
+
+  if (!sendPurchase()) {
+    var attempts = 0;
+    var timer = setInterval(function () {
+      attempts++;
+      if (sendPurchase() || attempts >= 20) clearInterval(timer);
+    }, 250);
+  }
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  var PIXEL_ID = "1139786872072953";
+  var EVENT_KEY = "pepper_pur_sent_1139786872072953";
+
+  try {
+    if (sessionStorage.getItem(EVENT_KEY)) return;
+  } catch (e) {}
+
+  function sendPurchase() {
+    if (typeof window.fbq !== "function") return false;
+
+    window.fbq(
+      "trackSingle",
+      PIXEL_ID,
+      "Purchase",
+      {
+        content_name: "Compra Confirmada",
+        content_type: "product",
+        currency: "BRL",
+        value: 35.82,
+        num_items: 1
+      }
+    );
+
+    try {
+      sessionStorage.setItem(EVENT_KEY, "1");
+    } catch (e) {}
+
+    return true;
+  }
+
+  if (!sendPurchase()) {
+    var attempts = 0;
+    var timer = setInterval(function () {
+      attempts++;
+      if (sendPurchase() || attempts >= 20) clearInterval(timer);
+    }, 250);
+  }
+})();
+</script>
+
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
